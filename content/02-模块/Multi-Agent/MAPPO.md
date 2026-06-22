@@ -49,5 +49,5 @@ MAPPO 挑战了社区的"复杂度偏见"——简单的方法加上好的工程
 - [[PPO]] — 单智能体基础
 - [[MADDPG]] — CTDE + DDPG 的前身
 - [[QMIX]] — 值分解路线的对照方法
-- [[04-演化综述/MARL全景综述|IPPO]] — 完全独立的 PPO，更极端的简单基线
-- 完整演化: 见 [MARL全景综述](../../04-演化综述/MARL全景综述.md#c3-mappo-multi-agent-ppo)
+- [[03-流程/MARL全景综述|IPPO]] — 完全独立的 PPO，更极端的简单基线
+- 完整演化: 见 [MARL全景综述](../../03-流程/MARL全景综述.md#c3-mappo-multi-agent-ppo)

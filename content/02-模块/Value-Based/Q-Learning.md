@@ -16,9 +16,9 @@ tags:
 - [[DDQN]]
 
 ### 分类维度
-- [[01-分类维度/Value-Based-Methods]]
+- [[02-模块/Value-Based/]]
 - [[Off-Policy]]
-- [[00-基础概念/Tabular-Methods]]
+- 
 
 
 # Q-Learning
@@ -32,7 +32,7 @@ Learns the optimal Q-function by updating towards the maximum possible future re
 Q(s,a) ← Q(s,a) + α[r + γ max_a' Q(s',a') - Q(s,a)]
 
 ## Related
-- [[01-分类维度/Value-Based-Methods]]
+- [[02-模块/Value-Based/]]
 - [[Off-Policy]]
 - [[SARSA]]
 - [[DQN]]

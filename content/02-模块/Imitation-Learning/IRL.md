@@ -44,6 +44,6 @@ IRL 是模仿学习的重要分支。后续的 GAIL（Generative Adversarial Imi
 
 ## 相关算法
 
-- [[04-演化综述/Offline-RL与RLHF演化史|GAIL]] — 用对抗训练绕过显式奖励恢复
+- [[03-流程/Offline-RL与RLHF演化史|GAIL]] — 用对抗训练绕过显式奖励恢复
 - Behavioral Cloning — 更简单的模仿学习基线
 - RLHF — 从偏好中学习奖励模型，思想源于 IRL

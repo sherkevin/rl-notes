@@ -15,9 +15,9 @@ tags:
 - [[Q-Learning]]
 
 ### 分类维度
-- [[01-分类维度/Value-Based-Methods]]
+- [[02-模块/Value-Based/]]
 - [[Off-Policy]]
-- [[01-分类维度/Function-Approximation]]
+- 
 
 
 # Double DQN (DDQN)
@@ -32,5 +32,5 @@ Decouples action selection from value evaluation using target and main networks.
 
 ## Related
 - [[DQN]]
-- [[01-分类维度/Value-Based-Methods]]
+- [[02-模块/Value-Based/]]
 - [[Off-Policy]]

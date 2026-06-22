@@ -16,7 +16,7 @@ tags:
 
 ### 分类维度
 - [[Model-Based]]
-- [[01-分类维度/Function-Approximation]]
+- 
 
 
 # MBPO (Model-Based Policy Optimization)
@@ -27,7 +27,7 @@ MBPO is a model-based RL algorithm that learns a dynamics model and uses it for 
 Combines model-based planning with policy gradient methods for better sample efficiency.
 
 ## Related
-- [[01-分类维度/Model-Based]]
+- 
 - [[PPO]]
 - [[Dyna-Q]]
 - [[PETS]]

@@ -52,4 +52,4 @@ IQL 是离线 RL "不查询 OOD 动作" 思路的终极实现，代表了 value-
 - [[CQL]] — 保守 Q 值正则化
 - [[TD3+BC]] — 极简 BC 正则化方法
 - [[AWAC]] — IQL 策略提取步骤的直接前身
-- 完整演化: 见 [Offline-RL与RLHF演化史](../../04-演化综述/Offline-RL与RLHF演化史.md#a6-iql-implicit-q-learning-2022)
+- 完整演化: 见 [Offline-RL与RLHF演化史](../../03-流程/Offline-RL与RLHF演化史.md#a6-iql-implicit-q-learning-2022)

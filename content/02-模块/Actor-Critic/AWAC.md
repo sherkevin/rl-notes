@@ -43,4 +43,4 @@ AWAC 是"优势加权行为克隆"这一思想的早期代表，直接影响了 
 - [[CQL]] — 保守 Q 值方法
 - [[IQL]] — 继承 AWAC 策略提取步骤并进一步发展
 - [[TD3+BC]] — 同期极简离线 RL 方法
-- 完整演化: 见 [Offline-RL与RLHF演化史](../../04-演化综述/Offline-RL与RLHF演化史.md#a4-awac-advantage-weighted-actor-critic-2020)
+- 完整演化: 见 [Offline-RL与RLHF演化史](../../03-流程/Offline-RL与RLHF演化史.md#a4-awac-advantage-weighted-actor-critic-2020)

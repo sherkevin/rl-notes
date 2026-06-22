@@ -15,7 +15,7 @@ tags:
 
 ### 分类维度
 - [[Model-Based]]
-- [[00-基础概念/Tabular-Methods]]
+- 
 
 
 # Dyna-Q
@@ -31,7 +31,7 @@ Dyna-Q learns a model of the environment from experience and uses it to generate
 - Improves sample efficiency
 
 ## Related
-- [[01-分类维度/Model-Based]]
+- 
 - [[Q-Learning]]
 - [[MBPO]]
 - [[PETS]]

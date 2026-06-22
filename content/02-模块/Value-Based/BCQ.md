@@ -43,4 +43,4 @@ BCQ 开创了"约束动作到数据集支撑集"这一离线 RL 范式，直接�
 - [[CQL]] — 用正则化项替代 VAE 约束，更简洁
 - [[TD3+BC]] — 极简方法，用 BC 正则化替代 VAE
 - [[IQL]] — 彻底避免 OOD 查询的终极方案
-- 完整演化 (BC→BCQ→CQL→IQL→DT): 见 [Offline-RL与RLHF演化史](../../04-演化综述/Offline-RL与RLHF演化史.md#a2-bcq-batch-constrained-deep-q-learning-2018)
+- 完整演化 (BC→BCQ→CQL→IQL→DT): 见 [Offline-RL与RLHF演化史](../../03-流程/Offline-RL与RLHF演化史.md#a2-bcq-batch-constrained-deep-q-learning-2018)

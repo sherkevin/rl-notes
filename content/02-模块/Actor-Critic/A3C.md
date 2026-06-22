@@ -15,9 +15,9 @@ tags:
 - [[PPO]]
 
 ### 分类维度
-- [[01-分类维度/Actor-Critic-Methods]]
+- [[02-模块/Actor-Critic/]]
 - [[On-Policy]]
-- [[01-分类维度/Function-Approximation]]
+- 
 
 
 # Asynchronous Advantage Actor-Critic (A3C)
@@ -33,7 +33,7 @@ Multiple agents train in parallel on different copies of the environment.
 - Better exploration and stability
 
 ## Related
-- [[01-分类维度/Actor-Critic-Methods]]
+- [[02-模块/Actor-Critic/]]
 - [[On-Policy]]
 - [[A2C]]
 - [[PPO]]

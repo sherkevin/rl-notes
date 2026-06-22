@@ -43,7 +43,7 @@ QMIX 是值分解方法的里程碑，成为后续大量工作的基线和比较
 
 ## 相关算法
 
-- [[04-演化综述/MARL全景综述|VDN]] — 线性求和分解的前身
+- [[03-流程/MARL全景综述|VDN]] — 线性求和分解的前身
 - [[MADDPG]] — 策略梯度路线的 CTDE 方法
 - [[MAPPO]] — on-policy 路线的强基线
-- 完整演化: 见 [MARL全景综述](../../04-演化综述/MARL全景综述.md#b3-qmix-monotonic-value-function-factorisation)
+- 完整演化: 见 [MARL全景综述](../../03-流程/MARL全景综述.md#b3-qmix-monotonic-value-function-factorisation)

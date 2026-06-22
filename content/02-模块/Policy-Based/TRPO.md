@@ -15,9 +15,9 @@ tags:
 - [[REINFORCE]]
 
 ### 分类维度
-- [[01-分类维度/Policy-Based-Methods]]
+- [[02-模块/Policy-Based/]]
 - [[On-Policy]]
-- [[01-分类维度/Function-Approximation]]
+- 
 
 
 # Trust Region Policy Optimization (TRPO)
@@ -28,8 +28,8 @@ TRPO is a policy optimization algorithm that constrains policy updates within a 
 Uses KL divergence constraint to ensure policy updates are conservative and stable.
 
 ## Related
-- [[01-分类维度/Policy-Based-Methods]]
+- [[02-模块/Policy-Based/]]
 - [[On-Policy]]
 - [[PPO]]
 - [[REINFORCE]]
-- [[00-基础概念/Forward-KL与Reverse-KL]] — TRPO 显式约束 Reverse KL 以保证单调改进
+- [[01-原子/KL散度]] — TRPO 显式约束 Reverse KL 以保证单调改进

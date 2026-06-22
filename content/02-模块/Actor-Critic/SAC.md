@@ -19,9 +19,9 @@ tags:
 - [[PPO]]
 
 ### 分类维度
-- [[01-分类维度/Actor-Critic-Methods]]
+- [[02-模块/Actor-Critic/]]
 - [[Off-Policy]]
-- [[01-分类维度/Function-Approximation]]
+- 
 
 ## 1. 核心概述 (Executive Summary)
 
@@ -391,11 +391,11 @@ class SAC_Agent:
 
 ## 分类与相关算法
 
-- **RL分类**: [[01-分类维度/Model-Free]] > [[01-分类维度/Actor-Critic-Methods]] > [[Off-Policy]]
+- **RL分类**:  > [[02-模块/Actor-Critic/]] 
 - **核心理论**: 最大熵强化学习
 - **数据来源**: [[Online-RL]], (变体用于 [[Offline-RL]])
 - **动作空间**: [[Continuous-Actions]]
-- **学习范式**: [[01-分类维度/Function-Approximation]]
+- **学习范式**: 
 - **相关算法**:
   - [[DDPG]] (前身)
   - [[TD3]] (改进)

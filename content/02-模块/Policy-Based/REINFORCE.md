@@ -15,9 +15,9 @@ tags:
 - [[TRPO]]
 
 ### 分类维度
-- [[01-分类维度/Policy-Based-Methods]]
+- [[02-模块/Policy-Based/]]
 - [[On-Policy]]
-- [[01-分类维度/Function-Approximation]]
+- 
 
 
 # REINFORCE
@@ -31,7 +31,7 @@ Updates policy parameters by computing gradients from complete episode trajector
 ∇_θ J(θ) = E[∑_t ∇_θ log π_θ(a_t|s_t) * R_t]
 
 ## Related
-- [[01-分类维度/Policy-Based-Methods]]
+- [[02-模块/Policy-Based/]]
 - [[On-Policy]]
 - [[PPO]]
 - [[TRPO]]

@@ -15,9 +15,9 @@ tags:
 - [[PPO]]
 
 ### 分类维度
-- [[01-分类维度/Value-Based-Methods]]
+- [[02-模块/Value-Based/]]
 - [[On-Policy]]
-- [[00-基础概念/Tabular-Methods]]
+- 
 
 
 # SARSA
@@ -31,7 +31,7 @@ Updates Q-values using the action actually taken by the current policy.
 Q(s,a) ← Q(s,a) + α[r + γ Q(s',a') - Q(s,a)]
 
 ## Related
-- [[01-分类维度/Value-Based-Methods]]
+- [[02-模块/Value-Based/]]
 - [[On-Policy]]
 - [[Q-Learning]]
 - [[DQN]]

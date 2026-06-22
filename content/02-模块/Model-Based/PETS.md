@@ -15,7 +15,7 @@ tags:
 
 ### 分类维度
 - [[Model-Based]]
-- [[01-分类维度/Function-Approximation]]
+- 
 
 
 # PETS (Probabilistic Ensembles with Trajectory Sampling)
@@ -26,6 +26,6 @@ PETS is a model-based RL algorithm using probabilistic ensemble models for uncer
 Uses an ensemble of probabilistic models to capture uncertainty in dynamics prediction.
 
 ## Related
-- [[01-分类维度/Model-Based]]
+- 
 - [[MBPO]]
 - [[Dyna-Q]]

@@ -47,6 +47,6 @@ MADDPG 是 CTDE + 策略梯度的标志性工作。MAPPO 本质上是用 PPO 替
 
 - [[DDPG]] — 单智能体基础
 - [[MAPPO]] — 用 PPO 替换 DDPG 框架
-- [[04-演化综述/MARL全景综述|COMA]] — 反事实基线的策略梯度 MARL
+- [[03-流程/MARL全景综述|COMA]] — 反事实基线的策略梯度 MARL
 - [[QMIX]] — 值分解路线的 CTDE 方法
-- 完整演化: 见 [MARL全景综述](../../04-演化综述/MARL全景综述.md#c2-maddpg-multi-agent-deep-deterministic-policy-gradient)
+- 完整演化: 见 [MARL全景综述](../../03-流程/MARL全景综述.md#c2-maddpg-multi-agent-deep-deterministic-policy-gradient)
