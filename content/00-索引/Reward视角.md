@@ -16,11 +16,11 @@ created: 2026-06-22
 **如何定义和学习一个奖励信号，引导智能体学习期望行为？**
 
 这个核心问题衍生出多个子问题：
-1. 如何从人类偏好学习奖励？→ Reward Model
+1. 如何从人类偏好学习奖励？→ [[01-原子/Reward-Model训练方法|Reward Model]]
 2. 如何从结果学习奖励？→ ORM
 3. 如何从过程学习奖励？→ PRM
-4. 如何避免训练 RM？→ DPO, Verifiable Reward
-5. 如何让模型自我评估？→ Self-Rewarding, LLM-as-Judge
+4. 如何避免训练 RM？→ [[02-模块/Reward-Model/DPO|DPO]], [[02-模块/Reward-Model/Verifiable-Reward|Verifiable Reward]]
+5. 如何让模型自我评估？→ [[02-模块/Reward-Model/Self-Rewarding|Self-Rewarding]], [[02-模块/Reward-Model/LLM-as-Judge|LLM-as-Judge]]
 
 ---
 
@@ -70,15 +70,15 @@ Math-Shepherd (2024)：自动生成PRM数据
 ```
 
 **关键文档**：
-- [[02-模块/Reward-Model/ORM]]：Outcome Reward Model
-- [[02-模块/Reward-Model/PRM]]：Process Reward Model
+- [[02-模块/Reward-Model/ORM]]：Outcome [[01-原子/Reward-Model训练方法|Reward Model]]
+- [[02-模块/Reward-Model/PRM]]：Process [[01-原子/Reward-Model训练方法|Reward Model]]
 - [[02-模块/Reward-Model/Self-Rewarding]]：模型自我评估
 
 **核心问题**：PRM标注成本更高，需要自动化
 
 ---
 
-### 第四阶段：LLM-as-Judge (2024)
+### 第四阶段：[[02-模块/Reward-Model/LLM-as-Judge|LLM-as-Judge]] (2024)
 
 ```
 LLM-as-Judge (2024)：用大模型评估
@@ -134,14 +134,14 @@ Search-R1 (2025)：检索准确率验证
 
 | 技术 | 解决的问题 | 代表算法 |
 |------|-----------|---------|
-| **Bradley-Terry** | 偏好建模 | Pairwise RM |
+| **[[01-原子/Bradley-Terry模型|Bradley-Terry]]** | 偏好建模 | [[02-模块/Reward-Model/Pairwise-RM|Pairwise RM]] |
 | **过程监督** | 中间步骤奖励 | PRM |
 | **结果监督** | 最终结果奖励 | ORM |
-| **LLM评估** | 自动化评估 | LLM-as-Judge |
-| **生成式RM** | 可解释性 | Generative RM |
-| **隐式RM** | 避免训练RM | DPO |
-| **可验证奖励** | 无需人工 | Verifiable Reward |
-| **自我评估** | 减少依赖 | Self-Rewarding |
+| **LLM评估** | 自动化评估 | [[02-模块/Reward-Model/LLM-as-Judge|LLM-as-Judge]] |
+| **生成式RM** | 可解释性 | [[02-模块/Reward-Model/Generative-RM|Generative RM]] |
+| **隐式RM** | 避免训练RM | [[02-模块/Reward-Model/DPO|DPO]] |
+| **可验证奖励** | 无需人工 | [[02-模块/Reward-Model/Verifiable-Reward|Verifiable Reward]] |
+| **自我评估** | 减少依赖 | [[02-模块/Reward-Model/Self-Rewarding|Self-Rewarding]] |
 
 ---
 
@@ -149,15 +149,15 @@ Search-R1 (2025)：检索准确率验证
 
 | 方法 | 标注成本 | 训练成本 | 适用范围 | 可解释性 |
 |------|---------|---------|---------|---------|
-| Pairwise RM | 高 | 中 | 通用 | 低 |
-| Pointwise RM | 高 | 中 | 通用 | 低 |
+| [[02-模块/Reward-Model/Pairwise-RM|Pairwise RM]] | 高 | 中 | 通用 | 低 |
+| [[02-模块/Reward-Model/Pointwise-RM|Pointwise RM]] | 高 | 中 | 通用 | 低 |
 | PRM | 极高 | 中 | 推理任务 | 中 |
 | ORM | 低 | 中 | 推理任务 | 低 |
-| LLM-as-Judge | 低 | 无 | 通用 | 高 |
-| Generative RM | 中 | 中 | 通用 | 高 |
-| DPO | 中 | 低 | 偏好数据 | 低 |
+| [[02-模块/Reward-Model/LLM-as-Judge|LLM-as-Judge]] | 低 | 无 | 通用 | 高 |
+| [[02-模块/Reward-Model/Generative-RM|Generative RM]] | 中 | 中 | 通用 | 高 |
+| [[02-模块/Reward-Model/DPO|DPO]] | 中 | 低 | 偏好数据 | 低 |
 | Verifiable | 无 | 无 | 确定性任务 | 高 |
-| Self-Rewarding | 低 | 低 | 通用 | 中 |
+| [[02-模块/Reward-Model/Self-Rewarding|Self-Rewarding]] | 低 | 低 | 通用 | 中 |
 
 ---
 
@@ -220,7 +220,7 @@ Pairwise RM → DPO → LLM-as-Judge → Verifiable Reward → GRPO
 
 - [[03-流程/Offline-RL与RLHF演化史]]：完整的演化历史
 - [[01-原子/KL散度]]：DPO的理论基础
-- [[03-流程/RLHF完整流程]]：SFT → RM → PPO/DPO 的完整流程
+- [[03-流程/Offline-RL与RLHF演化史|RLHF完整流程]]：SFT → RM → [[02-模块/Policy-Based/PPO|PPO]]/[[02-模块/Reward-Model/DPO|DPO]] 的完整流程
 
 ---
 
@@ -228,7 +228,7 @@ Pairwise RM → DPO → LLM-as-Judge → Verifiable Reward → GRPO
 
 ### 通用对话/写作
 
-**推荐**：Pairwise RM + PPO
+**推荐**：[[02-模块/Reward-Model/Pairwise-RM|Pairwise RM]] + [[02-模块/Policy-Based/PPO|PPO]]
 
 **理由**：
 - 人类偏好数据质量高
@@ -241,7 +241,7 @@ Pairwise RM → DPO → LLM-as-Judge → Verifiable Reward → GRPO
 
 ### 数学/推理
 
-**推荐**：Verifiable Reward + GRPO
+**推荐**：[[02-模块/Reward-Model/Verifiable-Reward|Verifiable Reward]] + [[02-模块/Policy-Based/GRPO|GRPO]]
 
 **理由**：
 - 答案可验证，无需RM
@@ -254,7 +254,7 @@ Pairwise RM → DPO → LLM-as-Judge → Verifiable Reward → GRPO
 
 ### 代码生成
 
-**推荐**：Verifiable Reward (test cases) + PRM
+**推荐**：[[02-模块/Reward-Model/Verifiable-Reward|Verifiable Reward]] (test cases) + PRM
 
 **理由**：
 - 代码可执行验证
@@ -267,7 +267,7 @@ Pairwise RM → DPO → LLM-as-Judge → Verifiable Reward → GRPO
 
 ### 快速原型
 
-**推荐**：LLM-as-Judge → 训小RM → PPO
+**推荐**：[[02-模块/Reward-Model/LLM-as-Judge|LLM-as-Judge]] → 训小RM → [[02-模块/Policy-Based/PPO|PPO]]
 
 **理由**：
 - 标注成本低（GPT-4生成）
@@ -280,7 +280,7 @@ Pairwise RM → DPO → LLM-as-Judge → Verifiable Reward → GRPO
 
 ### 资源有限
 
-**推荐**：DPO
+**推荐**：[[02-模块/Reward-Model/DPO|DPO]]
 
 **理由**：
 - 无需训练RM
@@ -293,7 +293,7 @@ Pairwise RM → DPO → LLM-as-Judge → Verifiable Reward → GRPO
 
 ### 需要可解释性
 
-**推荐**：Generative RM
+**推荐**：[[02-模块/Reward-Model/Generative-RM|Generative RM]]
 
 **理由**：
 - 生成评估理由
@@ -306,7 +306,7 @@ Pairwise RM → DPO → LLM-as-Judge → Verifiable Reward → GRPO
 
 ### 数据不足
 
-**推荐**：Self-Rewarding
+**推荐**：[[02-模块/Reward-Model/Self-Rewarding|Self-Rewarding]]
 
 **理由**：
 - 自我生成数据

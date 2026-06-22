@@ -16,8 +16,8 @@ tags:
 - [[DQN]]
 
 ### 分类维度
-- [[02-模块/Actor-Critic/]]
-- [[Off-Policy]]
+- [[02-模块/Actor-Critic/SAC|Actor-Critic算法]]
+- [[00-索引/按策略类型|Off-Policy]]
 - 
 
 
@@ -26,11 +26,11 @@ tags:
 DDPG is an actor-critic algorithm for continuous action spaces.
 
 ## Overview
-Combines DQN-style updates with deterministic policy gradients.
+Combines [[02-模块/Value-Based/DQN|DQN]]-style updates with deterministic policy gradients.
 
 ## Related
-- [[02-模块/Actor-Critic/]]
-- [[Off-Policy]]
-- [[Continuous-Actions]]
+- [[02-模块/Actor-Critic/SAC|Actor-Critic算法]]
+- [[00-索引/按策略类型|Off-Policy]]
+- [[00-索引/按动作空间|Continuous-Actions]]
 - [[TD3]]
 - [[SAC]]

@@ -15,20 +15,20 @@ tags:
 - [[SAC]]
 
 ### 分类维度
-- [[02-模块/Actor-Critic/]]
-- [[Off-Policy]]
+- [[02-模块/Actor-Critic/SAC|Actor-Critic算法]]
+- [[00-索引/按策略类型|Off-Policy]]
 - 
 
 
-# Twin Delayed DDPG (TD3)
+# Twin Delayed [[02-模块/Actor-Critic/DDPG|DDPG]] (TD3)
 
-TD3 is an improvement over DDPG that addresses overestimation and function approximation errors.
+TD3 is an improvement over [[02-模块/Actor-Critic/DDPG|DDPG]] that addresses overestimation and function approximation errors.
 
 ## Overview
 Uses twin critics and delayed policy updates for more stable learning.
 
 ## Related
-- [[02-模块/Actor-Critic/]]
-- [[Off-Policy]]
+- [[02-模块/Actor-Critic/SAC|Actor-Critic算法]]
+- [[00-索引/按策略类型|Off-Policy]]
 - [[DDPG]]
 - [[SAC]]

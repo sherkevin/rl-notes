@@ -8,18 +8,18 @@
 
 ### 1. 核心背景：为什么要发明 GRPO？
 
-在传统的 **PPO (Proximal Policy Optimization)** 算法中，我们通常需要四个模型（或者至少两个主模型）：
+在传统的 **[[02-模块/Policy-Based/PPO|PPO]] (Proximal Policy Optimization)** 算法中，我们通常需要四个模型（或者至少两个主模型）：
 
 1. **Actor (策略模型):** 生成回答。
     
 2. **Critic (价值模型):** 评估当前状态（Prompt）或动作（Response）的价值 $V(s)$。
     
-3. **Reference Model:** 用于计算 KL 散度，防止模型跑偏。
+3. **Reference Model:** 用于计算 [[01-原子/KL散度|KL 散度]]，防止模型跑偏。
     
-4. **Reward Model:** 给回答打分。
+4. **[[01-原子/Reward-Model训练方法|Reward Model]]:** 给回答打分。
     
 
-**痛点：** Critic 模型通常需要和 Actor 模型一样大。如果你在训练一个 70B 的模型，PPO 需要同时加载 Actor 和 Critic，显存消耗巨大，且训练速度慢。
+**痛点：** Critic 模型通常需要和 Actor 模型一样大。如果你在训练一个 70B 的模型，[[02-模块/Policy-Based/PPO|PPO]] 需要同时加载 Actor 和 Critic，显存消耗巨大，且训练速度慢。
 
 **GRPO 的解决方案：** **直接去掉 Critic 模型。** 它利用“群体采样（Group Sampling）”生成的多个样本，通过计算它们之间的**相对优劣**来代替 Critic 对价值的预估。
 
@@ -27,7 +27,7 @@
 
 ### 2. GRPO 的数学原理与公式推导
 
-GRPO 的核心公式基于 PPO，但在**优势函数（Advantage Function）**的计算上做了重大创新。
+GRPO 的核心公式基于 [[02-模块/Policy-Based/PPO|PPO]]，但在**[[01-原子/优势函数|优势函数]]（Advantage Function）**的计算上做了重大创新。
 
 #### 2.1 目标函数 (Objective Function)
 
@@ -47,26 +47,26 @@ $$J_{GRPO}(\theta) = \mathbb{E}_{q \sim P(Q), \{o_i\}_{i=1}^G \sim \pi_{\theta_{
         
 2. **策略比率 (Policy Ratio)**:
     
-    - $\frac{\pi_\theta(o_i|q)}{\pi_{\theta_{old}}(o_i|q)}$: 这与 PPO 一致，衡量新策略 $\pi_\theta$ 相对于旧策略生成该回答的概率变化。
+    - $\frac{\pi_\theta(o_i|q)}{\pi_{\theta_{old}}(o_i|q)}$: 这与 [[02-模块/Policy-Based/PPO|PPO]] 一致，衡量新策略 $\pi_\theta$ 相对于旧策略生成该回答的概率变化。
         
 3. **剪裁 (Clipping)**:
     
-    - $\text{clip}(..., 1-\epsilon, 1+\epsilon)$: 限制更新幅度，防止策略更新过猛导致训练崩溃。这继承自 PPO。
+    - $\text{clip}(..., 1-\epsilon, 1+\epsilon)$: 限制更新幅度，防止策略更新过猛导致训练崩溃。这继承自 [[02-模块/Policy-Based/PPO|PPO]]。
         
-4. **KL 散度 (KL Divergence)**:
+4. **[[01-原子/KL散度|KL 散度]] (KL Divergence)**:
     
     - $- \beta D_{KL}(\pi_\theta || \pi_{ref})$: 正则化项。确保训练中的模型 $\pi_\theta$ 不会偏离原始的基础模型（SFT模型）$\pi_{ref}$ 太远，防止语言能力崩坏。
         
 
-#### 2.2 核心创新：优势函数 $A_i$ (Advantage)
+#### 2.2 核心创新：[[01-原子/优势函数|优势函数]] $A_i$ (Advantage)
 
-在 PPO 中，优势 $A_t = r_t + \gamma V(s_{t+1}) - V(s_t)$，这依赖于 Critic 模型估算的 $V(s)$。
+在 [[02-模块/Policy-Based/PPO|PPO]] 中，优势 $A_t = r_t + \gamma V(s_{t+1}) - V(s_t)$，这依赖于 Critic 模型估算的 $V(s)$。
 
 在 **GRPO** 中，优势是通过**组内标准化（Group Normalization）**计算的：
 
 $$A_i = \frac{r_i - \text{mean}(\{r_1, ..., r_G\})}{\text{std}(\{r_1, ..., r_G\})}$$
 
-- $r_i$: 第 $i$ 个回答的原始奖励（由 Reward Model 或 规则打分）。
+- $r_i$: 第 $i$ 个回答的原始奖励（由 [[01-原子/Reward-Model训练方法|Reward Model]] 或 规则打分）。
     
 - $\text{mean}(...)$: 这组 $G$ 个回答的平均奖励。
     
@@ -175,9 +175,9 @@ GRPO 不关心绝对分数是 10 分还是 100 分。它只关心：在这个问
 
 ---
 
-### 5. GRPO 相比 PPO 的优缺点总结
+### 5. GRPO 相比 [[02-模块/Policy-Based/PPO|PPO]] 的优缺点总结
 
-|**特性**|**PPO (Proximal Policy Optimization)**|**GRPO (Group Relative Policy Optimization)**|
+|**特性**|**[[02-模块/Policy-Based/PPO|PPO]] (Proximal Policy Optimization)**|**GRPO (Group Relative Policy Optimization)**|
 |---|---|---|
 |**模型结构**|需要 Actor 和 Critic (显存占用大)|**只需要 Actor** (显存占用小，类似 SFT)|
 |**优势计算**|依赖 Critic 的价值估计 $V(s)$|**依赖组内输出的相对平均值**|
@@ -193,7 +193,7 @@ GRPO 是一种**去 Critic 化**的策略优化算法。它巧妙地利用了”
 
 ### 扩展阅读
 
-- **GRPO 在 RLHF 演化中的位置** (PPO → ReMax → RLOO → GRPO → DAPO): 见 [Offline-RL与RLHF-偏好优化演化全景.md](../../Offline-RL与RLHF-偏好优化演化全景.md#b11-grpo-group-relative-policy-optimization-2024)
-- **GRPO 变体**: DAPO (Decoupled Clip + Dynamic Sampling, ByteDance 2025)、VIMPO (2026)、N-GRPO (2026)、AdaGRPO (2026)
+- **GRPO 在 RLHF 演化中的位置** ([[02-模块/Policy-Based/PPO|PPO]] → ReMax → RLOO → GRPO → [[02-模块/Policy-Based/DAPO|DAPO]]): 见 [Offline-RL与RLHF-偏好优化演化全景.md](../../Offline-RL与RLHF-偏好优化演化全景.md#b11-grpo-group-relative-policy-optimization-2024)
+- **GRPO 变体**: [[02-模块/Policy-Based/DAPO|DAPO]] (Decoupled Clip + Dynamic Sampling, ByteDance 2025)、VIMPO (2026)、N-GRPO (2026)、AdaGRPO (2026)
 
 **接下来你想了解如何用代码（如 PyTorch 或 TRL 库）来实现一个简化版的 GRPO 训练循环吗？**

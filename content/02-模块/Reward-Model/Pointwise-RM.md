@@ -7,7 +7,7 @@ tags:
 created: 2026-06-22
 ---
 
-# Pointwise Reward Model
+# Pointwise [[01-原子/Reward-Model训练方法|Reward Model]]
 
 > 直接回归标量分数。能学到绝对值，但人类打分不一致。
 
@@ -75,7 +75,7 @@ $$L(\phi) = \mathbb{E}_{(x, y, s)} \left[ (r_\phi(x, y) - s)^2 \right]$$
 
 ## 演化位置
 
-**在 Reward Model 演化链中的位置**：
+**在 [[01-原子/Reward-Model训练方法|Reward Model]] 演化链中的位置**：
 
 ```
 Pairwise RM (2022)

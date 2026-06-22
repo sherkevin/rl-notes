@@ -35,7 +35,7 @@
 **03-流程/ (Flow Layer)**
 - 演化路径：模块之间的历史演进
 - 应用场景：如何根据问题选择模块
-- 决策流程：SFT → RM → PPO 等
+- 决策流程：SFT → RM → [[02-模块/Policy-Based/PPO|PPO]] 等
 
 **00-索引/ (Index Layer)**
 - 多维度入口页面
@@ -67,7 +67,7 @@
 
 **想看演化历史？** → [[03-流程/]]
 - [[03-流程/Value-Based演化史]] — 从 Bellman 到 Diffusion-RL
-- [[03-流程/Policy-AC演化史]] — 从 REINFORCE 到 DAPO
+- [[03-流程/Policy-AC演化史]] — 从 [[02-模块/Policy-Based/REINFORCE|REINFORCE]] 到 [[02-模块/Policy-Based/DAPO|DAPO]]
 - [[03-流程/Model-Based演化史]] — 从 DP 到 Genie/GameNGen
 - [[03-流程/Offline-RL与RLHF演化史]] — 从 BC 到 SimPO
 - [[03-流程/MARL全景综述]] — 从博弈论到 CICERO
@@ -109,7 +109,7 @@
 
 ### 策略优化
 - [[01-原子/策略梯度]] — 直接优化策略参数
-- [[01-原子/优势函数]] — 降低策略梯度方差
+- [[01-原子/优势函数]] — 降低[[01-原子/策略梯度|策略梯度]]方差
 - [[01-原子/GAE]] — 广义优势估计，平衡偏差-方差
 - [[01-原子/Clip机制]] — 限制策略更新幅度
 - [[01-原子/Trust-Region]] — KL散度硬约束
@@ -132,14 +132,14 @@
 ### 演化综述
 
 - [[03-流程/Value-Based演化史]] — 从 Bellman 到 Diffusion-RL，18 个方法的完整演化链
-- [[03-流程/Policy-AC演化史]] — 从 REINFORCE 到 DAPO，14 个方法 + 三条演化线
+- [[03-流程/Policy-AC演化史]] — 从 [[02-模块/Policy-Based/REINFORCE|REINFORCE]] 到 [[02-模块/Policy-Based/DAPO|DAPO]]，14 个方法 + 三条演化线
 - [[03-流程/Model-Based演化史]] — 从 DP 到 Genie/GameNGen，21 个方法 + 三条演化线
 - [[03-流程/Offline-RL与RLHF演化史]] — 从 BC 到 SimPO，21+ 个方法 + 两大主线
-- [[03-流程/MARL全景综述]] — 从博弈论到 CICERO，涵盖值分解、策略梯度、通信、自我博弈等
+- [[03-流程/MARL全景综述]] — 从博弈论到 CICERO，涵盖值分解、[[01-原子/策略梯度|策略梯度]]、通信、自我博弈等
 
 ### 应用场景
 
-- [[03-流程/RLHF完整流程]] — SFT → RM → PPO/DPO 的完整流程
+- [[03-流程/Offline-RL与RLHF演化史|RLHF完整流程]] — SFT → RM → [[02-模块/Policy-Based/PPO|PPO]]/[[02-模块/Reward-Model/DPO|DPO]] 的完整流程
 - [[03-流程/场景选择决策树]] — 如何根据问题选择合适的 RL 方法
 
 ---
@@ -156,8 +156,8 @@
 
 ### 多视角导航
 
-- [[00-索引/Policy视角]] — 从策略优化角度串联：策略梯度 → 优势函数 → Clip机制 → PPO → GRPO
-- [[00-索引/Reward视角]] — 从奖励建模角度串联：Pairwise RM → PRM → DPO → Verifiable Reward
+- [[00-索引/Policy视角]] — 从策略优化角度串联：[[01-原子/策略梯度|策略梯度]] → [[01-原子/优势函数|优势函数]] → [[01-原子/Clip机制|Clip机制]] → [[02-模块/Policy-Based/PPO|PPO]] → [[02-模块/Policy-Based/GRPO|GRPO]]
+- [[00-索引/Reward视角]] — 从奖励建模角度串联：[[02-模块/Reward-Model/Pairwise-RM|Pairwise RM]] → PRM → [[02-模块/Reward-Model/DPO|DPO]] → [[02-模块/Reward-Model/Verifiable-Reward|Verifiable Reward]]
 
 ---
 
@@ -265,10 +265,10 @@ created: YYYY-MM-DD
 ### 2026-06-22 — 三层架构重构
 
 - 创建新的目录结构：00-索引/、01-原子/、02-模块/、03-流程/
-- 拆分长文档：Forward-KL与Reverse-KL.md → KL散度 + DPO + 知识蒸馏
+- 拆分长文档：Forward-KL与Reverse-KL.md → [[01-原子/KL散度|KL散度]] + [[02-模块/Reward-Model/DPO|DPO]] + [[02-模块/Imitation-Learning/知识蒸馏|知识蒸馏]]
 - 拆分长文档：Reward-Model训练方法.md → 8个独立RM模块
-- 创建原子文档：策略梯度、优势函数、GAE、Clip机制、最大熵原理、重要性采样、重参数化技巧、Trust-Region
-- 精简模块文档：DQN、PPO 删除重复内容，添加原子引用
+- 创建原子文档：[[01-原子/策略梯度|策略梯度]]、[[01-原子/优势函数|优势函数]]、[[01-原子/GAE|GAE]]、[[01-原子/Clip机制|Clip机制]]、[[01-原子/最大熵原理|最大熵原理]]、[[01-原子/重要性采样|重要性采样]]、[[01-原子/重参数化技巧|重参数化技巧]]、[[01-原子/Trust-Region|Trust-Region]]
+- 精简模块文档：[[02-模块/Value-Based/DQN|DQN]]、[[02-模块/Policy-Based/PPO|PPO]] 删除重复内容，添加原子引用
 - 创建多视角索引：Policy视角、Reward视角
 - 更新 README，反映新结构
 

@@ -15,20 +15,20 @@ tags:
 - [[PPO]]
 
 ### 分类维度
-- [[02-模块/Actor-Critic/]]
-- [[On-Policy]]
+- [[02-模块/Actor-Critic/SAC|Actor-Critic算法]]
+- [[00-索引/按策略类型|On-Policy]]
 - 
 
 
 # Advantage Actor-Critic (A2C)
 
-A2C is a synchronous version of A3C for actor-critic learning.
+A2C is a synchronous version of [[02-模块/Actor-Critic/A3C|A3C]] for actor-critic learning.
 
 ## Overview
 Uses advantage function to reduce variance in policy gradient estimates.
 
 ## Related
-- [[02-模块/Actor-Critic/]]
-- [[On-Policy]]
+- [[02-模块/Actor-Critic/SAC|Actor-Critic算法]]
+- [[00-索引/按策略类型|On-Policy]]
 - [[A3C]]
 - [[PPO]]

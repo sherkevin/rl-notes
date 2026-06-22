@@ -75,7 +75,7 @@ $$A^\text{GAE(\gamma, 1)}_t = \sum_{l=0}^\infty \gamma^l r_{t+l} - V(s_t) = G_t 
 
 - [[02-模块/Policy-Based/PPO]]：使用GAE作为优势估计
 - [[02-模块/Policy-Based/TRPO]]：使用GAE
-- [[02-模块/Actor-Critic/MAPPO]]：使用GAE
+- [[02-模块/Multi-Agent/MAPPO]]：使用GAE
 
 ---
 

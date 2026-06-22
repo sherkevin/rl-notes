@@ -15,8 +15,8 @@ tags:
 - [[PPO]]
 
 ### 分类维度
-- [[02-模块/Value-Based/]]
-- [[On-Policy]]
+- [[02-模块/Value-Based/DQN|Value-Based算法]]
+- [[00-索引/按策略类型|On-Policy]]
 - 
 
 
@@ -31,7 +31,7 @@ Updates Q-values using the action actually taken by the current policy.
 Q(s,a) ← Q(s,a) + α[r + γ Q(s',a') - Q(s,a)]
 
 ## Related
-- [[02-模块/Value-Based/]]
-- [[On-Policy]]
+- [[02-模块/Value-Based/DQN|Value-Based算法]]
+- [[00-索引/按策略类型|On-Policy]]
 - [[Q-Learning]]
 - [[DQN]]

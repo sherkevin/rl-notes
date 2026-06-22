@@ -36,7 +36,7 @@ created: 2026-06-22
 
 ### 在 RL 中的使用
 
-这就是 DeepSeek-R1 和 GRPO 系方法用的奖励：
+这就是 DeepSeek-R1 和 [[02-模块/Policy-Based/GRPO|GRPO]] 系方法用的奖励：
 
 ```python
 def reward_fn(prompt, response):
@@ -55,7 +55,7 @@ def reward_fn(prompt, response):
 2. 对每个 response，自动检查是否正确
 3. 直接用 0/1 作为奖励信号
 
-### 结合 GRPO
+### 结合 [[02-模块/Policy-Based/GRPO|GRPO]]
 
 ```
 Step 1: 对每个 prompt，生成多个 response
@@ -94,7 +94,7 @@ Step 4: 更新策略
 
 ## 演化位置
 
-**在 Reward Model 演化链中的位置**：
+**在 [[01-原子/Reward-Model训练方法|Reward Model]] 演化链中的位置**：
 
 ```
 Pairwise RM (2022)

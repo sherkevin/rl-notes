@@ -47,7 +47,7 @@ DAPO 对传统的策略优化（Policy Optimization）做了四项关键改进�
     - **效果**: 显著提高了训练的样本效率（Sample Efficiency）和稳定性。
         
 
-#### C. Token-Level Policy Gradient Loss (Token级策略梯度损失)
+#### C. Token-Level Policy Gradient Loss (Token级[[01-原子/策略梯度|策略梯度]]损失)
 
 - **细节**: 这是一个针对长文本生成的优化。虽然具体数学形式类似标准PG，但DAPO强调在长CoT场景下，需要精确地在Token级别计算和累积梯度，而不是简单地对整个序列做平均处理，这对于捕捉长推理链中的细微逻辑依赖至关重要。
     
@@ -90,7 +90,7 @@ DAPO不仅仅是一个算法，还是一个基于 **Verl** (Volcengine RL) 框�
         
     - **DeepSeek-R1-Zero-Qwen-32B**: 47.0 分
         
-    - **原始 GRPO**: ~30 分
+    - **原始 [[02-模块/Policy-Based/GRPO|GRPO]]**: ~30 分
         
 - **结论**: DAPO用更少的训练步数（50% steps）达到了比DeepSeek-R1-Zero更好的效果，证明了其改进策略的有效性。
     

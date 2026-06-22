@@ -7,7 +7,7 @@ tags:
 created: 2026-06-22
 ---
 
-# Process Reward Model (PRM)
+# Process [[01-原子/Reward-Model训练方法|Reward Model]] (PRM)
 
 > 给推理过程的每一步打分。密集奖励信号，在数学推理上显著优于 ORM。
 
@@ -61,8 +61,8 @@ $$L(\phi) = -\mathbb{E} \sum_t \left[ y_t \log r_\phi(x, y_{\leq t}) + (1-y_t) \
 
 ### 应用到 RL
 
-1. 用 PRM 给 PPO 提供每步的奖励信号
-2. PPO 优化策略，最大化累积奖励
+1. 用 PRM 给 [[02-模块/Policy-Based/PPO|PPO]] 提供每步的奖励信号
+2. [[02-模块/Policy-Based/PPO|PPO]] 优化策略，最大化累积奖励
 
 ---
 
@@ -92,7 +92,7 @@ $$L(\phi) = -\mathbb{E} \sum_t \left[ y_t \log r_\phi(x, y_{\leq t}) + (1-y_t) \
 
 ## 演化位置
 
-**在 Reward Model 演化链中的位置**：
+**在 [[01-原子/Reward-Model训练方法|Reward Model]] 演化链中的位置**：
 
 ```
 Pairwise RM (2022)

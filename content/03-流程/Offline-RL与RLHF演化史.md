@@ -1,6 +1,6 @@
 # Offline RL 与 RLHF/偏好优化方法演化全景
 
-> **定位**:从 Behavioral Cloning 到 GRPO/DAPO,完整梳理两大谱系的核心动机、关键公式、优缺点与演化关系。
+> **定位**:从 Behavioral Cloning 到 [[02-模块/Policy-Based/GRPO|GRPO]]/[[02-模块/Policy-Based/DAPO|DAPO]],完整梳理两大谱系的核心动机、关键公式、优缺点与演化关系。
 > **更新**:2026-06-21 | 覆盖到 2025-2026 最新工作
 
 ---
@@ -9,11 +9,11 @@
 
 - [Part A: Offline RL 演化](#part-a-offline-rl-演化)
   - [A1. Behavioral Cloning (BC)](#a1-behavioral-cloning-bc)
-  - [A2. BCQ (2018)](#a2-bcq-batch-constrained-deep-q-learning-2018)
-  - [A3. CQL (2020)](#a3-cql-conservative-q-learning-2020)
-  - [A4. AWAC (2020)](#a4-awac-advantage-weighted-actor-critic-2020)
-  - [A5. TD3+BC (2021)](#a5-td3bc-2021)
-  - [A6. IQL (2022)](#a6-iql-implicit-q-learning-2022)
+  - [A2. [[02-模块/Value-Based/BCQ|BCQ]] (2018)](#a2-bcq-batch-constrained-deep-q-learning-2018)
+  - [A3. [[02-模块/Value-Based/CQL|CQL]] (2020)](#a3-cql-conservative-q-learning-2020)
+  - [A4. [[02-模块/Actor-Critic/AWAC|AWAC]] (2020)](#a4-awac-advantage-weighted-actor-critic-2020)
+  - [A5. [[02-模块/Actor-Critic/TD3|TD3]]+BC (2021)](#a5-td3bc-2021)
+  - [A6. [[02-模块/Value-Based/IQL|IQL]] (2022)](#a6-iql-implicit-q-learning-2022)
   - [A7. Decision Transformer (2021)](#a7-decision-transformer-2021)
   - [A8. Trajectory Transformer (2022)](#a8-trajectory-transformer-2022)
   - [A9. 2023-2026 最新进展](#a9-2023-2026-offline-rl-最新进展)
@@ -21,16 +21,16 @@
 - [Part B: RLHF / 偏好优化演化](#part-b-rlhf--偏好优化演化)
   - [B1. RLHF 原始管线 (2017-2020)](#b1-rlhf-原始管线-2017-2020)
   - [B2. InstructGPT (2022)](#b2-instructgpt-2022)
-  - [B3. RLHF-PPO 标准管线](#b3-rlhf-ppo-标准管线)
-  - [B4. DPO (2023)](#b4-dpo-direct-preference-optimization-2023)
+  - [B3. RLHF-[[02-模块/Policy-Based/PPO|PPO]] 标准管线](#b3-rlhf-ppo-标准管线)
+  - [B4. [[02-模块/Reward-Model/DPO|DPO]] (2023)](#b4-dpo-direct-preference-optimization-2023)
   - [B5. IPO (2023)](#b5-ipo-identity-preference-optimization-2023)
   - [B6. KTO (2024)](#b6-kto-kahneman-tversky-optimization-2024)
   - [B7. ORPO (2024)](#b7-orpo-odds-ratio-preference-optimization-2024)
   - [B8. SimPO (2024)](#b8-simpo-simple-preference-optimization-2024)
   - [B9. ReMax (2023)](#b9-remax-relax-then-clip-2023)
   - [B10. RLOO (2024)](#b10-rloo-reinforce-leave-one-out-2024)
-  - [B11. GRPO (2024)](#b11-grpo-group-relative-policy-optimization-2024)
-  - [B12. DAPO (2025)](#b12-dapo-decoupled-clip-and-dynamic-sampling-2025)
+  - [B11. [[02-模块/Policy-Based/GRPO|GRPO]] (2024)](#b11-grpo-group-relative-policy-optimization-2024)
+  - [B12. [[02-模块/Policy-Based/DAPO|DAPO]] (2025)](#b12-dapo-decoupled-clip-and-dynamic-sampling-2025)
   - [B13. 2025-2026 前沿方法](#b13-2025-2026-前沿方法)
   - [B14. RLHF 演化总结图](#b14-rlhf-演化总结)
 - [专题深度讨论](#专题深度讨论)
@@ -68,7 +68,7 @@ $$\mathcal{L}_{\text{BC}} = \mathbb{E}_{(s,a) \sim \mathcal{D}} \left[ -\log \pi
 
 ---
 
-### A2. BCQ: Batch-Constrained Deep Q-Learning (2018)
+### A2. [[02-模块/Value-Based/BCQ|BCQ]]: Batch-Constrained Deep [[02-模块/Value-Based/Q-Learning|Q-Learning]] (2018)
 
 **来源**:`Fujimoto, Meger, Precup, "Off-Policy Deep Reinforcement Learning without Exploration", ICML 2019` (arXiv:1812.02900)
 
@@ -94,7 +94,7 @@ $$\pi(s) = \arg\max_{a_i \sim G_\omega(s)} Q_\theta(s, a_i)$$
 
 ### A3. CQL: Conservative Q-Learning (2020)
 
-**来源**:`Kumar, Zhou, Tucker, Levine, "Conservative Q-Learning for Offline Reinforcement Learning", NeurIPS 2020` (arXiv:2006.04779)
+**来源**:`Kumar, Zhou, Tucker, Levine, "Conservative [[02-模块/Value-Based/Q-Learning|Q-Learning]] for Offline Reinforcement Learning", NeurIPS 2020` (arXiv:2006.04779)
 
 **解决的先前问题**:BCQ 的 VAE 约束复杂且不够灵活。能否通过一个简单的正则化项来系统性地解决 OOD Q 值高估?
 
@@ -174,7 +174,7 @@ $$\mathcal{L}_\pi = -\mathbb{E}_{s \sim \mathcal{D}} \left[ Q_\theta(s, \pi_\the
 
 ### A6. IQL: Implicit Q-Learning (2022)
 
-**来源**:`Kostrikov, Nair, Levine, "Offline Reinforcement Learning with Implicit Q-Learning", ICLR 2022` (arXiv:2110.06169)
+**来源**:`Kostrikov, Nair, Levine, "Offline Reinforcement Learning with Implicit [[02-模块/Value-Based/Q-Learning|Q-Learning]]", ICLR 2022` (arXiv:2110.06169)
 
 **解决的先前问题**:CQL 和 TD3+BC 仍然需要在策略优化时查询 $Q(s, \pi(s))$,当 $\pi(s)$ 偏离数据分布时,Q 值不可靠。**能否完全不查询 OOD 动作的 Q 值?**
 
@@ -416,68 +416,56 @@ $$\mathcal{L}_{\text{PPO}} = \mathbb{E} \left[ \min\left( \rho_t A_t, \text{clip
 
 ### B4. DPO: Direct Preference Optimization (2023)
 
-**来源**:`Rafailov, Sharma, Mitchell, Ermon, Manning, Finn, "Direct Preference Optimization: Your Language Model is Secretly a Reward Model", NeurIPS 2023` (arXiv:2305.18290)
+**来源**:`Rafailov, Sharma, Mitchell, Ermon, Manning, Finn, "Direct Preference Optimization: Your Language Model is Secretly a [[01-原子/Reward-Model训练方法|Reward Model]]", NeurIPS 2023`
 
-**解决的先前问题**:RLHF-PPO 需要 4 个模型和复杂的 RL 训练循环。能否完全跳过奖励模型和 RL,直接用偏好数据优化策略?
+**解决的先前问题**:RLHF 管线虽然存在,但在大规模 LLM 上从未成功应用过。如何让 RLHF 在 GPT-3 级别的模型上真正 work?
 
-**核心创新 (理论突破)**:**证明了 RLHF 的目标函数有闭合形式解,且最优策略可以直接用参考策略和奖励函数表示**。将这个关系代入 Bradley-Terry 偏好模型,得到了一个不依赖奖励模型的纯分类损失。
+**核心创新**:工程突破——证明 RLHF 管线可以在 175B 参数的 LLM 上成功运行,大幅提升指令遵循能力。ChatGPT 的技术基础。
 
-**关键推导**:
-
-从 RLHF 目标出发:
-$$\pi^*(y|x) = \frac{1}{Z(x)} \pi_{\text{ref}}(y|x) \exp\left(\frac{r(x,y)}{\beta}\right)$$
-
-反解奖励函数:
-$$r(x,y) = \beta \log \frac{\pi_\theta(y|x)}{\pi_{\text{ref}}(y|x)} + \beta \log Z(x)$$
-
-代入 Bradley-Terry 偏好模型,$Z(x)$ 在偏好对中抵消,得到 DPO 损失:
-$$\mathcal{L}_{\text{DPO}} = -\mathbb{E}_{(x, y_w, y_l) \sim \mathcal{D}} \left[ \log \sigma\left(\beta \log \frac{\pi_\theta(y_w|x)}{\pi_{\text{ref}}(y_w|x)} - \beta \log \frac{\pi_\theta(y_l|x)}{\pi_{\text{ref}}(y_l|x)}\right) \right]$$
-
-**直觉**:"好的回答在策略下的概率应该比参考模型高,差的回答应该比参考模型低。"
+**关键发现**:
+- 1.3B 参数的 InstructGPT 优于 175B 的原始 GPT-3
+- 标注者的一致性 (inter-annotator agreement) 是关键瓶颈
+- PPO 训练中 KL 系数 $\beta$ 的选择至关重要
 
 **优缺点**:
-- 优点:
-  - **极简**:只需 2 个模型 (策略 + 参考),无 RL 循环
-  - 训练稳定,实现简单
-  - 效果好:在多个任务上匹配或超过 PPO-based RLHF
-  - 计算效率显著提升
-- 缺点:
-  - **离线方法**:受限于偏好数据质量,无法在线探索
-  - **长度偏置**:倾向于生成更长的回答 (Park et al., 2024)
-  - **reward hacking**:Rafailov et al. (2024) 证明 DPO 也存在 over-optimization
-  - **等价性条件**:Yang et al. (2026, arXiv:2605.20834) 证明 DPO 与 RLHF 的等价性是条件的,当最优策略不偏好人类偏好回答时,DPO 优化的是相对优势而非绝对对齐
-  - **梯度不对称**:AdaDPO (Chen et al., 2026) 发现 DPO 对差的回答的梯度比对好的回答大,导致模型学会"避免差答案"而非"生成好答案"
+- 优点:证明 RLHF 在大规模 LLM 上可行,开创了 LLM 对齐时代
+- 缺点:训练成本极高,需要大量人工标注,管线复杂
 
-**演化位置**:偏好优化的分水岭。DPO 之后的方法可分为:
-1. **改进 DPO**:IPO, KTO, ORPO, SimPO, AdaDPO
-2. **回归在线 RL**:ReMax, RLOO, GRPO, DAPO
+**演化位置**:RLHF 从学术概念到工业实践的里程碑。所有后续方法 (DPO/GRPO 等) 都以"让 InstructGPT 的管线更简单/更高效"为目标。
 
 ---
 
-### B5. IPO: Identity Preference Optimization (2023)
+### B3. RLHF-PPO 标准管线
 
-**来源**:`Azar, Guo, Seznec, Munos, Piot, Valko, "Direct Alignment with Preferences", 2023` (后被 CoPG 论文, Flet-Berliac et al., 2024 引用)
+**标准四模型架构**:
 
-**解决的先前问题**:DPO 依赖 Bradley-Terry 偏好模型,该模型假设偏好是确定性的。但人类偏好有噪声和非传递性。
+| 模型 | 角色 | 参数量 |
+|------|------|--------|
+| Actor (Policy) | 生成回答 | 与 LLM 相同 |
+| Critic (Value) | 估计状态价值 | 与 LLM 相同 |
+| Reward Model | 评估回答质量 | 通常 < LLM |
+| Reference | 计算 KL 散度 | 与 SFT 相同 |
 
-**核心创新**:用 **恒等映射 (identity)** 替代 Bradley-Terry 模型中的 sigmoid,直接优化偏好概率的对数似然。
+**训练流程**:
+1. 对每个 prompt $x$,Actor 生成 $y \sim \pi_\theta(\cdot|x)$
+2. Reward Model 打分 $r(x,y)$
+3. Critic 估计优势 $A(s,a)$
+4. PPO clip 更新 Actor:
+$$\mathcal{L}_{\text{PPO}} = \mathbb{E} \left[ \min\left( \rho_t A_t, \text{clip}(\rho_t, 1-\epsilon, 1+\epsilon) A_t \right) \right]$$
+其中 $\rho_t = \frac{\pi_\theta(a_t|s_t)}{\pi_{\text{old}}(a_t|s_t)}$ 是重要性采样比率
 
-**关键公式**:
-$$\mathcal{L}_{\text{IPO}} = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma\left(\log \frac{\pi_\theta(y_w|x)}{\pi_{\text{ref}}(y_w|x)} - \log \frac{\pi_\theta(y_l|x)}{\pi_{\text{ref}}(y_l|x)} - \frac{1}{2\tau}\right) \right]$$
+**核心问题**:
+- 4 个模型同时驻留 GPU 内存,显存需求巨大
+- PPO 对超参数 (clip 范围、KL 系数、学习率) 极度敏感
+- 训练不稳定,经常出现 reward hacking 或模式崩塌
 
-与 DPO 的区别在于引入了 margin $\frac{1}{2\tau}$,其中 $\tau$ 控制偏好的噪声水平。
-
-**优缺点**:
-- 优点:理论上更鲁棒地处理偏好噪声
-- 缺点:实际效果与 DPO 差异不大,未被广泛采用
-
-**演化位置**:DPO 的理论改进之一,后来被 CoPG (Contrastive Policy Gradient, Flet-Berliac et al., EMNLP 2024) 统一为更一般的 off-policy policy gradient 框架。
+**演化位置**:所有后续方法 (ReMax/RLOO/GRPO/DPO 等) 都在试图减少模型数量或简化训练过程。
 
 ---
 
-### B6. KTO: Kahneman-Tversky Optimization (2024)
+### B4. DPO: Direct Preference Optimization (2023)
 
-**来源**:`Ethayarajh, Xu, Muennighoff, Jurafsky, Kiela, "KTO: Model Alignment as Prospect Theoretic Optimization", ICML 2024` (arXiv:2402.01306)
+**来源**:`Azar, Guo, Seznec, Munos, Piot, Valko, "Direct Alignment with Preferences", 2023< 0)| \cdot u^2$。$\tau >Ethayarajh, Xu, Muennighoff, Jurafsky, Kiela, "KTO: Model Alignment as Prospect Theoretic Optimization", ICML 2024` (arXiv:2402.01306)
 
 **解决的先前问题**:DPO/IPO 等方法都依赖 **配对偏好数据** $(y_w, y_l)$,但实际中收集配对数据成本高。能否只用 **非配对信号** (一个回答是好/坏的二元标签) 来对齐?
 
@@ -537,7 +525,7 @@ $$\mathcal{L}_{\text{OR}} = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma\left(
 
 **来源**:`Meng, Xia, Chen, "SimPO: Simple Preference Optimization with a Reference-Free Reward", NeurIPS 2024` (arXiv:2405.14734)
 
-**解决的先前问题**:DPO 需要参考模型,增加内存和计算开销。能否设计一个更简单、更有效的方法?
+**解决的先前问题**:[[02-模块/Reward-Model/DPO|DPO]] 需要参考模型,增加内存和计算开销。能否设计一个更简单、更有效的方法?
 
 **核心创新**:用 **序列平均对数概率** 作为隐式奖励,完全不需要参考模型。同时引入 **目标奖励边际 (target reward margin)** 来增强好/坏回答的区分度。
 
@@ -551,8 +539,8 @@ $$\mathcal{L}_{\text{SimPO}} = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma\le
 **优缺点**:
 - 优点:
   - **无参考模型**:更\<think\>更省
-  - 效果好:在 AlpacaEval 2 上超过 DPO 6.4 点,Arena-Hard 上超过 7.5 点
-  - 不增加回答长度 (DPO 的长度偏置被缓解)
+  - 效果好:在 AlpacaEval 2 上超过 [[02-模块/Reward-Model/DPO|DPO]] 6.4 点,Arena-Hard 上超过 7.5 点
+  - 不增加回答长度 ([[02-模块/Reward-Model/DPO|DPO]] 的长度偏置被缓解)
   - Gemma-2-9B + SimPO 在 Chatbot Arena 排名 \<10B 模型第一
 - 缺点:
   - 隐式奖励 (平均对数概率) 的理论基础不够深
@@ -564,111 +552,7 @@ $$\mathcal{L}_{\text{SimPO}} = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma\le
 
 ### B9. ReMax: Relax-then-Clip (2023)
 
-**来源**:`Li, Xu, Zhang, Lin, Yu, Sun, Luo, "ReMax: A Simple, Effective, and Efficient Reinforcement Learning Method for Aligning Large Language Models", ICML 2024` (arXiv:2310.10505)
-
-**解决的先前问题**:PPO 在 LLM RLHF 中过于复杂 (4 个模型、多超参数、训练不稳定)。能否用更简单的 RL 方法?
-
-**核心创新**:利用 RLHF 的三个特性 (快速模拟、确定性转移、轨迹级奖励),基于经典 REINFORCE 算法,用 **贪心解码的奖励作为基线 (baseline)** 来减少方差,完全不需要 Critic 模型。
-
-**关键公式**:
-$$\nabla_\theta J(\theta) = \mathbb{E}_{y \sim \pi_\theta(\cdot|x)} \left[ (r(x,y) - r(x, \hat{y}_{\text{greedy}})) \nabla_\theta \log \pi_\theta(y|x) \right]$$
-
-其中 $\hat{y}_{\text{greedy}} = \arg\max_y \pi_\theta(y|x)$ 是贪心解码结果,其奖励 $r(x, \hat{y}_{\text{greedy}})$ 作为基线。
-
-**优缺点**:
-- 优点:
-  - **无 Critic 模型**:省 1/4 显存 (7B 模型节省 46% GPU 内存)
-  - 实现简单,去掉 PPO 的 4+ 个超参数
-  - Mistral-7B + ReMax: AlpacaEval 94.78% win rate, MT-bench 7.739
-- 缺点:
-  - 每次需要额外的贪心解码 (计算开销)
-  - 基线估计有偏 (贪心不一定代表期望)
-  - 方差比 PPO 的 GAE 大
-
-**演化位置**:**"去 Critic"** 方向的先驱,直接启发了 GRPO 和 RLOO 的"用组内统计替代 Critic"的思路。
-
----
-
-### B10. RLOO: REINFORCE Leave-One-Out (2024)
-
-**来源**:`Ahmadian et al., "Back to Basics: Revisiting REINFORCE Style Optimization for Learning from Human Feedback", 2024`
-
-**解决的先前问题**:ReMax 用贪心解码作基线,但基线有偏。能否用更无偏的基线?
-
-**核心创新**:对每个 prompt 生成 $K$ 个回答,每个回答的基线是 **其余 $K-1$ 个回答的平均奖励** (leave-one-out 基线)。
-
-**关键公式**:
-$$\nabla_\theta J(\theta) = \sum_{k=1}^{K} \left[ \left(r(x, y_k) - \frac{1}{K-1} \sum_{j \neq k} r(x, y_j)\right) \nabla_\theta \log \pi_\theta(y_k|x) \right]$$
-
-等价于:
-$$= \sum_{k=1}^{K} \left[ \frac{K}{K-1} (r(x, y_k) - \bar{r}) \nabla_\theta \log \pi_\theta(y_k|x) \right]$$
-
-其中 $\bar{r} = \frac{1}{K} \sum_{k=1}^{K} r(x, y_k)$ 是组内平均奖励。
-
-**优缺点**:
-- 优点:
-  - 基线无偏 (leave-one-out 是期望奖励的无偏估计)
-  - 比 ReMax 方差更低
-  - 比 PPO 简单得多 (无 Critic)
-- 缺点:
-  - 需要 $K$ 次采样,计算成本随 $K$ 线性增长
-  - 本质上是 GRPO 的理论前身 (GRPO 加了 clip 和其他工程改进)
-
-**演化位置**:RLOO 和 GRPO 的核心思想几乎相同 (组内归一化替代 Critic)。RLOO 更偏理论分析,GRPO 更偏工程实践。
-
----
-
-### B11. GRPO: Group Relative Policy Optimization (2024)
-
-**来源**:`Shao, Wang, Zhu, Xu, Song, Bi, Zhang, Zhang, Li, Wu, Guo, "DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models", 2024` (arXiv:2402.03300)
-
-**解决的先前问题**:PPO 的 Critic 模型占一半内存且训练不稳定。ReMax/RLOO 证明可以去掉 Critic,但缺少 PPO 的 clip 机制来控制策略更新幅度。
-
-**核心创新**:**用组内归一化奖励替代 Critic,同时保留 PPO 的 clip 机制**。对每个 prompt 采样一组 ($G$ 个) 回答,用组内的均值和标准差归一化奖励,作为优势估计。
-
-**关键公式**:
-
-对每个 prompt $x$,采样 $G$ 个回答 $\{y_1, y_2, \ldots, y_G\}$:
-
-**组内归一化优势**:
-$$A_i = \frac{r_i - \text{mean}(r_1, \ldots, r_G)}{\text{std}(r_1, \ldots, r_G) + \epsilon}$$
-
-**GRPO 目标** (PPO-style clip + KL 正则):
-$$\mathcal{L}_{\text{GRPO}} = -\mathbb{E} \left[ \frac{1}{G} \sum_{i=1}^{G} \frac{1}{|y_i|} \sum_{t=1}^{|y_i|} \left\{ \min\left(\rho_{i,t} A_i, \text{clip}(\rho_{i,t}, 1-\epsilon, 1+\epsilon) A_i\right) - \beta \cdot D_{\text{KL}}(\pi_\theta \| \pi_{\text{ref}}) \right\} \right]$$
-
-其中 $\rho_{i,t} = \frac{\pi_\theta(y_{i,t} | x, y_{i,<t})}{\pi_{\text{old}}(y_{i,t} | x, y_{i,<t})}$ 是 token 级重要性采样比率。
-
-**为什么组内归一化替代了 Critic?**
-
-在标准 actor-critic 中,优势 $A(s,a) = r + \gamma V(s') - V(s)$ 需要 value function $V$。但在 LLM 生成中:
-- 状态 $s$ 是已生成的 token 序列
-- 一个 prompt 下的多个回答共享相同的初始状态
-- 组内平均奖励 $\bar{r}$ 是 $V(s_0)$ 的蒙特卡罗估计
-- 组内归一化等价于用 $\bar{r}$ 作为基线,除以标准差做方差缩减
-
-**优缺点**:
-- 优点:
-  - **无 Critic**:省一半内存
-  - 保留了 PPO 的 clip 机制,策略更新可控
-  - 在数学推理任务上效果突出 (DeepSeekMath 7B 达到 MATH 51.7%)
-  - DeepSeek-R1 的核心训练算法
-- 缺点:
-  - 组大小 $G$ 越大越稳定但越贵
-  - 组内奖励方差小时 (如所有回答都正确或都错误),优势接近零,梯度信号弱
-  - Dropout-GRPO (Jung, 2026) 指出在连续潜在推理中,多次 rollout 可能产生相同轨迹
-
-**演化位置**:2024-2025 年 LLM 对齐/推理增强的 **事实标准**。DeepSeek-R1、Qwen-R1 等推理模型都基于 GRPO。后续变体包括:
-- **DAPO (2025)**:Decoupled Clip + Dynamic Sampling
-- **N-GRPO (2026, ACL Findings)**:Embedding-level neighbor mixing 增强探索
-- **AdaGRPO (2026)**:能力感知自适应,用于 flow models
-- **BiasGRPO (2026, ACL Findings)**:用 GRPO 减轻 LLM 社会偏见
-- **VIMPO (2026)**:policy-implied value function,无 Critic 但提供更密集的信用分配
-
----
-
-### B12. DAPO: Decoupled Clip and Dynamic Sampling (2025)
-
-**来源**:`Yu, Zhang, Zhu, Yuan, Zuo, Yue, Dai, Fan, Liu, Liu, Liu, Lin, Lin, Ma, Sheng, Tong, Zhang, Zhang, Zhang, Zhu, Zhu, Chen, Chen, Wang, Yu, Song, Wei, Zhou, Liu, Ma, Zhang, Yan, Qiao, Wu, Wang, "DAPO: An Open-Source LLM Reinforcement Learning System at Scale", 2025` (arXiv:2503.14476)
+**来源**: PLACEHOLDER0  (arXiv:2503.14476)
 
 **解决的先前问题**:GRPO 在大规模推理 LLM 训练中仍有问题:
 1. Clip 机制对所有 token 一视同仁,但低概率 token 的更新可能有害
@@ -778,35 +662,35 @@ graph TD
 
 **两大演化主线**:
 
-1. **简化管线 (DPO 系谱)**:PPO(4 模型) → DPO(2 模型) → SimPO/ORPO(1 模型)
-2. **回归在线 RL 但简化 (GRPO 系谱)**:PPO → ReMax(去 Critic) → RLOO/GRPO(组基线) → DAPO(工程优化)
+1. **简化管线 ([[02-模块/Reward-Model/DPO|DPO]] 系谱)**:[[02-模块/Policy-Based/PPO|PPO]](4 模型) → [[02-模块/Reward-Model/DPO|DPO]](2 模型) → SimPO/ORPO(1 模型)
+2. **回归在线 RL 但简化 ([[02-模块/Policy-Based/GRPO|GRPO]] 系谱)**:[[02-模块/Policy-Based/PPO|PPO]] → ReMax(去 Critic) → RLOO/[[02-模块/Policy-Based/GRPO|GRPO]](组基线) → [[02-模块/Policy-Based/DAPO|DAPO]](工程优化)
 
 ---
 
 ## 专题深度讨论
 
-### 专题一:BC → CQL → IQL — 分布偏移的处理演化
+### 专题一:BC → [[02-模块/Value-Based/CQL|CQL]] → [[02-模块/Value-Based/IQL|IQL]] — 分布偏移的处理演化
 
 **核心问题**:离线 RL 中,策略可能生成数据集中从未出现的动作。Q 函数对这些 OOD 动作的估计不可靠,但策略优化恰恰倾向于选择 Q 值最高的动作 (可能是被高估的 OOD 动作)。
 
 | 方法 | 处理策略 | 类比 |
 |------|----------|------|
 | BC | 不学 Q,直接模仿 | "不冒险,只跟着做" |
-| BCQ | 约束动作空间到数据支撑集 | "只允许做见过的动作" |
-| CQL | 保守化 Q 值,压低 OOD | "对不确定的事保守估计" |
-| IQL | 永不查询 OOD 动作的 Q 值 | "根本不去想没见过的动作" |
+| [[02-模块/Value-Based/BCQ|BCQ]] | 约束动作空间到数据支撑集 | "只允许做见过的动作" |
+| [[02-模块/Value-Based/CQL|CQL]] | 保守化 Q 值,压低 OOD | "对不确定的事保守估计" |
+| [[02-模块/Value-Based/IQL|IQL]] | 永不查询 OOD 动作的 Q 值 | "根本不去想没见过的动作" |
 
-**IQL 的精髓**:通过 expectile 回归,我们只需要知道"数据中最好的动作值多少" ($V(s) \approx \max_a Q(s,a)$),而不需要知道"最好的动作是什么"。然后用 $V(s)$ 而非 $\max_a Q(s,a)$ 来做 Bellman 备份,完全避免了 OOD 查询。策略提取通过优势加权 BC 完成,权重是 $\exp(\beta(Q(s,a) - V(s)))$,只有数据中实际出现的好动作会被加权放大。
+**[[02-模块/Value-Based/IQL|IQL]] 的精髓**:通过 expectile 回归,我们只需要知道"数据中最好的动作值多少" ($V(s) \approx \max_a Q(s,a)$),而不需要知道"最好的动作是什么"。然后用 $V(s)$ 而非 $\max_a Q(s,a)$ 来做 Bellman 备份,完全避免了 OOD 查询。策略提取通过优势加权 BC 完成,权重是 $\exp(\beta(Q(s,a) - V(s)))$,只有数据中实际出现的好动作会被加权放大。
 
 ### 专题二:Decision Transformer 范式转移
 
 **传统 Offline RL 的思路**:
-1. 学 Q 函数 → 提取策略 (CQL/IQL)
-2. 学 V 函数 → 提取策略 (IQL)
-3. 直接学策略 (BC/AWAC)
+1. 学 Q 函数 → 提取策略 ([[02-模块/Value-Based/CQL|CQL]]/[[02-模块/Value-Based/IQL|IQL]])
+2. 学 V 函数 → 提取策略 ([[02-模块/Value-Based/IQL|IQL]])
+3. 直接学策略 (BC/[[02-模块/Actor-Critic/AWAC|AWAC]])
 
 **Decision Transformer 的思路**:
-- **不学价值函数,不做策略梯度,不写 Bellman 方程**
+- **不学价值函数,不做[[01-原子/策略梯度|策略梯度]],不写 [[01-原子/Bellman方程|Bellman 方程]]**
 - 将 RL 重新定义为 **条件序列建模**:给定"期望回报",Transformer 自回归生成动作序列
 - 本质上是一种 **目标条件化的模仿学习**
 
@@ -821,49 +705,49 @@ graph TD
 - 无法做 trajectory stitching (组合不同轨迹的最优片段)
 - 性能上限受限于训练数据
 
-### 专题三:PPO → DPO → GRPO — LLM 对齐的简化之路
+### 专题三:[[02-模块/Policy-Based/PPO|PPO]] → [[02-模块/Reward-Model/DPO|DPO]] → [[02-模块/Policy-Based/GRPO|GRPO]] — LLM 对齐的简化之路
 
-**PPO 的问题**:
+**[[02-模块/Policy-Based/PPO|PPO]] 的问题**:
 - 4 个模型同时在 GPU 上 (Actor + Critic + RM + Ref)
 - 超参数多,训练不稳定
 - reward hacking 严重
 
-**DPO 的简化**:
+**[[02-模块/Reward-Model/DPO|DPO]] 的简化**:
 - 理论证明 RLHF 目标有闭合解
 - 将奖励模型和策略合二为一
 - 只需 2 个模型 (Policy + Reference)
 - 但:离线方法,无法在线探索
 
-**GRPO 的简化**:
+**[[02-模块/Policy-Based/GRPO|GRPO]] 的简化**:
 - 保留 RL 训练循环 (在线采样)
 - 去掉 Critic (用组内统计替代)
-- 保留 PPO 的 clip (策略更新可控)
+- 保留 [[02-模块/Policy-Based/PPO|PPO]] 的 clip (策略更新可控)
 - 3 个模型 (Policy + Ref + RM/Verifier)
 - 在推理任务上效果突出
 
 **本质对比**:
-- DPO = 离线偏好学习,假设数据已经够用
-- GRPO = 在线 RL,通过持续采样探索
+- [[02-模块/Reward-Model/DPO|DPO]] = 离线偏好学习,假设数据已经够用
+- [[02-模块/Policy-Based/GRPO|GRPO]] = 在线 RL,通过持续采样探索
 - 两者适用场景不同,不是简单的替代关系
 
 ### 专题四:"RLHF is Dead" 争论
 
-**"DPO 优于 PPO" 论据**:
-- DPO 在多个任务上匹配或超过 PPO-based RLHF (Rafailov et al., 2023)
-- SimPO (无参考模型的 DPO 变体) 在 Chatbot Arena 排名领先
-- PPO 训练不稳定,工程复杂度高
+**"[[02-模块/Reward-Model/DPO|DPO]] 优于 [[02-模块/Policy-Based/PPO|PPO]]" 论据**:
+- [[02-模块/Reward-Model/DPO|DPO]] 在多个任务上匹配或超过 [[02-模块/Policy-Based/PPO|PPO]]-based RLHF (Rafailov et al., 2023)
+- SimPO (无参考模型的 [[02-模块/Reward-Model/DPO|DPO]] 变体) 在 Chatbot Arena 排名领先
+- [[02-模块/Policy-Based/PPO|PPO]] 训练不稳定,工程复杂度高
 
-**"PPO 仍然重要" 论据**:
-- DPO 是离线方法,无法从在线交互中学习
-- DPO 的等价性是有条件的 (Yang et al., 2026)
-- GRPO (在线 RL) 在推理任务上大幅超过 DPO
-- DeepSeek-R1 等前沿模型使用 GRPO 而非 DPO
-- Reward hacking 问题在 DPO 中也存在 (Rafailov et al., 2024)
+**"[[02-模块/Policy-Based/PPO|PPO]] 仍然重要" 论据**:
+- [[02-模块/Reward-Model/DPO|DPO]] 是离线方法,无法从在线交互中学习
+- [[02-模块/Reward-Model/DPO|DPO]] 的等价性是有条件的 (Yang et al., 2026)
+- [[02-模块/Policy-Based/GRPO|GRPO]] (在线 RL) 在推理任务上大幅超过 [[02-模块/Reward-Model/DPO|DPO]]
+- DeepSeek-R1 等前沿模型使用 [[02-模块/Policy-Based/GRPO|GRPO]] 而非 [[02-模块/Reward-Model/DPO|DPO]]
+- Reward hacking 问题在 [[02-模块/Reward-Model/DPO|DPO]] 中也存在 (Rafailov et al., 2024)
 
 **2026 年的共识**:
-- **两者互补**:DPO 适合有高质量偏好数据的场景,GRPO 适合有验证器的推理任务
-- **融合趋势**:先 DPO 做初始对齐,再 GRPO 做在线强化 (如 DeepSeek 的 SFT → DPO → GRPO 管线)
-- **"RLHF" 的含义在变化**:从 "PPO + Reward Model" 变为 "任何形式的 RL/偏好优化"
+- **两者互补**:[[02-模块/Reward-Model/DPO|DPO]] 适合有高质量偏好数据的场景,[[02-模块/Policy-Based/GRPO|GRPO]] 适合有验证器的推理任务
+- **融合趋势**:先 [[02-模块/Reward-Model/DPO|DPO]] 做初始对齐,再 [[02-模块/Policy-Based/GRPO|GRPO]] 做在线强化 (如 DeepSeek 的 SFT → [[02-模块/Reward-Model/DPO|DPO]] → [[02-模块/Policy-Based/GRPO|GRPO]] 管线)
+- **"RLHF" 的含义在变化**:从 "[[02-模块/Policy-Based/PPO|PPO]] + [[01-原子/Reward-Model训练方法|Reward Model]]" 变为 "任何形式的 RL/偏好优化"
 
 ### 专题五:2025-2026 LLM 对齐 SOTA
 
@@ -871,30 +755,30 @@ graph TD
 
 1. **预训练**:大规模语言模型预训练
 2. **SFT**:高质量指令数据微调
-3. **DPO/KTO**:离线偏好对齐 (建立基础对齐能力)
-4. **GRPO/DAPO**:在线 RL 强化 (尤其对推理任务)
+3. **[[02-模块/Reward-Model/DPO|DPO]]/KTO**:离线偏好对齐 (建立基础对齐能力)
+4. **[[02-模块/Policy-Based/GRPO|GRPO]]/[[02-模块/Policy-Based/DAPO|DAPO]]**:在线 RL 强化 (尤其对推理任务)
 5. **推理蒸馏**:从大模型的推理轨迹蒸馏到小模型
 
 **关键趋势**:
 - **RLVR (RL with Verifiable Rewards)**:用确定性验证器替代奖励模型,用于数学/代码等可验证任务
-- **推理时计算 (inference-time compute)**:GRPO 训练的模型在推理时通过搜索/验证来提升性能
-- **开源 RL 训练**:DAPO 等开源系统降低复现门槛
-- **理论深化**:DPO 等价性条件、梯度不对称性等理论问题被深入研究
+- **推理时计算 (inference-time compute)**:[[02-模块/Policy-Based/GRPO|GRPO]] 训练的模型在推理时通过搜索/验证来提升性能
+- **开源 RL 训练**:[[02-模块/Policy-Based/DAPO|DAPO]] 等开源系统降低复现门槛
+- **理论深化**:[[02-模块/Reward-Model/DPO|DPO]] 等价性条件、梯度不对称性等理论问题被深入研究
 
 ---
 
 ## 参考文献
 
 ### Offline RL
-1. Fujimoto et al. (2019). "Off-Policy Deep RL without Exploration" (BCQ). ICML 2019. arXiv:1812.02900
-2. Kumar et al. (2020). "Conservative Q-Learning for Offline RL" (CQL). NeurIPS 2020. arXiv:2006.04779
-3. Nair et al. (2020). "Accelerating Online RL with Offline Datasets" (AWAC). arXiv:2011.09199
-4. Fujimoto & Gu (2021). "A Minimalist Approach to Offline RL" (TD3+BC). NeurIPS 2021. arXiv:2106.06860
-5. Kostrikov et al. (2022). "Offline RL with Implicit Q-Learning" (IQL). ICLR 2022. arXiv:2110.06169
+1. Fujimoto et al. (2019). "Off-Policy Deep RL without Exploration" ([[02-模块/Value-Based/BCQ|BCQ]]). ICML 2019. arXiv:1812.02900
+2. Kumar et al. (2020). "Conservative [[02-模块/Value-Based/Q-Learning|Q-Learning]] for Offline RL" ([[02-模块/Value-Based/CQL|CQL]]). NeurIPS 2020. arXiv:2006.04779
+3. Nair et al. (2020). "Accelerating Online RL with Offline Datasets" ([[02-模块/Actor-Critic/AWAC|AWAC]]). arXiv:2011.09199
+4. Fujimoto & Gu (2021). "A Minimalist Approach to Offline RL" ([[02-模块/Actor-Critic/TD3|TD3]]+BC). NeurIPS 2021. arXiv:2106.06860
+5. Kostrikov et al. (2022). "Offline RL with Implicit [[02-模块/Value-Based/Q-Learning|Q-Learning]]" ([[02-模块/Value-Based/IQL|IQL]]). ICLR 2022. arXiv:2110.06169
 6. Chen et al. (2021). "Decision Transformer: RL via Sequence Modeling". NeurIPS 2021. arXiv:2106.01345
 7. Janner et al. (2022). "Offline RL as One Sequence Modeling Problem" (Trajectory Transformer).
 8. Nakamoto et al. (2023). "Cal-QL: Calibrated Offline RL Pre-Training". NeurIPS 2023. arXiv:2303.05479
-9. Hansen-Estruch et al. (2023). "IDQL: Implicit Q-Learning as an Actor-Critic Method with Diffusion Policies". arXiv:2304.10573
+9. Hansen-Estruch et al. (2023). "IDQL: Implicit [[02-模块/Value-Based/Q-Learning|Q-Learning]] as an Actor-Critic Method with Diffusion Policies". arXiv:2304.10573
 10. Chen et al. (2024). "Deep Generative Models for Offline Policy Learning: Survey". arXiv:2402.13777
 11. Che (2025). "A Tutorial: Intuitive Explanation of Offline RL Theory". arXiv:2508.07746
 
@@ -902,25 +786,25 @@ graph TD
 12. Christiano et al. (2017). "Deep RL from Human Preferences". arXiv:1706.03741
 13. Ziegler et al. (2019). "Fine-Tuning Language Models from Human Preferences". arXiv:1909.08593
 14. Ouyang et al. (2022). "Training language models to follow instructions with human feedback" (InstructGPT). NeurIPS 2022. arXiv:2203.02155
-15. Rafailov et al. (2023). "Direct Preference Optimization: Your LM is Secretly a Reward Model" (DPO). NeurIPS 2023. arXiv:2305.18290
+15. Rafailov et al. (2023). "Direct Preference Optimization: Your LM is Secretly a [[01-原子/Reward-Model训练方法|Reward Model]]" ([[02-模块/Reward-Model/DPO|DPO]]). NeurIPS 2023. arXiv:2305.18290
 16. Azar et al. (2023). "Direct Alignment with Preferences" (IPO).
 17. Ethayarajh et al. (2024). "KTO: Model Alignment as Prospect Theoretic Optimization". ICML 2024. arXiv:2402.01306
 18. Hong et al. (2024). "ORPO: Monolithic Preference Optimization without Reference Model". arXiv:2403.07691
 19. Meng et al. (2024). "SimPO: Simple Preference Optimization with a Reference-Free Reward". NeurIPS 2024. arXiv:2405.14734
 20. Li et al. (2024). "ReMax: A Simple, Effective, and Efficient RL Method for Aligning LLMs". ICML 2024. arXiv:2310.10505
-21. Ahmadian et al. (2024). "Back to Basics: Revisiting REINFORCE Style Optimization for Learning from Human Feedback" (RLOO).
-22. Shao et al. (2024). "DeepSeekMath: Pushing the Limits of Mathematical Reasoning" (GRPO). arXiv:2402.03300
-23. Yu et al. (2025). "DAPO: An Open-Source LLM RL System at Scale". arXiv:2503.14476
-24. Park et al. (2024). "Disentangling Length from Quality in DPO". arXiv:2403.19159
-25. Rafailov et al. (2024). "Scaling Laws for Reward Model Overoptimization in DAAs". NeurIPS 2024. arXiv:2406.02900
-26. Yang et al. (2026). "Conditional Equivalence of DPO and RLHF" (CPO). arXiv:2605.20834
-27. Chen et al. (2026). "AdaDPO: Self-Adaptive DPO with Balanced Gradient Updates". arXiv:2605.28440
+21. Ahmadian et al. (2024). "Back to Basics: Revisiting [[02-模块/Policy-Based/REINFORCE|REINFORCE]] Style Optimization for Learning from Human Feedback" (RLOO).
+22. Shao et al. (2024). "DeepSeekMath: Pushing the Limits of Mathematical Reasoning" ([[02-模块/Policy-Based/GRPO|GRPO]]). arXiv:2402.03300
+23. Yu et al. (2025). "[[02-模块/Policy-Based/DAPO|DAPO]]: An Open-Source LLM RL System at Scale". arXiv:2503.14476
+24. Park et al. (2024). "Disentangling Length from Quality in [[02-模块/Reward-Model/DPO|DPO]]". arXiv:2403.19159
+25. Rafailov et al. (2024). "Scaling Laws for [[01-原子/Reward-Model训练方法|Reward Model]] Overoptimization in DAAs". NeurIPS 2024. arXiv:2406.02900
+26. Yang et al. (2026). "Conditional Equivalence of [[02-模块/Reward-Model/DPO|DPO]] and RLHF" (CPO). arXiv:2605.20834
+27. Chen et al. (2026). "AdaDPO: Self-Adaptive [[02-模块/Reward-Model/DPO|DPO]] with Balanced Gradient Updates". arXiv:2605.28440
 28. Kim et al. (2026). "RePO: Regret-based Preference Optimization". arXiv:2606.09124
 29. Huang et al. (2026). "HRC + DSPPO: Transitivity Meets Cyclicity". ICML 2026. arXiv:2605.17342
 30. Feng & Pilanci (2026). "COALA: Convex Optimization for Alignment". arXiv:2605.23244
 31. Kang et al. (2026). "VIMPO: Value-Implicit Policy Optimization for LLMs". arXiv:2606.20008
 32. Shen et al. (2026). "A First-Principles Derivation of LLM Policy Optimization". arXiv:2606.16733
-33. Zhu et al. (2026). "N-GRPO: Embedding-Level Neighbor Mixing". ACL 2026 Findings. arXiv:2606.10768
+33. Zhu et al. (2026). "N-[[02-模块/Policy-Based/GRPO|GRPO]]: Embedding-Level Neighbor Mixing". ACL 2026 Findings. arXiv:2606.10768
 34. Reddy et al. (2026). "BiasGRPO: Stabilizing Bias Mitigation". ACL 2026 Findings. arXiv:2606.04807
 
 ---

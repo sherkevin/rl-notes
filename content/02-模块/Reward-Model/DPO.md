@@ -36,7 +36,7 @@ Step 3: RL (PPO)     → 用 r_φ 当奖励信号，PPO 优化 π_sft → π_θ
 
 ### DPO 的核心洞察
 
-DPO 作者（Rafailov 2023）发现：**RLHF 的 Step 3（PPO 优化）有一个 closed-form 解**。
+DPO 作者（Rafailov 2023）发现：**RLHF 的 Step 3（[[02-模块/Policy-Based/PPO|PPO]] 优化）有一个 closed-form 解**。
 
 也就是说，你不需要跑 RL 循环来优化策略。最优策略可以直接用数学公式表达出来。
 
@@ -74,7 +74,7 @@ $$\boxed{r_\theta(x,y) = \beta \log \frac{\pi_\theta(y|x)}{\pi_{ref}(y|x)}}$$
 
 ### Loss 函数
 
-把隐式 reward 代入 Bradley-Terry 偏好模型：
+把隐式 reward 代入 [[01-原子/Bradley-Terry模型|Bradley-Terry]] 偏好模型：
 
 $$P(y_w \succ y_l | x) = \sigma(r(x, y_w) - r(x, y_l))$$
 
@@ -119,14 +119,14 @@ DPO 训练的一步：
 | 来源 | 方式 | 优缺点 |
 |---|---|---|
 | **人类标注** | 标注员看两个 response，二选一 | 质量高，但贵且慢 |
-| **LLM-as-Judge** | GPT-4/Claude 代替人做判断 | 便宜快，但有偏差（倾向长回答、第一个回答）|
+| **[[02-模块/Reward-Model/LLM-as-Judge|LLM-as-Judge]]** | GPT-4/Claude 代替人做判断 | 便宜快，但有偏差（倾向长回答、第一个回答）|
 | **开源数据集** | Anthropic HH-RLHF、UltraFeedback 等 | 免费，但可能跟你的场景不匹配 |
 
 ---
 
 ## 优缺点
 
-- ✅ 不需要训练 RM，不需要 PPO，不需要 RL 循环
+- ✅ 不需要训练 RM，不需要 [[02-模块/Policy-Based/PPO|PPO]]，不需要 RL 循环
 - ✅ 训练极其简单（就是一个二分类 loss）
 - ✅ 显存需求低（跟 SFT 差不多）
 - ✅ 训练稳定性好
@@ -137,13 +137,13 @@ DPO 训练的一步：
 
 ## 跟传统 RLHF 的对比
 
-| | 传统 RLHF (PPO) | DPO |
+| | 传统 RLHF ([[02-模块/Policy-Based/PPO|PPO]]) | DPO |
 |---|---|---|
 | 需要几个模型 | 4 个（Actor + Critic + RM + Reference）| **2 个**（$\pi_\theta$ + $\pi_{ref}$）|
 | 训 reward model？ | ✅ 单独训一个 | ❌ 不训，策略本身暗含 |
-| 需要 RL 循环？ | ✅ PPO rollout + update | ❌ 直接监督学习式训练 |
+| 需要 RL 循环？ | ✅ [[02-模块/Policy-Based/PPO|PPO]] rollout + update | ❌ 直接监督学习式训练 |
 | 显存需求 | 极高 | 低（跟 SFT 差不多）|
-| 训练稳定性 | 差（PPO 容易崩）| 好（就是个二分类 loss）|
+| 训练稳定性 | 差（[[02-模块/Policy-Based/PPO|PPO]] 容易崩）| 好（就是个二分类 loss）|
 
 ---
 

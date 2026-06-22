@@ -1,6 +1,6 @@
-# 策略梯度与 Actor-Critic 强化学习：完整演化史
+# [[01-原子/策略梯度|策略梯度]]与 Actor-Critic 强化学习：完整演化史
 
-> 从 REINFORCE (1992) 到 DAPO (2025)，覆盖策略优化方法的核心脉络。
+> 从 [[02-模块/Policy-Based/REINFORCE|REINFORCE]] (1992) 到 [[02-模块/Policy-Based/DAPO|DAPO]] (2025)，覆盖策略优化方法的核心脉络。
 > 每个方法按「来源与动机 → 核心创新 → 关键公式 → 优缺点 → 演化位置」展开。
 
 ---
@@ -36,20 +36,20 @@
 
 ---
 
-## 一、REINFORCE：策略梯度的开山之作
+## 一、[[02-模块/Policy-Based/REINFORCE|REINFORCE]]：[[01-原子/策略梯度|策略梯度]]的开山之作
 
 ### 来源与动机
 
 - **论文**：Williams, R. J. (1992). "Simple statistical gradient-following algorithms for connectionist reinforcement learning." *Machine Learning*, 8(3-4), 229-256.
-- **解决的问题**：在 REINFORCE 之前，强化学习主要靠 TD-learning 和 Q-learning 等值函数方法。这些方法在离散动作空间表现不错，但无法直接优化参数化策略。Williams 提出：**能不能直接对策略本身求梯度？**
+- **解决的问题**：在 [[02-模块/Policy-Based/REINFORCE|REINFORCE]] 之前，强化学习主要靠 TD-learning 和 Q-learning 等值函数方法。这些方法在离散动作空间表现不错，但无法直接优化参数化策略。Williams 提出：**能不能直接对策略本身求梯度？**
 
 ### 核心创新
 
-> 用蒙特卡洛回报作为策略梯度的无偏估计——"采样一条轨迹，按回报加权，增大好动作的概率"。
+> 用蒙特卡洛回报作为[[01-原子/策略梯度|策略梯度]]的无偏估计——"采样一条轨迹，按回报加权，增大好动作的概率"。
 
 ### 关键公式
 
-策略梯度估计：
+[[01-原子/策略梯度|策略梯度]]估计：
 
 $$\nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t | s_t) \cdot G_t \right]$$
 
@@ -69,7 +69,7 @@ $$\nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum_{t=0}^
 
 ### 演化位置
 
-REINFORCE 是所有策略梯度方法的「始祖」。后续的 Baseline、Actor-Critic、TRPO、PPO 全部建立在它的核心思想之上——**沿回报方向增大动作概率**。
+[[02-模块/Policy-Based/REINFORCE|REINFORCE]] 是所有[[01-原子/策略梯度|策略梯度]]方法的「始祖」。后续的 Baseline、Actor-Critic、[[02-模块/Policy-Based/TRPO|TRPO]]、[[02-模块/Policy-Based/PPO|PPO]] 全部建立在它的核心思想之上——**沿回报方向增大动作概率**。
 
 ---
 
@@ -79,7 +79,7 @@ REINFORCE 是所有策略梯度方法的「始祖」。后续的 Baseline、Acto
 
 - **核心思想来源**：Weaver, L. C. & Tao, N. (2001). "The optimal reward baseline for gradient-based reinforcement learning." *UAI*.
 - **理论完善**：Sutton, McAllester, Singh, Mansour (1999/2000) 在 Policy Gradient Theorem 中形式化。
-- **解决的问题**：REINFORCE 的梯度估计方差太大，训练极不稳定。
+- **解决的问题**：[[02-模块/Policy-Based/REINFORCE|REINFORCE]] 的梯度估计方差太大，训练极不稳定。
 
 ### 核心创新
 
@@ -116,7 +116,7 @@ $$b^*(s) = \frac{\mathbb{E}[G_t^2 \cdot \nabla_\theta \log \pi_\theta]}{\mathbb{
 
 ### 演化位置
 
-Baseline 是 REINFORCE → Actor-Critic 的桥梁。当你用 $V(s)$ 作为 baseline 时，你就已经在做 Actor-Critic 了。
+Baseline 是 [[02-模块/Policy-Based/REINFORCE|REINFORCE]] → Actor-Critic 的桥梁。当你用 $V(s)$ 作为 baseline 时，你就已经在做 Actor-Critic 了。
 
 ---
 
@@ -125,7 +125,7 @@ Baseline 是 REINFORCE → Actor-Critic 的桥梁。当你用 $V(s)$ 作为 base
 ### 来源与动机
 
 - **论文**：Sutton, R. S., McAllester, D., Singh, S., Mansour, Y. (1999/2000). "Policy gradient methods for reinforcement learning with function approximation." *NIPS 1999*.
-- **解决的问题**：REINFORCE 的梯度估计虽然是正确的，但缺乏严格的理论框架。策略梯度方法在函数近似下是否收敛？
+- **解决的问题**：[[02-模块/Policy-Based/REINFORCE|REINFORCE]] 的梯度估计虽然是正确的，但缺乏严格的理论框架。[[01-原子/策略梯度|策略梯度]]方法在函数近似下是否收敛？
 
 ### 核心创新
 
@@ -142,8 +142,8 @@ $$\nabla_\theta J(\theta) = \sum_s d^\pi(s) \sum_a \nabla_\theta \pi_\theta(a|s)
 ### 优缺点
 
 **优点**：
-- 给出了策略梯度的精确解析表达式
-- 证明了策略梯度方法的收敛性（在合适的步长条件下）
+- 给出了[[01-原子/策略梯度|策略梯度]]的精确解析表达式
+- 证明了[[01-原子/策略梯度|策略梯度]]方法的收敛性（在合适的步长条件下）
 - 为 Actor-Critic 提供了理论基础（用 $Q$ 的近似替代真实 $Q^\pi$）
 
 **缺点**：
@@ -152,7 +152,7 @@ $$\nabla_\theta J(\theta) = \sum_s d^\pi(s) \sum_a \nabla_\theta \pi_\theta(a|s)
 
 ### 演化位置
 
-这是策略梯度方法的「基本定理」。所有后续方法——Actor-Critic、Natural PG、TRPO、PPO——都是这个定理的不同实例化。
+这是[[01-原子/策略梯度|策略梯度]]方法的「基本定理」。所有后续方法——Actor-Critic、Natural PG、[[02-模块/Policy-Based/TRPO|TRPO]]、[[02-模块/Policy-Based/PPO|PPO]]——都是这个定理的不同实例化。
 
 ---
 
@@ -162,7 +162,7 @@ $$\nabla_\theta J(\theta) = \sum_s d^\pi(s) \sum_a \nabla_\theta \pi_\theta(a|s)
 
 - **原始思想**：Barto, A. G., Sutton, R. S., Anderson, C. W. (1983). "Neuronlike adaptive elements that can solve difficult learning control problems." *IEEE Transactions on Systems, Man, and Cybernetics*.
 - **现代理论**：Konda, V. R. & Tsitsiklis, J. N. (2000). "Actor-critic algorithms." *NIPS 1999*.
-- **解决的问题**：REINFORCE 需要等整条轨迹结束才能计算 $G_t$（蒙特卡洛方法），导致高方差和低效率。能不能用 TD-learning 的思想，每步都更新？
+- **解决的问题**：[[02-模块/Policy-Based/REINFORCE|REINFORCE]] 需要等整条轨迹结束才能计算 $G_t$（蒙特卡洛方法），导致高方差和低效率。能不能用 TD-learning 的思想，每步都更新？
 
 ### 核心创新
 
@@ -170,19 +170,19 @@ $$\nabla_\theta J(\theta) = \sum_s d^\pi(s) \sum_a \nabla_\theta \pi_\theta(a|s)
 
 ### 关键公式
 
-**Actor 更新**（策略梯度）：
+**Actor 更新**（[[01-原子/策略梯度|策略梯度]]）：
 $$\theta \leftarrow \theta + \alpha_\theta \nabla_\theta \log \pi_\theta(a|s) \cdot \delta$$
 
-**Critic 更新**（TD 误差）：
+**Critic 更新**（[[01-原子/TD误差|TD 误差]]）：
 $$\delta = r + \gamma V_\phi(s') - V_\phi(s)$$
 $$\phi \leftarrow \phi + \alpha_\phi \delta \nabla_\phi V_\phi(s)$$
 
-其中 $\delta$ 就是 TD 误差，替代了 REINFORCE 中的 $G_t$。
+其中 $\delta$ 就是 [[01-原子/TD误差|TD 误差]]，替代了 [[02-模块/Policy-Based/REINFORCE|REINFORCE]] 中的 $G_t$。
 
 ### 优缺点
 
 **优点**：
-- 每步都能更新（不需要等轨迹结束），方差比 REINFORCE 低很多
+- 每步都能更新（不需要等轨迹结束），方差比 [[02-模块/Policy-Based/REINFORCE|REINFORCE]] 低很多
 - 可以处理无限时间步的问题
 - Critic 提供了更稳定的学习信号
 
@@ -193,7 +193,7 @@ $$\phi \leftarrow \phi + \alpha_\phi \delta \nabla_\phi V_\phi(s)$$
 
 ### 演化位置
 
-Actor-Critic 是策略梯度方法的「工程化转折点」。A3C、PPO、DDPG、SAC 全部是 Actor-Critic 的变体。REINFORCE 是纯策略梯度，Actor-Critic 是策略梯度 + 值函数近似的混合体。
+Actor-Critic 是[[01-原子/策略梯度|策略梯度]]方法的「工程化转折点」。[[02-模块/Actor-Critic/A3C|A3C]]、[[02-模块/Policy-Based/PPO|PPO]]、[[02-模块/Actor-Critic/DDPG|DDPG]]、[[02-模块/Actor-Critic/SAC|SAC]] 全部是 Actor-Critic 的变体。[[02-模块/Policy-Based/REINFORCE|REINFORCE]] 是纯[[01-原子/策略梯度|策略梯度]]，Actor-Critic 是[[01-原子/策略梯度|策略梯度]] + 值函数近似的混合体。
 
 ---
 
@@ -202,7 +202,7 @@ Actor-Critic 是策略梯度方法的「工程化转折点」。A3C、PPO、DDPG
 ### 来源与动机
 
 - **论文**：Kakade, S. M. (2002). "A natural policy gradient." *NIPS 2001*.
-- **解决的问题**：标准策略梯度用欧几里得梯度 $\nabla_\theta J$ 更新，但参数空间的欧几里得距离不反映策略分布的真实差异。同一个策略用不同参数化表示，欧几里得梯度方向完全不同。
+- **解决的问题**：标准[[01-原子/策略梯度|策略梯度]]用欧几里得梯度 $\nabla_\theta J$ 更新，但参数空间的欧几里得距离不反映策略分布的真实差异。同一个策略用不同参数化表示，欧几里得梯度方向完全不同。
 
 ### 核心创新
 
@@ -226,7 +226,7 @@ $$F = \mathbb{E}_{s \sim d^\pi, a \sim \pi_\theta} [\nabla_\theta \log \pi_\thet
 **优点**：
 - 参数化无关——同一策略不管用什么网络结构，自然梯度方向一致
 - 学习效率更高——避免在"参数变了很多但策略没怎么变"的方向上浪费步长
-- 为 TRPO 提供了直接的理论基础
+- 为 [[02-模块/Policy-Based/TRPO|TRPO]] 提供了直接的理论基础
 
 **缺点**：
 - $F$ 的计算和求逆代价极高（$n \times n$ 矩阵，$n$ 为参数量）
@@ -235,16 +235,16 @@ $$F = \mathbb{E}_{s \sim d^\pi, a \sim \pi_\theta} [\nabla_\theta \log \pi_\thet
 
 ### 演化位置
 
-Natural PG 是 REINFORCE → TRPO 的关键中间环节。TRPO 的核心思想——在策略空间（而非参数空间）约束更新步长——直接来源于 Natural PG 的洞察。
+Natural PG 是 [[02-模块/Policy-Based/REINFORCE|REINFORCE]] → [[02-模块/Policy-Based/TRPO|TRPO]] 的关键中间环节。[[02-模块/Policy-Based/TRPO|TRPO]] 的核心思想——在策略空间（而非参数空间）约束更新步长——直接来源于 Natural PG 的洞察。
 
 ---
 
-## 六、TRPO：单调改进的理论保证
+## 六、[[02-模块/Policy-Based/TRPO|TRPO]]：单调改进的理论保证
 
 ### 来源与动机
 
 - **论文**：Schulman, J., Levine, S., Moritz, P., Jordan, M. I., Abbeel, P. (2015). "Trust region policy optimization." *ICML 2015*. arXiv: 1502.05477.
-- **解决的问题**：策略梯度方法更新步长太大时性能可能崩溃（一个坏更新就可能毁掉之前所有的学习）。Natural PG 虽然用 Fisher 信息矩阵校正方向，但没有约束步长大小。
+- **解决的问题**：[[01-原子/策略梯度|策略梯度]]方法更新步长太大时性能可能崩溃（一个坏更新就可能毁掉之前所有的学习）。Natural PG 虽然用 Fisher 信息矩阵校正方向，但没有约束步长大小。
 
 ### 核心创新
 
@@ -258,9 +258,9 @@ $$\max_\theta \quad \mathbb{E}_{s \sim d^{\pi_{\theta_\text{old}}}} \left[ \sum_
 **约束条件**：
 $$\mathbb{E}_{s \sim d^{\pi_{\theta_\text{old}}}} [D_\text{KL}(\pi_{\theta_\text{old}}(\cdot|s) \| \pi_\theta(\cdot|s))] \leq \delta$$
 
-其中 $\delta$ 是最大允许的 KL 散度。
+其中 $\delta$ 是最大允许的 [[01-原子/KL散度|KL 散度]]。
 
-**单调改进保证（定理）**：如果 $\bar{A}^{\pi_{\theta_\text{old}}}(s) \geq 0$ 对所有 $s$ 成立（即优势函数非负），且 $D_\text{KL}(\pi_{\theta_\text{old}} \| \pi_\theta) \leq \delta$，则 $J(\pi_\theta) \geq J(\pi_{\theta_\text{old}})$。
+**单调改进保证（定理）**：如果 $\bar{A}^{\pi_{\theta_\text{old}}}(s) \geq 0$ 对所有 $s$ 成立（即[[01-原子/优势函数|优势函数]]非负），且 $D_\text{KL}(\pi_{\theta_\text{old}} \| \pi_\theta) \leq \delta$，则 $J(\pi_\theta) \geq J(\pi_{\theta_\text{old}})$。
 
 ### 为什么 KL 约束重要？
 
@@ -268,7 +268,7 @@ $$\mathbb{E}_{s \sim d^{\pi_{\theta_\text{old}}}} [D_\text{KL}(\pi_{\theta_\text
 
 $$J(\pi_\theta) \geq J(\pi_{\theta_\text{old}}) - \frac{4\epsilon\gamma}{(1-\gamma)^2} D_\text{KL}^{\max}(\pi_{\theta_\text{old}} \| \pi_\theta)$$
 
-其中 $\epsilon$ 是优势函数的最大绝对值。KL 散度越小，性能下界越紧。
+其中 $\epsilon$ 是[[01-原子/优势函数|优势函数]]的最大绝对值。KL 散度越小，性能下界越紧。
 
 ### 优缺点
 
@@ -285,16 +285,16 @@ $$J(\pi_\theta) \geq J(\pi_{\theta_\text{old}}) - \frac{4\epsilon\gamma}{(1-\gam
 
 ### 演化位置
 
-TRPO 是策略优化方法的「理论巅峰」。它的 KL 约束思想直接影响了 PPO（简化版 TRPO）和后续的 LLM RL 方法。但工程上的复杂性使得实践中 PPO 更受欢迎。
+[[02-模块/Policy-Based/TRPO|TRPO]] 是策略优化方法的「理论巅峰」。它的 KL 约束思想直接影响了 [[02-模块/Policy-Based/PPO|PPO]]（简化版 [[02-模块/Policy-Based/TRPO|TRPO]]）和后续的 LLM RL 方法。但工程上的复杂性使得实践中 [[02-模块/Policy-Based/PPO|PPO]] 更受欢迎。
 
 ---
 
-## 七、PPO：简单即正义
+## 七、[[02-模块/Policy-Based/PPO|PPO]]：简单即正义
 
 ### 来源与动机
 
 - **论文**：Schulman, J., Wolski, F., Dhariwal, P., Radford, A., Klimov, O. (2017). "Proximal policy optimization algorithms." arXiv: 1707.06347.
-- **解决的问题**：TRPO 效果好但实现太复杂（共轭梯度、线搜索、Fisher 向量积）。能不能用更简单的方法达到类似效果？
+- **解决的问题**：[[02-模块/Policy-Based/TRPO|TRPO]] 效果好但实现太复杂（共轭梯度、线搜索、Fisher 向量积）。能不能用更简单的方法达到类似效果？
 
 ### 核心创新
 
@@ -302,9 +302,9 @@ TRPO 是策略优化方法的「理论巅峰」。它的 KL 约束思想直接�
 
 ### 关键公式
 
-**PPO-Clip 目标函数**：
+**[[02-模块/Policy-Based/PPO|PPO]]-Clip 目标函数**：
 
-$$\mathcal{J}_\text{PPO}(\theta) = \mathbb{E}_t \left[ \min \left( r_t(\theta) \hat{A}_t, \; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) \hat{A}_t \right) \right]$$
+$$\mathcal{J}_\text{[[02-模块/Policy-Based/PPO|PPO]]}(\theta) = \mathbb{E}_t \left[ \min \left( r_t(\theta) \hat{A}_t, \; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) \hat{A}_t \right) \right]$$
 
 其中概率比 $r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_\text{old}}(a_t|s_t)}$。
 
@@ -355,57 +355,57 @@ PPO 是当前「最广泛使用的策略优化方法」。从机器人控制到 
 
 ### 核心创新
 
-> 多个 worker 并行在不同环境实例中收集数据，异步更新共享参数——并行性天然打破数据相关性，无需经验回放。
+> 多个 worker 并行在不同环境实例中收集数据，异步更新共享参数——并行性天然打破数据相关性，无需[[01-原子/经验回放|经验回放]]。
 
 ### 关键公式
 
-**A3C 的 Actor-Critic 更新**（每个 worker $i$）：
+**[[02-模块/Actor-Critic/A3C|A3C]] 的 Actor-Critic 更新**（每个 worker $i$）：
 
 $$d\theta \leftarrow d\theta + \nabla_{\theta'} \log \pi_{\theta'}(a_t|s_t) \cdot (R - V_{\theta'_v}(s_t))$$
 $$d\theta_v \leftarrow d\theta_v + \frac{\partial (R - V_{\theta'_v}(s_t))^2}{\partial \theta'_v}$$
 
-**A2C（同步版本）**：所有 worker 同步收集数据，然后一次性更新。实践中 A2C 与 A3C 效果相当，且实现更简单。
+**[[02-模块/Actor-Critic/A2C|A2C]]（同步版本）**：所有 worker 同步收集数据，然后一次性更新。实践中 [[02-模块/Actor-Critic/A2C|A2C]] 与 [[02-模块/Actor-Critic/A3C|A3C]] 效果相当，且实现更简单。
 
 ### 优缺点
 
 **优点**：
-- 无需经验回放，内存效率高
-- 并行化大幅加速训练（A3C 在 Atari 上用单台多核 CPU 就超过 DQN 用 GPU 的效果）
+- 无需[[01-原子/经验回放|经验回放]]，内存效率高
+- 并行化大幅加速训练（[[02-模块/Actor-Critic/A3C|A3C]] 在 Atari 上用单台多核 CPU 就超过 [[02-模块/Value-Based/DQN|DQN]] 用 GPU 的效果）
 - 支持 on-policy 方法（如 Actor-Critic）
-- A2C 的同步版本特别适合 GPU 并行
+- [[02-模块/Actor-Critic/A2C|A2C]] 的同步版本特别适合 GPU 并行
 
 **缺点**：
-- A3C 的异步更新可能导致参数过时（stale gradients）
+- [[02-模块/Actor-Critic/A3C|A3C]] 的异步更新可能导致参数过时（stale gradients）
 - 多 worker 的负载均衡需要工程优化
-- 在单 GPU 场景下 A2C 通常已经足够
+- 在单 GPU 场景下 [[02-模块/Actor-Critic/A2C|A2C]] 通常已经足够
 
 ### 演化位置
 
-A3C/A2C 证明了 Actor-Critic 可以高效并行化。这个思想直接影响了后续所有大规模 RL 系统——包括 PPO 的分布式实现、DeepSeek-R1 的训练系统、DAPO 的 verl 框架。
+[[02-模块/Actor-Critic/A3C|A3C]]/[[02-模块/Actor-Critic/A2C|A2C]] 证明了 Actor-Critic 可以高效并行化。这个思想直接影响了后续所有大规模 RL 系统——包括 [[02-模块/Policy-Based/PPO|PPO]] 的分布式实现、DeepSeek-R1 的训练系统、[[02-模块/Policy-Based/DAPO|DAPO]] 的 verl 框架。
 
 ---
 
-## 九、DDPG：连续控制的深度确定性策略梯度
+## 九、[[02-模块/Actor-Critic/DDPG|DDPG]]：连续控制的深度确定性[[01-原子/策略梯度|策略梯度]]
 
 ### 来源与动机
 
 - **论文**：Lillicrap, T. P., Hunt, J. J., Pritzel, A., Heess, N., Erez, T., Tassa, Y., Silver, D., Wierstra, D. (2016). "Continuous control with deep reinforcement learning." *ICLR 2016*. arXiv: 1509.02971.
-- **解决的问题**：DQN 只能处理离散动作空间（取 max over actions）。连续控制任务（机器人关节角度、力矩等）的动作空间是连续且高维的，无法枚举。
+- **解决的问题**：[[02-模块/Value-Based/DQN|DQN]] 只能处理离散动作空间（取 max over actions）。连续控制任务（机器人关节角度、力矩等）的动作空间是连续且高维的，无法枚举。
 
 ### 核心创新
 
-> 把 DQN 的 Q-learning 思想和确定性策略梯度结合——Actor 输出确定性动作（不是概率分布），Critic 用 Q 函数评估。
+> 把 [[02-模块/Value-Based/DQN|DQN]] 的 Q-learning 思想和确定性[[01-原子/策略梯度|策略梯度]]结合——Actor 输出确定性动作（不是概率分布），Critic 用 Q 函数评估。
 
 ### 关键公式
 
-**确定性策略梯度**（Silver et al., 2014）：
+**确定性[[01-原子/策略梯度|策略梯度]]**（Silver et al., 2014）：
 
 $$\nabla_\theta J(\theta) = \mathbb{E}_{s \sim \rho^\beta} [\nabla_\theta \mu_\theta(s) \cdot \nabla_a Q(s,a)|_{a=\mu_\theta(s)}]$$
 
-**DDPG 的两个关键技术**：
-1. **Target Networks**：缓慢更新的 Actor/Critic 目标网络，稳定训练
+**[[02-模块/Actor-Critic/DDPG|DDPG]] 的两个关键技术**：
+1. **Target Networks**：缓慢更新的 Actor/Critic [[01-原子/目标网络|目标网络]]，稳定训练
    $$\theta' \leftarrow \tau \theta + (1-\tau) \theta'$$
-2. **经验回放**：存储 $(s, a, r, s')$ 转换，随机采样训练
+2. **[[01-原子/经验回放|经验回放]]**：存储 $(s, a, r, s')$ 转换，随机采样训练
 
 ### 优缺点
 
@@ -422,16 +422,16 @@ $$\nabla_\theta J(\theta) = \mathbb{E}_{s \sim \rho^\beta} [\nabla_\theta \mu_\t
 
 ### 演化位置
 
-DDPG 是连续控制领域的「DQN」。它直接催生了 TD3（修复过估计）和 SAC（最大熵框架）。
+[[02-模块/Actor-Critic/DDPG|DDPG]] 是连续控制领域的「[[02-模块/Value-Based/DQN|DQN]]」。它直接催生了 [[02-模块/Actor-Critic/TD3|TD3]]（修复过估计）和 [[02-模块/Actor-Critic/SAC|SAC]]（[[01-原子/最大熵原理|最大熵]]框架）。
 
 ---
 
-## 十、TD3：修复 DDPG 的三大缺陷
+## 十、[[02-模块/Actor-Critic/TD3|TD3]]：修复 [[02-模块/Actor-Critic/DDPG|DDPG]] 的三大缺陷
 
 ### 来源与动机
 
 - **论文**：Fujimoto, S., van Hoof, H., Meger, D. (2018). "Addressing function approximation error in actor-critic methods." *ICML 2018*. arXiv: 1802.09477.
-- **解决的问题**：DDPG 的 Q 值过估计导致策略学习被误导——Critic 说"这个动作很好"，但实际上没那么好，Actor 就朝着错误方向优化。
+- **解决的问题**：[[02-模块/Actor-Critic/DDPG|DDPG]] 的 Q 值过估计导致策略学习被误导——Critic 说"这个动作很好"，但实际上没那么好，Actor 就朝着错误方向优化。
 
 ### 核心创新
 
@@ -456,8 +456,8 @@ Actor 每 $d$ 步更新一次（通常 $d=2$），让 Critic 先收敛得更准�
 
 **优点**：
 - 显著减少 Q 值过估计
-- 训练比 DDPG 稳定得多
-- 在 MuJoCo 等基准上全面超越 DDPG
+- 训练比 [[02-模块/Actor-Critic/DDPG|DDPG]] 稳定得多
+- 在 MuJoCo 等基准上全面超越 [[02-模块/Actor-Critic/DDPG|DDPG]]
 
 **缺点**：
 - 仍然是 on-policy 变体，样本效率不如 off-policy
@@ -466,17 +466,17 @@ Actor 每 $d$ 步更新一次（通常 $d=2$），让 Critic 先收敛得更准�
 
 ### 演化位置
 
-TD3 是 DDPG 的「bug-fix 版本」。它证明了 Q 值过估计是 actor-critic 的核心问题，并给出了实用解决方案。SAC 在此基础上引入了最大熵框架。
+[[02-模块/Actor-Critic/TD3|TD3]] 是 [[02-模块/Actor-Critic/DDPG|DDPG]] 的「bug-fix 版本」。它证明了 Q 值过估计是 actor-critic 的核心问题，并给出了实用解决方案。[[02-模块/Actor-Critic/SAC|SAC]] 在此基础上引入了[[01-原子/最大熵原理|最大熵]]框架。
 
 ---
 
-## 十一、SAC：最大熵强化学习
+## 十一、[[02-模块/Actor-Critic/SAC|SAC]]：[[01-原子/最大熵原理|最大熵]]强化学习
 
 ### 来源与动机
 
 - **论文（v1）**：Haarnoja, T., Zhou, A., Abbeel, P., Levine, S. (2018). "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor." *ICML 2018*. arXiv: 1801.01290.
 - **论文（v2, 自动调温）**：Haarnoja, T., Zhou, A., Hartikainen, K., Tucker, G., Ha, S., Tan, J., Kumar, V., Zhu, H., Gupta, A., Abbeel, P., Levine, S. (2018). "Soft actor-critic algorithms and applications." arXiv: 1812.05905.
-- **解决的问题**：DDPG/TD3 虽然解决了连续控制问题，但 (1) 样本效率低（on-policy 或 near-on-policy），(2) 对超参数敏感，(3) 探索不足（确定性策略 + 高斯噪声）。
+- **解决的问题**：[[02-模块/Actor-Critic/DDPG|DDPG]]/[[02-模块/Actor-Critic/TD3|TD3]] 虽然解决了连续控制问题，但 (1) 样本效率低（on-policy 或 near-on-policy），(2) 对超参数敏感，(3) 探索不足（确定性策略 + 高斯噪声）。
 
 ### 核心创新
 
@@ -484,12 +484,12 @@ TD3 是 DDPG 的「bug-fix 版本」。它证明了 Q 值过估计是 actor-crit
 
 ### 关键公式
 
-**最大熵目标**：
+**[[01-原子/最大熵原理|最大熵]]目标**：
 $$\pi^* = \arg\max_\pi \mathbb{E}_{\tau \sim \pi} \left[ \sum_{t=0}^{T} r(s_t, a_t) + \alpha \mathcal{H}(\pi(\cdot|s_t)) \right]$$
 
 其中 $\mathcal{H}(\pi(\cdot|s_t)) = -\sum_a \pi(a|s_t) \log \pi(a|s_t)$ 是策略熵，$\alpha$ 是温度参数。
 
-**Soft Q 函数**（Bellman 方程）：
+**Soft Q 函数**（[[01-原子/Bellman方程|Bellman 方程]]）：
 $$Q_\text{soft}(s,a) = r(s,a) + \gamma \mathbb{E}_{s' \sim p} [V_\text{soft}(s')]$$
 $$V_\text{soft}(s) = \alpha \log \sum_a \exp\left(\frac{1}{\alpha} Q_\text{soft}(s,a)\right)$$
 
@@ -498,17 +498,17 @@ $$\min_\alpha \mathbb{E}_{a \sim \pi_\theta} [-\alpha \log \pi_\theta(a|s) - \al
 
 其中 $\bar{\mathcal{H}}$ 是目标熵（通常设为 $-|\mathcal{A}|$）。这自动调节 $\alpha$：策略太确定时 $\alpha$ 增大（鼓励探索），太随机时 $\alpha$ 减小（专注利用）。
 
-### 为什么最大熵 + 自动调温重要？
+### 为什么[[01-原子/最大熵原理|最大熵]] + 自动调温重要？
 
 1. **探索-利用自动平衡**：$\alpha$ 大 → 策略接近均匀分布 → 广泛探索；$\alpha$ 小 → 策略集中 → 精确利用
-2. **多模态学习**：最大熵框架自然支持多模态策略（多个同样好的动作都可以有高概率）
+2. **多模态学习**：[[01-原子/最大熵原理|最大熵]]框架自然支持多模态策略（多个同样好的动作都可以有高概率）
 3. **鲁棒性**：高熵策略对扰动更鲁棒（不依赖某个精确动作）
 4. **无需手工调 $\alpha$**：自动调温消除了最关键的超参数
 
 ### 优缺点
 
 **优点**：
-- 样本效率高（off-policy，使用经验回放）
+- 样本效率高（off-policy，使用[[01-原子/经验回放|经验回放]]）
 - 训练极其稳定（不同种子结果一致）
 - 自动温度调节消除了关键超参数
 - 在连续控制基准上全面领先（2018 年 SOTA）
@@ -516,21 +516,21 @@ $$\min_\alpha \mathbb{E}_{a \sim \pi_\theta} [-\alpha \log \pi_\theta(a|s) - \al
 
 **缺点**：
 - 只适用于连续动作空间（离散版本需要额外修改）
-- 最大熵目标可能不适合所有任务（某些任务需要确定性策略）
-- 计算量比 PPO 大（需要 Twin Critics + Actor + 温度参数）
+- [[01-原子/最大熵原理|最大熵]]目标可能不适合所有任务（某些任务需要确定性策略）
+- 计算量比 [[02-模块/Policy-Based/PPO|PPO]] 大（需要 Twin Critics + Actor + 温度参数）
 
 ### 演化位置
 
-SAC 是连续控制领域的「终极形态」。它融合了 DDPG 的 actor-critic 结构、TD3 的双 Critic 技术、以及最大熵框架的理论优雅。在机器人控制领域，SAC 至今仍是首选方法。
+[[02-模块/Actor-Critic/SAC|SAC]] 是连续控制领域的「终极形态」。它融合了 [[02-模块/Actor-Critic/DDPG|DDPG]] 的 actor-critic 结构、[[02-模块/Actor-Critic/TD3|TD3]] 的双 Critic 技术、以及[[01-原子/最大熵原理|最大熵]]框架的理论优雅。在机器人控制领域，[[02-模块/Actor-Critic/SAC|SAC]] 至今仍是首选方法。
 
 ---
 
-## 十二、DPO：跳过奖励模型的直接偏好优化
+## 十二、[[02-模块/Reward-Model/DPO|DPO]]：跳过奖励模型的直接偏好优化
 
 ### 来源与动机
 
 - **论文**：Rafailov, R., Sharma, A., Mitchell, E., Ermon, S., Manning, C. D., Finn, C. (2023). "Direct preference optimization: Your language model is secretly a reward model." *NeurIPS 2023*. arXiv: 2305.18290.
-- **解决的问题**：RLHF（Reinforcement Learning from Human Feedback）流程复杂且不稳定——先训练奖励模型，再用 PPO 优化。两步都有各自的困难：奖励模型可能不准确，PPO 可能不稳定。
+- **解决的问题**：RLHF（Reinforcement Learning from Human Feedback）流程复杂且不稳定——先训练奖励模型，再用 [[02-模块/Policy-Based/PPO|PPO]] 优化。两步都有各自的困难：奖励模型可能不准确，[[02-模块/Policy-Based/PPO|PPO]] 可能不稳定。
 
 ### 核心创新
 
@@ -541,7 +541,7 @@ SAC 是连续控制领域的「终极形态」。它融合了 DDPG 的 actor-cri
 **RLHF 的标准目标**：
 $$\max_\pi \mathbb{E}_{x \sim \mathcal{D}, y \sim \pi(\cdot|x)} [r(x,y)] - \beta D_\text{KL}(\pi(\cdot|x) \| \pi_\text{ref}(\cdot|x))$$
 
-**DPO 的闭式解（关键推导）**：
+**[[02-模块/Reward-Model/DPO|DPO]] 的闭式解（关键推导）**：
 
 最优策略可以用参考策略和奖励函数表达：
 $$\pi^*(y|x) = \frac{1}{Z(x)} \pi_\text{ref}(y|x) \exp\left(\frac{1}{\beta} r(x,y)\right)$$
@@ -549,9 +549,9 @@ $$\pi^*(y|x) = \frac{1}{Z(x)} \pi_\text{ref}(y|x) \exp\left(\frac{1}{\beta} r(x,
 反过来，奖励函数可以用策略表达：
 $$r(x,y) = \beta \log \frac{\pi_\theta(y|x)}{\pi_\text{ref}(y|x)} + \beta \log Z(x)$$
 
-**DPO 损失函数**（代入 Bradley-Terry 偏好模型，$Z(x)$ 项消去）：
+**[[02-模块/Reward-Model/DPO|DPO]] 损失函数**（代入 [[01-原子/Bradley-Terry模型|Bradley-Terry]] 偏好模型，$Z(x)$ 项消去）：
 
-$$\mathcal{L}_\text{DPO}(\theta) = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma \left( \beta \log \frac{\pi_\theta(y_w|x)}{\pi_\text{ref}(y_w|x)} - \beta \log \frac{\pi_\theta(y_l|x)}{\pi_\text{ref}(y_l|x)} \right) \right]$$
+$$\mathcal{L}_\text{[[02-模块/Reward-Model/DPO|DPO]]}(\theta) = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma \left( \beta \log \frac{\pi_\theta(y_w|x)}{\pi_\text{ref}(y_w|x)} - \beta \log \frac{\pi_\theta(y_l|x)}{\pi_\text{ref}(y_l|x)} \right) \right]$$
 
 其中 $y_w$ 是人类偏好的回复（winner），$y_l$ 是非偏好的回复（loser）。
 
@@ -559,29 +559,29 @@ $$\mathcal{L}_\text{DPO}(\theta) = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigm
 
 **优点**：
 - **极简**：只需要一个分类损失，不需要奖励模型、不需要 RL 训练
-- **稳定**：没有 PPO 的不稳定性，训练像监督学习一样
-- **高效**：计算量只有 PPO-RLHF 的几分之一
-- **效果好**：在情感控制、摘要、对话等任务上匹配或超越 PPO-RLHF
+- **稳定**：没有 [[02-模块/Policy-Based/PPO|PPO]] 的不稳定性，训练像监督学习一样
+- **高效**：计算量只有 [[02-模块/Policy-Based/PPO|PPO]]-RLHF 的几分之一
+- **效果好**：在情感控制、摘要、对话等任务上匹配或超越 [[02-模块/Policy-Based/PPO|PPO]]-RLHF
 
 **缺点**：
 - 是 off-line 方法——只能从静态偏好数据学习，不能在线探索
 - 对数据质量敏感——偏好标注错误会直接影响模型
-- 无法利用在线反馈（后续工作如 online DPO 试图解决）
-- 在某些场景下（如需要复杂推理的任务）不如 GRPO/PPO
+- 无法利用在线反馈（后续工作如 online [[02-模块/Reward-Model/DPO|DPO]] 试图解决）
+- 在某些场景下（如需要复杂推理的任务）不如 [[02-模块/Policy-Based/GRPO|GRPO]]/[[02-模块/Policy-Based/PPO|PPO]]
 
 ### 演化位置
 
-DPO 是 LLM 对齐领域的「范式转移」。它证明了不需要 RL 也可以做偏好对齐。DPO 催生了大量变体（IPO、KTO、SimPO、ORPO 等），成为与 PPO-RLHF 并列的两大对齐范式之一。
+[[02-模块/Reward-Model/DPO|DPO]] 是 LLM 对齐领域的「范式转移」。它证明了不需要 RL 也可以做偏好对齐。[[02-模块/Reward-Model/DPO|DPO]] 催生了大量变体（IPO、KTO、SimPO、ORPO 等），成为与 [[02-模块/Policy-Based/PPO|PPO]]-RLHF 并列的两大对齐范式之一。
 
 ---
 
-## 十三、GRPO：不需要 Critic 的组相对策略优化
+## 十三、[[02-模块/Policy-Based/GRPO|GRPO]]：不需要 Critic 的组相对策略优化
 
 ### 来源与动机
 
 - **论文**：Shao, Z., Wang, P., Zhu, Q., Xu, R., Song, J., Bi, X., Zhang, H., Zhang, M., Li, Y. K., Wu, Y., Guo, D. (2024). "DeepSeekMath: Pushing the limits of mathematical reasoning in open language models." arXiv: 2402.03300.
 - **机构**：DeepSeek（深度求索）
-- **解决的问题**：PPO 需要一个 Critic（值函数）网络来估计 Advantage。对于 LLM 来说，Critic 网络和 Actor 网络一样大（都是 LLM），内存和计算开销翻倍。而且 GAE 需要 Critic 准确估计 $V(s)$，这在 LLM 场景极难。
+- **解决的问题**：[[02-模块/Policy-Based/PPO|PPO]] 需要一个 Critic（值函数）网络来估计 Advantage。对于 LLM 来说，Critic 网络和 Actor 网络一样大（都是 LLM），内存和计算开销翻倍。而且 [[01-原子/GAE|GAE]] 需要 Critic 准确估计 $V(s)$，这在 LLM 场景极难。
 
 ### 核心创新
 
@@ -589,15 +589,15 @@ DPO 是 LLM 对齐领域的「范式转移」。它证明了不需要 RL 也可�
 
 ### 关键公式
 
-**GRPO Advantage 估计**：
+**[[02-模块/Policy-Based/GRPO|GRPO]] Advantage 估计**：
 
 对问题 $q$，行为策略 $\pi_{\theta_\text{old}}$ 生成 $G$ 个回复 $\{o_i\}_{i=1}^G$，第 $i$ 个回复的 Advantage：
 
 $$\hat{A}_{i,t} = \frac{R_i - \text{mean}(\{R_i\}_{i=1}^G)}{\text{std}(\{R_i\}_{i=1}^G)}$$
 
-**GRPO 目标函数**：
+**[[02-模块/Policy-Based/GRPO|GRPO]] 目标函数**：
 
-$$\mathcal{J}_\text{GRPO}(\theta) = \mathbb{E} \left[ \frac{1}{G} \sum_{i=1}^G \frac{1}{|o_i|} \sum_{t=1}^{|o_i|} \left( \min\left(r_{i,t}(\theta) \hat{A}_{i,t}, \text{clip}(r_{i,t}(\theta), 1-\epsilon, 1+\epsilon) \hat{A}_{i,t}\right) - \beta D_\text{KL}(\pi_\theta \| \pi_\text{ref}) \right) \right]$$
+$$\mathcal{J}_\text{[[02-模块/Policy-Based/GRPO|GRPO]]}(\theta) = \mathbb{E} \left[ \frac{1}{G} \sum_{i=1}^G \frac{1}{|o_i|} \sum_{t=1}^{|o_i|} \left( \min\left(r_{i,t}(\theta) \hat{A}_{i,t}, \text{clip}(r_{i,t}(\theta), 1-\epsilon, 1+\epsilon) \hat{A}_{i,t}\right) - \beta D_\text{KL}(\pi_\theta \| \pi_\text{ref}) \right) \right]$$
 
 其中 $r_{i,t}(\theta) = \frac{\pi_\theta(o_{i,t}|q, o_{i,<t})}{\pi_{\theta_\text{old}}(o_{i,t}|q, o_{i,<t})}$。
 
@@ -609,44 +609,44 @@ $$\mathcal{J}_\text{GRPO}(\theta) = \mathbb{E} \left[ \frac{1}{G} \sum_{i=1}^G \
 
 **直觉**：当奖励是二值的（对/错，+1/-1），组均值 $\bar{R}$ 就是"这个 prompt 的通过率"，它自然起到了 baseline 的作用。$\hat{A}_i > 0$ 意味着"这个回复比组内平均好"。
 
-**KL 惩罚的作用**：GRPO 保留了 $-\beta D_\text{KL}(\pi_\theta \| \pi_\text{ref})$ 项，防止策略偏离参考模型太远。这在 RLHF 场景很重要，但在纯数学推理 RL 中（如 DAPO），可以移除。
+**KL 惩罚的作用**：[[02-模块/Policy-Based/GRPO|GRPO]] 保留了 $-\beta D_\text{KL}(\pi_\theta \| \pi_\text{ref})$ 项，防止策略偏离参考模型太远。这在 RLHF 场景很重要，但在纯数学推理 RL 中（如 [[02-模块/Policy-Based/DAPO|DAPO]]），可以移除。
 
 ### 优缺点
 
 **优点**：
 - **不需要 Critic 网络**：内存和计算节省约 50%（省掉一个 LLM 大小的值函数网络）
-- 实现比 PPO 简单得多
+- 实现比 [[02-模块/Policy-Based/PPO|PPO]] 简单得多
 - 在数学推理任务上表现优异（DeepSeekMath 7B 在 MATH 上达到 51.7%）
 - 被 DeepSeek-R1 采用，验证了大规模 RL 的有效性
 
 **缺点**：
 - 需要为每个 prompt 生成多个回复（$G$ 通常 8-64），推理成本高
 - 当组内所有回复奖励相同时（全对或全错），Advantage 为零 → 梯度为零 → 浪费样本
-- 组归一化的 Advantage 估计比 GAE 方差更大
-- 存在熵崩溃问题（DAPO 论文指出并解决）
+- 组归一化的 Advantage 估计比 [[01-原子/GAE|GAE]] 方差更大
+- 存在熵崩溃问题（[[02-模块/Policy-Based/DAPO|DAPO]] 论文指出并解决）
 
 ### 演化位置
 
-GRPO 是 PPO 在 LLM RL 场景的「极简变体」。它去掉了最昂贵的 Critic 组件，用组内统计替代值函数估计。GRPO 成为 DeepSeek-R1 的核心算法，也是 DAPO 的直接前身。
+[[02-模块/Policy-Based/GRPO|GRPO]] 是 [[02-模块/Policy-Based/PPO|PPO]] 在 LLM RL 场景的「极简变体」。它去掉了最昂贵的 Critic 组件，用组内统计替代值函数估计。[[02-模块/Policy-Based/GRPO|GRPO]] 成为 DeepSeek-R1 的核心算法，也是 [[02-模块/Policy-Based/DAPO|DAPO]] 的直接前身。
 
 ---
 
-## 十四、DAPO：大规模 LLM RL 的开源系统
+## 十四、[[02-模块/Policy-Based/DAPO|DAPO]]：大规模 LLM RL 的开源系统
 
 ### 来源与动机
 
-- **论文**：Yu, Q., Zhang, Z., Zhu, R., Yuan, Y., et al. (2025). "DAPO: An open-source LLM reinforcement learning system at scale." arXiv: 2503.14476. ByteDance Seed & Tsinghua AIR.
-- **解决的问题**：用 GRPO 复现 DeepSeek-R1 的效果时，初始 GRPO 实验只得到 AIME 2024 上 30 分（DeepSeek-R1-Zero-Qwen-32B 为 47 分）。深入分析发现 GRPO 存在四个关键问题：熵崩溃、奖励噪声、训练不稳定、样本利用率低。
+- **论文**：Yu, Q., Zhang, Z., Zhu, R., Yuan, Y., et al. (2025). "[[02-模块/Policy-Based/DAPO|DAPO]]: An open-source LLM reinforcement learning system at scale." arXiv: 2503.14476. ByteDance Seed & Tsinghua AIR.
+- **解决的问题**：用 [[02-模块/Policy-Based/GRPO|GRPO]] 复现 DeepSeek-R1 的效果时，初始 [[02-模块/Policy-Based/GRPO|GRPO]] 实验只得到 AIME 2024 上 30 分（DeepSeek-R1-Zero-Qwen-32B 为 47 分）。深入分析发现 [[02-模块/Policy-Based/GRPO|GRPO]] 存在四个关键问题：熵崩溃、奖励噪声、训练不稳定、样本利用率低。
 
 ### 核心创新
 
-> 四个关键技术修复 GRPO 在大规模 LLM RL 中的缺陷：(1) Clip-Higher 解耦裁剪上下界 (2) 动态采样过滤零梯度样本 (3) Token 级别损失计算 (4) 超长奖励塑形。
+> 四个关键技术修复 [[02-模块/Policy-Based/GRPO|GRPO]] 在大规模 LLM RL 中的缺陷：(1) Clip-Higher 解耦裁剪上下界 (2) 动态采样过滤零梯度样本 (3) Token 级别损失计算 (4) 超长奖励塑形。
 
 ### 关键公式与技术
 
 #### 技术 1：Clip-Higher（解耦裁剪）
 
-GRPO/PPO 的 clip 范围是对称的：$[1-\epsilon, 1+\epsilon]$。DAPO 发现上界 clip 过紧会限制探索：
+[[02-模块/Policy-Based/GRPO|GRPO]]/[[02-模块/Policy-Based/PPO|PPO]] 的 clip 范围是对称的：$[1-\epsilon, 1+\epsilon]$。[[02-模块/Policy-Based/DAPO|DAPO]] 发现上界 clip 过紧会限制探索：
 
 **问题**：当 $\epsilon=0.2$，一个低概率 token（$\pi=0.01$）的概率上限只能增加到 $0.012$，而高概率 token（$\pi=0.9$）可以增到 $1.08$（实际无限制）。低概率的"探索性"token 被锁死了。
 
@@ -787,14 +787,14 @@ DAPO 是 GRPO 的「工程化升级版」，是当前（2025 年）LLM RL 的开
 
 ### Q3: GRPO 的组归一化如何替代 Critic？
 
-**答**：PPO 用 Critic 估计 $V(s_t)$，Advantage = $R_t - V(s_t)$。GRPO 不用 Critic，而是对同一 prompt 生成 $G$ 个回复，Advantage = $(R_i - \bar{R}) / \sigma_R$。这里的 $\bar{R}$ 扮演了 baseline 的角色——它代表了"这个 prompt 的平均难度"。直觉上：如果 64 个回复中 40 个对了，$\bar{R} \approx 0.625$，一个正确的回复 Advantage = $(1 - 0.625) / \sigma > 0$。这不需要额外的值函数网络，节省了约 50% 的模型参数和计算。但代价是需要生成多个回复（推理成本高），且 Advantage 估计的方差比 GAE 大。
+**答**：PPO 用 Critic 估计 $V(s_t)$，Advantage = $R_t - V(s_t)$。GRPO 不用 Critic，而是对同一 prompt 生成 $G$ 个回复，Advantage = $(R_i - \bar{R}) / \sigma_R$。这里的 $\bar{R}$ 扮演了 baseline 的角色——它代表了"这个 prompt 的平均难度"。直觉上：如果 64 个回复中 40 个对了，$\bar{R} \approx 0.625$，一个正确的回复 Advantage = $(1 - 0.625) / \sigma > 0$。这不需要额外的值函数网络，节省了约 50% 的模型参数和计算。但代价是需要生成多个回复（推理成本高），且 Advantage 估计的方差比 [[01-原子/GAE|GAE]] 大。
 
-### Q4: DPO 和 GRPO/DAPO 的本质区别？
+### Q4: [[02-模块/Reward-Model/DPO|DPO]] 和 [[02-模块/Policy-Based/GRPO|GRPO]]/[[02-模块/Policy-Based/DAPO|DAPO]] 的本质区别？
 
 **答**：
-- **DPO**：离线（offline），从静态偏好数据学习，不需要模型在线生成回复。把 RL 问题转化为分类问题。
-- **GRPO/DAPO**：在线（online），需要模型实时生成回复并用可验证奖励评分。保留了 RL 的探索能力。
-- **选择**：如果目标是"行为对齐"（让模型说人话、不有害），DPO 足够。如果目标是"能力强化"（提升推理、解题），需要在线 RL（GRPO/DAPO）。
+- **[[02-模块/Reward-Model/DPO|DPO]]**：离线（offline），从静态偏好数据学习，不需要模型在线生成回复。把 RL 问题转化为分类问题。
+- **[[02-模块/Policy-Based/GRPO|GRPO]]/[[02-模块/Policy-Based/DAPO|DAPO]]**：在线（online），需要模型实时生成回复并用可验证奖励评分。保留了 RL 的探索能力。
+- **选择**：如果目标是"行为对齐"（让模型说人话、不有害），[[02-模块/Reward-Model/DPO|DPO]] 足够。如果目标是"能力强化"（提升推理、解题），需要在线 RL（[[02-模块/Policy-Based/GRPO|GRPO]]/[[02-模块/Policy-Based/DAPO|DAPO]]）。
 
 ---
 
@@ -814,8 +814,8 @@ DAPO 是 GRPO 的「工程化升级版」，是当前（2025 年）LLM RL 的开
 12. Haarnoja, T. et al. (2018). "Soft actor-critic algorithms and applications." arXiv: 1812.05905.
 13. Rafailov, R. et al. (2023). "Direct preference optimization: Your language model is secretly a reward model." *NeurIPS*. arXiv: 2305.18290.
 14. Shao, Z. et al. (2024). "DeepSeekMath: Pushing the limits of mathematical reasoning." arXiv: 2402.03300.
-15. Yu, Q. et al. (2025). "DAPO: An open-source LLM reinforcement learning system at scale." arXiv: 2503.14476.
+15. Yu, Q. et al. (2025). "[[02-模块/Policy-Based/DAPO|DAPO]]: An open-source LLM reinforcement learning system at scale." arXiv: 2503.14476.
 16. Yang, S. et al. (2025). "DCPO: Dynamic clipping policy optimization." arXiv: 2509.02333.
-17. Zhang, X. et al. (2025). "Scaf-GRPO: Scaffolded group relative policy optimization." arXiv: 2510.19807. *ICLR 2026*.
-18. Zhu, X. et al. (2026). "N-GRPO: Embedding-level neighbor mixing for enhanced policy optimization." arXiv: 2606.10768. *ACL 2026 Findings*.
-19. Rahman, B. (2025). "PPO-BR: Dual-signal entropy-reward adaptation for trust region policy optimization." arXiv: 2505.17714.
+17. Zhang, X. et al. (2025). "Scaf-[[02-模块/Policy-Based/GRPO|GRPO]]: Scaffolded group relative policy optimization." arXiv: 2510.19807. *ICLR 2026*.
+18. Zhu, X. et al. (2026). "N-[[02-模块/Policy-Based/GRPO|GRPO]]: Embedding-level neighbor mixing for enhanced policy optimization." arXiv: 2606.10768. *ACL 2026 Findings*.
+19. Rahman, B. (2025). "[[02-模块/Policy-Based/PPO|PPO]]-BR: Dual-signal entropy-reward adaptation for trust region policy optimization." arXiv: 2505.17714.

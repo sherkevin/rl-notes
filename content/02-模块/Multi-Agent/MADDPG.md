@@ -7,11 +7,11 @@ tags:
 
 # MADDPG
 
-> Multi-Agent DDPG (Lowe 2017). CTDE 范式：集中训练分散执行，每个 agent 有独立 critic。
+> Multi-Agent [[02-模块/Actor-Critic/DDPG|DDPG]] (Lowe 2017). CTDE 范式：集中训练分散执行，每个 agent 有独立 critic。
 
 ## 来源与动机
 
-单智能体 DDPG 无法直接用于多智能体环境，因为**非平稳性**问题：每个智能体面对的环境包含其他正在学习的智能体，状态转移分布持续变化，经验回放失效。MADDPG 将 DDPG 扩展到多智能体，通过 CTDE（集中训练 + 分散执行）解决非平稳性。
+单智能体 [[02-模块/Actor-Critic/DDPG|DDPG]] 无法直接用于多智能体环境，因为**非平稳性**问题：每个智能体面对的环境包含其他正在学习的智能体，状态转移分布持续变化，[[01-原子/经验回放|经验回放]]失效。MADDPG 将 [[02-模块/Actor-Critic/DDPG|DDPG]] 扩展到多智能体，通过 CTDE（集中训练 + 分散执行）解决非平稳性。
 
 **论文**: Lowe et al., "Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environments", NeurIPS 2017, OpenAI + DeepMind
 
@@ -35,18 +35,18 @@ $$\nabla_{\theta_i} J = -\nabla_{\theta_i} Q_i(s, a_1, \ldots, \pi_i(o_i), \ldot
 - ✅ CTDE 的经典实现，在 MPE（Particle World）环境中表现优异
 - ✅ 可以处理竞争和合作设定
 - ✅ 中心化 critic 缓解非平稳性问题
-- ❌ 基于 DDPG，继承其对超参数敏感、训练不稳定的缺点
+- ❌ 基于 [[02-模块/Actor-Critic/DDPG|DDPG]]，继承其对超参数敏感、训练不稳定的缺点
 - ❌ critic 的输入维度随智能体数量线性增长，扩展性差
 
 ## 演化位置
 
-COMA (2018) ← **MADDPG** → MAPPO (2022)
-MADDPG 是 CTDE + 策略梯度的标志性工作。MAPPO 本质上是用 PPO 替换了 MADDPG 的 DDPG 框架，成为后续 MARL 研究的标准基线。
+COMA (2018) ← **MADDPG** → [[02-模块/Multi-Agent/MAPPO|MAPPO]] (2022)
+MADDPG 是 CTDE + [[01-原子/策略梯度|策略梯度]]的标志性工作。[[02-模块/Multi-Agent/MAPPO|MAPPO]] 本质上是用 [[02-模块/Policy-Based/PPO|PPO]] 替换了 MADDPG 的 [[02-模块/Actor-Critic/DDPG|DDPG]] 框架，成为后续 MARL 研究的标准基线。
 
 ## 相关算法
 
 - [[DDPG]] — 单智能体基础
-- [[MAPPO]] — 用 PPO 替换 DDPG 框架
-- [[03-流程/MARL全景综述|COMA]] — 反事实基线的策略梯度 MARL
+- [[MAPPO]] — 用 [[02-模块/Policy-Based/PPO|PPO]] 替换 [[02-模块/Actor-Critic/DDPG|DDPG]] 框架
+- [[03-流程/MARL全景综述|COMA]] — 反事实基线的[[01-原子/策略梯度|策略梯度]] MARL
 - [[QMIX]] — 值分解路线的 CTDE 方法
 - 完整演化: 见 [MARL全景综述](../../03-流程/MARL全景综述.md#c2-maddpg-multi-agent-deep-deterministic-policy-gradient)

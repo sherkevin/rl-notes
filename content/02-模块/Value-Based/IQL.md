@@ -7,13 +7,13 @@ tags:
 
 # IQL
 
-> Implicit Q-Learning (Kostrikov 2022). 通过 expectile 回归避免查询 OOD 动作的 Q 值，离线 RL SOTA 之一。
+> Implicit [[02-模块/Value-Based/Q-Learning|Q-Learning]] (Kostrikov 2022). 通过 expectile 回归避免查询 OOD 动作的 Q 值，离线 RL SOTA 之一。
 
 ## 来源与动机
 
-CQL 和 TD3+BC 仍然需要在策略优化时查询 $Q(s, \pi(s))$，当 $\pi(s)$ 偏离数据分布时，Q 值不可靠。CQL 在训练过程中仍需查询 OOD 动作的 Q 值（通过 $\log \sum_a \exp Q$ 项），计算成本高且可能引入估计误差。核心问题：**能否完全不查询 OOD 动作的 Q 值，但仍然实现策略改进？**
+[[02-模块/Value-Based/CQL|CQL]] 和 [[02-模块/Actor-Critic/TD3|TD3]]+BC 仍然需要在策略优化时查询 $Q(s, \pi(s))$，当 $\pi(s)$ 偏离数据分布时，Q 值不可靠。[[02-模块/Value-Based/CQL|CQL]] 在训练过程中仍需查询 OOD 动作的 Q 值（通过 $\log \sum_a \exp Q$ 项），计算成本高且可能引入估计误差。核心问题：**能否完全不查询 OOD 动作的 Q 值，但仍然实现策略改进？**
 
-**论文**: Kostrikov, Nair, Levine, "Offline Reinforcement Learning with Implicit Q-Learning", ICLR 2022 (arXiv:2110.06169)
+**论文**: Kostrikov, Nair, Levine, "Offline Reinforcement Learning with Implicit [[02-模块/Value-Based/Q-Learning|Q-Learning]]", ICLR 2022 (arXiv:2110.06169)
 
 ## 核心创新
 
@@ -38,18 +38,18 @@ $$\mathcal{L}_\pi = -\mathbb{E}_{(s,a) \sim \mathcal{D}} \left[ \exp(\beta (Q(s,
 - ✅ D4RL 上达到 SOTA，尤其在 AntMaze 等困难任务上
 - ✅ 支持 offline-to-online 微调
 - ❌ expectile 超参数 $\tau$ 需要调优
-- ❌ 策略提取用 Gaussian AWAC 可能不够表达多模态分布
+- ❌ 策略提取用 Gaussian [[02-模块/Actor-Critic/AWAC|AWAC]] 可能不够表达多模态分布
 - ❌ 对数据集质量仍敏感
 
 ## 演化位置
 
-BCQ → CQL → TD3+BC → **IQL** → Decision Transformer / Diffusion-RL
+[[02-模块/Value-Based/BCQ|BCQ]] → [[02-模块/Value-Based/CQL|CQL]] → [[02-模块/Actor-Critic/TD3|TD3]]+BC → **IQL** → Decision Transformer / Diffusion-RL
 IQL 是离线 RL "不查询 OOD 动作" 思路的终极实现，代表了 value-based offline RL 的成熟形态。
 
 ## 相关算法
 
 - [[BCQ]] — 开创离线 RL 的 VAE 约束方法
 - [[CQL]] — 保守 Q 值正则化
-- [[TD3+BC]] — 极简 BC 正则化方法
+- [[02-模块/Actor-Critic/TD3|TD3+BC]] — 极简 BC 正则化方法
 - [[AWAC]] — IQL 策略提取步骤的直接前身
 - 完整演化: 见 [Offline-RL与RLHF演化史](../../03-流程/Offline-RL与RLHF演化史.md#a6-iql-implicit-q-learning-2022)

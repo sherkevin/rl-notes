@@ -7,7 +7,7 @@ tags:
 created: 2026-06-22
 ---
 
-# Pairwise Reward Model
+# Pairwise [[01-原子/Reward-Model训练方法|Reward Model]]
 
 > 通过成对比较训练 reward model。InstructGPT (2022) 的做法，目前最主流的方式。
 
@@ -58,20 +58,20 @@ $$L(\phi) = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma(r_\phi(x, y_w) - r_\p
 ### 模型训练
 
 1. 初始化 reward model（通常从 SFT 模型开始）
-2. 用 Bradley-Terry loss 训练
+2. 用 [[01-原子/Bradley-Terry模型|Bradley-Terry]] loss 训练
 3. 验证：检查 reward model 在 held-out 偏好对上的准确率
 
 ### 应用到 RL
 
-1. 用训练好的 reward model 给 PPO 提供奖励信号
-2. PPO 优化策略，最大化 reward model 的打分
+1. 用训练好的 reward model 给 [[02-模块/Policy-Based/PPO|PPO]] 提供奖励信号
+2. [[02-模块/Policy-Based/PPO|PPO]] 优化策略，最大化 reward model 的打分
 
 ---
 
 ## 优缺点
 
 - ✅ 人类标注简单直观（二选一比打分容易）
-- ✅ Bradley-Terry 模型理论成熟
+- ✅ [[01-原子/Bradley-Terry模型|Bradley-Terry]] 模型理论成熟
 - ✅ 能捕捉相对偏好（"A 比 B 好"比"给 A 打 7 分"更容易判断）
 - ❌ 只学到**序（ranking），没学到绝对值**——两个 response 差 0.1 分和差 10 分，模型不知道
 - ❌ 标注成本高，每个偏好对都需要人工比较
@@ -88,7 +88,7 @@ $$L(\phi) = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma(r_\phi(x, y_w) - r_\p
 
 ## 演化位置
 
-**在 Reward Model 演化链中的位置**：
+**在 [[01-原子/Reward-Model训练方法|Reward Model]] 演化链中的位置**：
 
 ```
 人工设计 Reward

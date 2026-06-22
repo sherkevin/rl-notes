@@ -19,8 +19,8 @@ tags:
 - [[PPO]]
 
 ### 分类维度
-- [[02-模块/Actor-Critic/]]
-- [[Off-Policy]]
+- [[02-模块/Actor-Critic/SAC|Actor-Critic算法]]
+- [[00-索引/按策略类型|Off-Policy]]
 - 
 
 ## 1. 核心概述 (Executive Summary)
@@ -29,13 +29,13 @@ tags:
 
 - **类型：** Off-policy (离线策略)
 - **架构：** Actor-Critic (演员-评论家)
-- **核心理论：** Maximum Entropy Reinforcement Learning (最大熵强化学习)
+- **核心理论：** Maximum Entropy Reinforcement Learning ([[01-原子/最大熵原理|最大熵]]强化学习)
 - **地位：** 目前是 Model-free RL（无模型强化学习）中的 SOTA（State-of-the-art）基准算法之一，以**高样本效率**和**对超参数由于稳健**著称。
     
 
 ---
 
-## 2. 核心理论：最大熵强化学习 (The Essence)
+## 2. 核心理论：[[01-原子/最大熵原理|最大熵]]强化学习 (The Essence)
 
 SAC 与传统 RL（如 [[DDPG]], [[PPO]]）最大的区别在于它的**目标函数**。
 
@@ -45,11 +45,11 @@ SAC 与传统 RL（如 [[DDPG]], [[PPO]]）最大的区别在于它的**目标�
     
     缺点： 容易陷入局部最优，探索性（Exploration）不足，往往只收敛到一个确定性的动作。
     
-- SAC (最大熵 RL) 目标： 最大化累积奖励，同时最大化策略的熵（Entropy）。
+- SAC ([[01-原子/最大熵原理|最大熵]] RL) 目标： 最大化累积奖励，同时最大化策略的熵（Entropy）。
     
     $$J(\pi) = \sum_{t=0}^{T} \mathbb{E}[r(s_t, a_t) + \alpha H(\pi(\cdot|s_t))]$$
     
-    - $H(\pi(\cdot|s_t))$ [[基本缩写含义#H pi cdot s_t 具体指的是什么？]]是熵，衡量策略的随机性。
+    - $H(\pi(\cdot|s_t))$ [[01-原子/最大熵原理|熵的定义]]是熵，衡量策略的随机性。
     - $\alpha$ 是温度系数（Temperature），控制奖励和熵之间的权衡。
 
 **为什么这么做？**
@@ -63,29 +63,29 @@ SAC 与传统 RL（如 [[DDPG]], [[PPO]]）最大的区别在于它的**目标�
 ### A. Actor Network (策略网络, $\pi_\phi$)
 - **输入：** 状态 $s$。
 - **输出：** 高斯分布的参数——均值 $\mu$ 和 标准差 $\log \sigma$。
-- **动作生成：** 通过重参数化技巧（Reparameterization Trick）从分布中采样动作，并经过 $\tanh$ 激活函数将动作限制在 $[-1, 1]$ 之间。
+- **动作生成：** 通过[[01-原子/重参数化技巧|重参数化技巧]]（Reparameterization Trick）从分布中采样动作，并经过 $\tanh$ 激活函数将动作限制在 $[-1, 1]$ 之间。
 
 ### B. Critic Network (价值网络, $Q_\theta$)
 - **输入：** 状态 $s$ 和 动作 $a$。
 - **输出：** Q值（标量）。
-- **Clipt Double Q-Learning：** 为了解决 Q 值高估问题，SAC 使用**两个**独立的 Critic 网络 ($Q_{\theta_1}, Q_{\theta_2}$)，计算目标时取两者中的**最小值**。
+- **Clipt Double [[02-模块/Value-Based/Q-Learning|Q-Learning]]：** 为了解决 Q 值高估问题，SAC 使用**两个**独立的 Critic 网络 ($Q_{\theta_1}, Q_{\theta_2}$)，计算目标时取两者中的**最小值**。
 
 ### C. Target Critic Networks ($Q_{\theta_{target}}$)
-- 为了训练稳定性，维护两个目标网络，其参数是主 Critic 网络的指数移动平均（EMA/Soft Update）。
+- 为了训练稳定性，维护两个[[01-原子/目标网络|目标网络]]，其参数是主 Critic 网络的指数移动平均（EMA/Soft Update）。
 
  **A. “主 Critic” 指的是谁？**
 SAC 有**两个**正在被梯度下降训练的 Critic 网络，通常叫 $Q_{\theta_1}$ 和 $Q_{\theta_2}$。
 - **“主 Critic”** 指的就是这**两个**正在实时学习、参数不断更新的网络。
 - 它们是干活的主力，每次迭代参数都会变。
 
-**B. 什么是 Target Critic (目标网络)？**
+**B. 什么是 Target Critic ([[01-原子/目标网络|目标网络]])？**
 为了训练稳定，每个主 Critic 都有一个对应的**影子分身**，叫 Target Critic ($Q_{\theta_{target1}}, Q_{\theta_{target2}}$)。
 - **计算 Target Q 值时（也就是计算 $y = r + \dots$ 这一步），我们不用主网络，而是用这些影子分身来算。**
 - 为什么？因为如果 $y$ 里的参数也在变，那这就变成了“左脚踩右脚上天”，训练会震荡不收敛。我们需要目标 $y$ 暂时是固定的（或者变化很慢的）。
 
 **C. 指数移动平均 (EMA / Soft Update) 是怎么做的？**
-在传统的 DQN 里，Target 网络是每隔几千步直接把主网络的参数**硬拷贝（Hard Copy）** 过来。
-但在 SAC（以及 DDPG）里，使用 Soft Update，即每一步都稍微更新一点点。
+在传统的 [[02-模块/Value-Based/DQN|DQN]] 里，Target 网络是每隔几千步直接把主网络的参数**硬拷贝（Hard Copy）** 过来。
+但在 SAC（以及 [[02-模块/Actor-Critic/DDPG|DDPG]]）里，使用 Soft Update，即每一步都稍微更新一点点。
 公式：
 $$\theta_{target} \leftarrow \tau \cdot \theta_{main} + (1 - \tau) \cdot \theta_{target}$$
 - $\theta_{main}$：主 Critic 的参数（最新的）。
@@ -131,12 +131,12 @@ $$y = r(s, a) + \gamma \left( \min_{j=1,2} Q_{\theta_{target}, j}(s', a') - \alp
     - **$s'$：** 从 Replay Buffer 里取出的下一个状态。
     - **$a'$：** **注意！** 这个动作不是 Buffer 里存的历史动作，而是**用当前的 Actor 网络基于 $s'$ 现算出来的（采样出来的）**。这是为了评估“如果按照现在的策略继续走，未来能得多少分”。
         
-6. **$\min_{j=1,2} Q_{\theta_{target}, j}(s', a')$ (Clipped Double Q-Learning)**
+6. **$\min_{j=1,2} Q_{\theta_{target}, j}(s', a')$ (Clipped Double [[02-模块/Value-Based/Q-Learning|Q-Learning]])**
     - **含义：** 用两个 Target Critic 网络分别算 $Q$ 值，然后**取较小的那一个**。
-    - **作用：** **防止高估**。Q-Learning 容易盲目乐观，取最小值是泼冷水，让 Agent 保守一点，训练更稳。
+    - **作用：** **防止高估**。[[02-模块/Value-Based/Q-Learning|Q-Learning]] 容易盲目乐观，取最小值是泼冷水，让 Agent 保守一点，训练更稳。
         
 7. **$-\alpha \ln \pi_\phi(a'|s')$ (熵奖励项 / Soft Term)**
-    - **核心中的核心！** 这是 SAC 区别于 DDPG 的地方。
+    - **核心中的核心！** 这是 SAC 区别于 [[02-模块/Actor-Critic/DDPG|DDPG]] 的地方。
     - **$\ln \pi$：** 动作的对数概率（Log Probability）。因为概率 < 1，所以 $\ln \pi$ 是负数。
     - **$-\ln \pi$：** 变成了正数。概率越小（越不确定），这个值越大（熵越大）。
     - **含义：** 在计算未来价值时，不仅看 $Q$ 值，还要看“未来的这个动作够不够随机”。**如果未来能保持高度随机性（高熵），我们就给它加分。**$$L(\theta_i) = \mathbb{E}_{(s,a,r,s') \sim D} [ (Q_{\theta_i}(s, a) - y)^2 ]$$
@@ -217,7 +217,7 @@ $$L(\alpha) = \mathbb{E}_{a \sim \pi} [ -\alpha (\ln \pi(a|s) + \bar{H}) ]$$
 
 ### 5. 实现方式与步骤 (Implementation Loop)
 
-SAC 是 **Off-policy** 算法，通常配合 **Replay Buffer (经验回放池)** 使用。
+SAC 是 **Off-policy** 算法，通常配合 **Replay Buffer ([[01-原子/经验回放|经验回放]]池)** 使用。
 
 #### 训练流程 (Online Training Loop):
 
@@ -239,7 +239,7 @@ SAC 是 **Off-policy** 算法，通常配合 **Replay Buffer (经验回放池)**
         
     - **更新 Critic：** 计算 Target Q，计算 MSE Loss，反向传播更新 $Q_1, Q_2$。
         
-    - **更新 Actor：** 利用重参数化技巧采样动作，计算 Q 值和 LogProb，反向传播更新 $\pi$。
+    - **更新 Actor：** 利用[[01-原子/重参数化技巧|重参数化技巧]]采样动作，计算 Q 值和 LogProb，反向传播更新 $\pi$。
         
     - **更新 Alpha：** 根据当前熵与目标熵的差异更新 $\alpha$。
         
@@ -342,7 +342,7 @@ class SAC_Agent:
         
 2. **On-policy (在线策略)：**
     
-    - PPO, TRPO 是 On-policy。它们只能利用当前策略产生的样本进行一次更新，之后样本必须丢弃，效率较低。
+    - [[02-模块/Policy-Based/PPO|PPO]], [[02-模块/Policy-Based/TRPO|TRPO]] 是 On-policy。它们只能利用当前策略产生的样本进行一次更新，之后样本必须丢弃，效率较低。
         
 3. **Online RL (在线强化学习)：**
     
@@ -360,18 +360,18 @@ class SAC_Agent:
         
     - **问题：** SAC 会遭受 OOD (Out-of-Distribution) 问题，即 Actor 会针对数据集中没见过的动作产生高估的 Q 值（幻觉）。
         
-    - **变体：** 针对 Offline 场景，有专门改进的算法如 **CQL (Conservative Q-Learning)**，它是在 SAC 基础上加了保守项惩罚。
+    - **变体：** 针对 Offline 场景，有专门改进的算法如 **[[02-模块/Value-Based/CQL|CQL]] (Conservative [[02-模块/Value-Based/Q-Learning|Q-Learning]])**，它是在 SAC 基础上加了保守项惩罚。
         
 
 ### 8. 总结：SAC 的优缺点
 
 **优点：**
 
-- **样本效率极高：** 相比 PPO，需要的交互步数少很多（通常少 10 倍以上）。
+- **样本效率极高：** 相比 [[02-模块/Policy-Based/PPO|PPO]]，需要的交互步数少很多（通常少 10 倍以上）。
     
 - **对超参数不敏感：** 自适应 Alpha 机制让调参变得很简单。
     
-- **稳定性好：** 结合了 Off-policy 的效率和最大熵的稳定性。
+- **稳定性好：** 结合了 Off-policy 的效率和[[01-原子/最大熵原理|最大熵]]的稳定性。
     
 
 **缺点：**
@@ -391,10 +391,10 @@ class SAC_Agent:
 
 ## 分类与相关算法
 
-- **RL分类**:  > [[02-模块/Actor-Critic/]] 
-- **核心理论**: 最大熵强化学习
-- **数据来源**: [[Online-RL]], (变体用于 [[Offline-RL]])
-- **动作空间**: [[Continuous-Actions]]
+- **RL分类**:  > [[02-模块/Actor-Critic/SAC|Actor-Critic算法]] 
+- **核心理论**: [[01-原子/最大熵原理|最大熵]]强化学习
+- **数据来源**: [[00-索引/按数据来源|Online-RL]], (变体用于 [[00-索引/按数据来源|Offline-RL]])
+- **动作空间**: [[00-索引/按动作空间|Continuous-Actions]]
 - **学习范式**: 
 - **相关算法**:
   - [[DDPG]] (前身)

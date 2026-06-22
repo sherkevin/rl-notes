@@ -14,7 +14,7 @@ tags:
 - [[MBPO]]
 
 ### 分类维度
-- [[Model-Based]]
+- [[00-索引/按模型依赖|Model-Based]]
 - 
 
 

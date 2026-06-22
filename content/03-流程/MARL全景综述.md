@@ -9,7 +9,7 @@
 
 - [Part A: MARL 基础](#part-a-marl-基础)
 - [Part B: 合作型值分解方法](#part-b-合作型值分解方法)
-- [Part C: 策略梯度型 MARL](#part-c-策略梯度型-marl)
+- [Part C: [[01-原子/策略梯度|策略梯度]]型 MARL](#part-c-[[01-原子/策略梯度|策略梯度]]型-marl)
 - [Part D: 通信与涌现行为](#part-d-通信与涌现行为)
 - [Part E: 高级主题与里程碑系统](#part-e-高级主题与里程碑系统)
 - [Part F: 2024-2026 前沿](#part-f-2024-2026-前沿)
@@ -28,9 +28,9 @@
 
 - 从智能体 i 的视角,状态转移变成了 P(s'|s, a_i, a_{-i}),其中 a_{-i} 是其他智能体的联合动作
 - 其他智能体在不断学习,所以 a_{-i} 的分布在持续变化
-- 智能体 i 面对的是一个**非平稳环境** -- 经验回放(replay buffer)中的旧数据可能完全失效
+- 智能体 i 面对的是一个**非平稳环境** -- [[01-原子/经验回放|经验回放]](replay buffer)中的旧数据可能完全失效
 
-这是 MARL 的核心难题,也是为什么简单地把单智能体算法直接搬过来(IQL)往往效果不好。
+这是 MARL 的核心难题,也是为什么简单地把单智能体算法直接搬过来([[02-模块/Value-Based/IQL|IQL]])往往效果不好。
 
 **部分可观测性 (Partial Observability)**
 
@@ -118,7 +118,7 @@ MARL 的训练和执行有两个维度,产生了四种组合:
 | | **集中式执行** | **分散式执行** |
 |---|---|---|
 | **集中式训练** | 完全集中式(不实用) | **CTDE(主流范式)** |
-| **分散式训练** | 理论上的可能性 | **完全分散式(IQL)** |
+| **分散式训练** | 理论上的可能性 | **完全分散式([[02-模块/Value-Based/IQL|IQL]])** |
 
 **集中式训练 + 集中式执行**:要求执行时也能获取所有智能体的信息。在大多数实际场景中不可行(通信延迟、带宽限制、隐私要求)。
 
@@ -128,7 +128,7 @@ MARL 的训练和执行有两个维度,产生了四种组合:
 
 ### A.5 CTDE: 集中式训练 + 分散式执行
 
-CTDE 是目前 MARL 领域最重要的范式,几乎所有主流算法(VDN、QMIX、MADDPG、MAPPO)都在此框架下运作。
+CTDE 是目前 MARL 领域最重要的范式,几乎所有主流算法([[02-模块/Multi-Agent/QMIX|VDN]]、[[02-模块/Multi-Agent/QMIX|QMIX]]、[[02-模块/Multi-Agent/MADDPG|MADDPG]]、[[02-模块/Multi-Agent/MAPPO|MAPPO]])都在此框架下运作。
 
 **核心思想**:
 
@@ -154,16 +154,16 @@ CTDE 是目前 MARL 领域最重要的范式,几乎所有主流算法(VDN、QMIX
 
 > argmax_{a_1,...,a_n} Q_tot(s, a_1, ..., a_n) = (argmax_a Q_1(o_1, a), ..., argmax_a Q_n(o_n, a))
 
-即全局最优联合动作 = 每个智能体各自最优动作的组合。VDN 和 QMIX 都是通过不同的方式保证这个性质。
+即全局最优联合动作 = 每个智能体各自最优动作的组合。[[02-模块/Multi-Agent/QMIX|VDN]] 和 [[02-模块/Multi-Agent/QMIX|QMIX]] 都是通过不同的方式保证这个性质。
 
 ---
 
 ## Part B: 合作型值分解方法
 
-> **演化主线**: IQL -> VDN -> QMIX -> Weighted QMIX -> QPLEX -> QATT
+> **演化主线**: [[02-模块/Value-Based/IQL|IQL]] -> [[02-模块/Multi-Agent/QMIX|VDN]] -> [[02-模块/Multi-Agent/QMIX|QMIX]] -> Weighted [[02-模块/Multi-Agent/QMIX|QMIX]] -> QPLEX -> QATT
 > **核心问题**: 如何把全局 Q 值分解为各智能体的局部 Q 值,同时保证 IGM 性质
 
-### B.1 IQL (Independent Q-Learning)
+### B.1 [[02-模块/Value-Based/IQL|IQL]] (Independent [[02-模块/Value-Based/Q-Learning|Q-Learning]])
 
 **来源与动机**:最朴素的基线方法。把多智能体问题当作多个独立的单智能体问题。每个智能体用自己的 Q-learning 独立学习(Tan, 1993)。
 
@@ -240,37 +240,37 @@ Q_n(o_n, a_n) ----/         |
 因为 dQ_tot/dQ_i >= 0,Q_tot 关于每个 Q_i 单调递增,所以 argmax 操作可以分散化。
 
 **优缺点**:
-- 优点:比 VDN 表达力强得多,可以利用全局状态调节分解方式,在 SMAC 上大幅超越 VDN
+- 优点:比 [[02-模块/Multi-Agent/QMIX|VDN]] 表达力强得多,可以利用全局状态调节分解方式,在 SMAC 上大幅超越 [[02-模块/Multi-Agent/QMIX|VDN]]
 - 缺点:单调性约束仍然限制了表达能力 -- 无法表示某些需要非单调分解的值函数(如某些反协调场景)
-- Rashid et al. (2020) 的 Weighted QMIX 后续工作分析了这个局限
+- Rashid et al. (2020) 的 Weighted [[02-模块/Multi-Agent/QMIX|QMIX]] 后续工作分析了这个局限
 
 **演化位置**:值分解方法的里程碑。成为后续大量工作的基线和比较对象。SMAC benchmark 上的标准方法。
 
-### B.4 Weighted QMIX (2020)
+### B.4 Weighted [[02-模块/Multi-Agent/QMIX|QMIX]] (2020)
 
-**来源与动机**:Rashid et al., 2020, Oxford。QMIX 的单调性约束在某些情况下会导致**投影偏差** -- 即使拿到了最优 Q*,QMIX 的投影也可能恢复不了最优策略。
+**来源与动机**:Rashid et al., 2020, Oxford。[[02-模块/Multi-Agent/QMIX|QMIX]] 的单调性约束在某些情况下会导致**投影偏差** -- 即使拿到了最优 Q*,[[02-模块/Multi-Agent/QMIX|QMIX]] 的投影也可能恢复不了最优策略。
 
-**核心创新**:在 QMIX 的损失函数中引入**加权**,让更好的联合动作得到更高的拟合优先级。
+**核心创新**:在 [[02-模块/Multi-Agent/QMIX|QMIX]] 的损失函数中引入**加权**,让更好的联合动作得到更高的拟合优先级。
 
 **关键分析**:
 
-QMIX 可以看作一个投影算子:先计算 Q-learning target,然后投影到 QMIX 可表示的空间中。这个投影在所有联合动作上等权地最小化平方误差,因此可能对"坏"动作的拟合更准确,反而忽略了"好"动作。
+[[02-模块/Multi-Agent/QMIX|QMIX]] 可以看作一个投影算子:先计算 Q-learning target,然后投影到 [[02-模块/Multi-Agent/QMIX|QMIX]] 可表示的空间中。这个投影在所有联合动作上等权地最小化平方误差,因此可能对"坏"动作的拟合更准确,反而忽略了"好"动作。
 
 **两种加权方案**:
-- **CW-QMIX (Centrally-Weighted)**:用一个中心化网络估计的 Q 值作为权重
-- **OW-QMIX (Optimistically-Weighted)**:用乐观估计作为权重
+- **CW-[[02-模块/Multi-Agent/QMIX|QMIX]] (Centrally-Weighted)**:用一个中心化网络估计的 Q 值作为权重
+- **OW-[[02-模块/Multi-Agent/QMIX|QMIX]] (Optimistically-Weighted)**:用乐观估计作为权重
 
 两者都证明了可以从任意 Q 值中恢复最优策略。
 
 **优缺点**:
-- 优点:理论分析深入,解决了 QMIX 的投影偏差问题,在 predator-prey 和 SMAC 上进一步提升
+- 优点:理论分析深入,解决了 [[02-模块/Multi-Agent/QMIX|QMIX]] 的投影偏差问题,在 predator-prey 和 SMAC 上进一步提升
 - 缺点:需要额外的中心化网络,计算开销增加
 
-**演化位置**:QMIX 的理论完善,揭示了值分解方法表达能力与优化目标之间的微妙关系。
+**演化位置**:[[02-模块/Multi-Agent/QMIX|QMIX]] 的理论完善,揭示了值分解方法表达能力与优化目标之间的微妙关系。
 
 ### B.5 QPLEX (Dueling Architecture for Value Decomposition)
 
-**来源与动机**:Wang et al., ICLR 2020, 北大。QMIX 的单调性约束虽然保证了 IGM,但表达能力仍然受限。QPLEX 试图在保持 IGM 的前提下,最大化值分解的表达能力。
+**来源与动机**:Wang et al., ICLR 2020, 北大。[[02-模块/Multi-Agent/QMIX|QMIX]] 的单调性约束虽然保证了 IGM,但表达能力仍然受限。QPLEX 试图在保持 IGM 的前提下,最大化值分解的表达能力。
 
 **核心创新**:引入 **Dueling 架构**,将全局 Q 值分解为 individual Q-values + advantage 的交互项。
 
@@ -288,16 +288,16 @@ Q_tot(s, a) = sum_i Q_i(o_i, a_i) + V_adv(s, a)
 **理论结果**:QPLEX 在满足 IGM 的值分解方法中,表达能力是**完备的** -- 即任何满足 IGM 的 Q_tot 都可以被 QPLEX 表示。
 
 **优缺点**:
-- 优点:理论上最优的表达能力,在 SMAC 上表现优于 QMIX
+- 优点:理论上最优的表达能力,在 SMAC 上表现优于 [[02-模块/Multi-Agent/QMIX|QMIX]]
 - 缺点:架构复杂,实现和调参难度高,实际提升在某些场景下不显著
 
-**演化位置**:值分解方法表达能力的理论上界。与 QMIX 共同构成了"简单有效 vs 理论完备"的经典对照。
+**演化位置**:值分解方法表达能力的理论上界。与 [[02-模块/Multi-Agent/QMIX|QMIX]] 共同构成了"简单有效 vs 理论完备"的经典对照。
 
 ### B.6 QATT (Attention-based Mixing)
 
-**来源与动机**:Yang et al., 2021。QMIX 的混合网络对所有智能体一视同仁,但不同状态下不同智能体的重要性应该不同。QATT 引入注意力机制来动态调节混合权重。
+**来源与动机**:Yang et al., 2021。[[02-模块/Multi-Agent/QMIX|QMIX]] 的混合网络对所有智能体一视同仁,但不同状态下不同智能体的重要性应该不同。QATT 引入注意力机制来动态调节混合权重。
 
-**核心创新**:用**注意力机制**替代 QMIX 的全连接混合网络,让混合权重动态反映各智能体在当前状态下的重要性。
+**核心创新**:用**注意力机制**替代 [[02-模块/Multi-Agent/QMIX|QMIX]] 的全连接混合网络,让混合权重动态反映各智能体在当前状态下的重要性。
 
 **关键架构**:
 
@@ -336,20 +336,20 @@ QMIX (2018) -- 非线性单调混合,里程碑
 
 ---
 
-## Part C: 策略梯度型 MARL
+## Part C: [[01-原子/策略梯度|策略梯度]]型 MARL
 
-> **演化主线**: COMA -> MADDPG -> MAPPO / IPPO -> HAPPO
+> **演化主线**: COMA -> [[02-模块/Multi-Agent/MADDPG|MADDPG]] -> [[02-模块/Multi-Agent/MAPPO|MAPPO]] / IPPO -> HAPPO
 > **核心思路**:直接优化策略,而非通过值函数间接推导
 
 ### C.1 COMA (Counterfactual Multi-Agent Policy Gradients)
 
-**来源与动机**:Foerster et al., AAAI 2018, Oxford。策略梯度方法在 MARL 中的核心困难是**信用分配** -- 如何用团队奖励给出每个智能体的梯度信号?COMA 提出反事实基线来解决这个问题。
+**来源与动机**:Foerster et al., AAAI 2018, Oxford。[[01-原子/策略梯度|策略梯度]]方法在 MARL 中的核心困难是**信用分配** -- 如何用团队奖励给出每个智能体的梯度信号?COMA 提出反事实基线来解决这个问题。
 
 **核心创新**:为每个智能体构建**反事实基线(counterfactual baseline)**,衡量"如果这个智能体换一个动作,结果会怎样"。
 
 **关键公式**:
 
-策略梯度:
+[[01-原子/策略梯度|策略梯度]]:
 
 del_theta_i J = E[del_theta_i log pi_i(a_i|o_i) * A^COMA_i(s, a)]
 
@@ -360,14 +360,14 @@ A^COMA_i(s, a) = Q_tot(s, a) - sum_{a_i'} pi_i(a_i'|o_i) * Q_tot(s, (a_i', a_{-i
 第二项是**反事实基线**:固定其他智能体动作 a_{-i} 不变,对智能体 i 的所有可能动作求期望值。这个基线精确地回答了"在当前状态下,智能体 i 的动作选择相对于平均水平好多少"。
 
 **优缺点**:
-- 优点:信用分配精确,理论优雅,是第一个专门为 MARL 设计的策略梯度方法
+- 优点:信用分配精确,理论优雅,是第一个专门为 MARL 设计的[[01-原子/策略梯度|策略梯度]]方法
 - 缺点:需要计算所有 a_i' 对应的 Q_tot(s, (a_i', a_{-i})),在动作空间大时计算量大;需要一个中心化的 critic 网络
 
-**演化位置**:策略梯度 MARL 的开创性工作。后续 MADDPG 和 MAPPO 都继承了"中心化 critic"的核心思想。
+**演化位置**:[[01-原子/策略梯度|策略梯度]] MARL 的开创性工作。后续 [[02-模块/Multi-Agent/MADDPG|MADDPG]] 和 [[02-模块/Multi-Agent/MAPPO|MAPPO]] 都继承了"中心化 critic"的核心思想。
 
-### C.2 MADDPG (Multi-Agent Deep Deterministic Policy Gradient)
+### C.2 [[02-模块/Multi-Agent/MADDPG|MADDPG]] (Multi-Agent Deep Deterministic Policy Gradient)
 
-**来源与动机**:Lowe et al., NeurIPS 2017, OpenAI + DeepMind。将 DDPG 扩展到多智能体,同时解决非平稳性问题。
+**来源与动机**:Lowe et al., NeurIPS 2017, OpenAI + DeepMind。将 [[02-模块/Actor-Critic/DDPG|DDPG]] 扩展到多智能体,同时解决非平稳性问题。
 
 **核心创新**:每个智能体有一个**中心化 critic** 和一个**分散式 actor**。critic 可以看到全局信息,o_i + (o_j, a_j)_{j!=i},actor 只看本地观测。
 
@@ -386,31 +386,31 @@ del_theta_i J = -del_theta_i Q_i(s, a_1, ..., pi_i(o_i), ..., a_n)
 
 **优缺点**:
 - 优点:CTDE 的经典实现,在 MPE(Particle World)环境中表现优异,可以处理竞争和合作设定
-- 缺点:基于 DDPG,继承了其对超参数敏感、训练不稳定的缺点;critic 的输入维度随智能体数量线性增长,扩展性差
+- 缺点:基于 [[02-模块/Actor-Critic/DDPG|DDPG]],继承了其对超参数敏感、训练不稳定的缺点;critic 的输入维度随智能体数量线性增长,扩展性差
 
-**演化位置**:CTDE + 策略梯度的标志性工作。MAPPO 本质上是用 PPO 替换了 MADDPG 的 DDPG 框架。
+**演化位置**:CTDE + [[01-原子/策略梯度|策略梯度]]的标志性工作。[[02-模块/Multi-Agent/MAPPO|MAPPO]] 本质上是用 [[02-模块/Policy-Based/PPO|PPO]] 替换了 [[02-模块/Multi-Agent/MADDPG|MADDPG]] 的 [[02-模块/Actor-Critic/DDPG|DDPG]] 框架。
 
-### C.3 MAPPO (Multi-Agent PPO)
+### C.3 [[02-模块/Multi-Agent/MAPPO|MAPPO]] (Multi-Agent [[02-模块/Policy-Based/PPO|PPO]])
 
-**来源与动机**:Yu et al., NeurIPS 2022 (Datasets and Benchmarks Track), UC Berkeley + 清华。论文标题直接说明了一切:"The Surprising Effectiveness of PPO in Cooperative, Multi-Agent Games"。
+**来源与动机**:Yu et al., NeurIPS 2022 (Datasets and Benchmarks Track), UC Berkeley + 清华。论文标题直接说明了一切:"The Surprising Effectiveness of [[02-模块/Policy-Based/PPO|PPO]] in Cooperative, Multi-Agent Games"。
 
-**核心创新**:把 PPO -- 一个简单、通用的 on-policy 算法 -- 应用到多智能体,配合一些工程上的最佳实践,就能达到甚至超过复杂的 off-policy 方法。
+**核心创新**:把 [[02-模块/Policy-Based/PPO|PPO]] -- 一个简单、通用的 on-policy 算法 -- 应用到多智能体,配合一些工程上的最佳实践,就能达到甚至超过复杂的 off-policy 方法。
 
 **关键发现**:
 
-1. **PPO 在 MARL 中被低估了**:社区普遍认为 on-policy 方法的样本效率不如 off-policy(如 QMIX),但 Yu et al. 通过系统实验表明这是误解
+1. **[[02-模块/Policy-Based/PPO|PPO]] 在 MARL 中被低估了**:社区普遍认为 on-policy 方法的样本效率不如 off-policy(如 [[02-模块/Multi-Agent/QMIX|QMIX]]),但 Yu et al. 通过系统实验表明这是误解
 
-2. **关键工程技巧**使 MAPPO 成为强基线:
+2. **关键工程技巧**使 [[02-模块/Multi-Agent/MAPPO|MAPPO]] 成为强基线:
    - **Value normalization**:对 value 做 running normalization
    - **Advantage normalization**:per-agent advantage 归一化
    - **Large batch size**:大批量训练
    - **ReLU activation**:简单激活函数
    - **Orthogonal initialization**:正交初始化
-   - **Clipped value loss**:PPO 标准的 clip
+   - **Clipped value loss**:[[02-模块/Policy-Based/PPO|PPO]] 标准的 clip
    - **Global state to critic**:critic 使用全局状态而非本地观测
 
 3. **在四个 benchmark 上表现强劲**:
-   - SMAC (StarCraft):超越 QMIX 等方法
+   - SMAC (StarCraft):超越 [[02-模块/Multi-Agent/QMIX|QMIX]] 等方法
    - MPE (Particle World):竞争力表现
    - Google Research Football:强基线
    - Hanabi:竞争力表现
@@ -419,7 +419,7 @@ del_theta_i J = -del_theta_i Q_i(s, a_1, ..., pi_i(o_i), ..., a_n)
 
 每个智能体 i 维护 actor pi_i 和 critic V_i:
 
-Actor loss (PPO clip):
+Actor loss ([[02-模块/Policy-Based/PPO|PPO]] clip):
 L_actor = -E[min(ratio_i * A_i, clip(ratio_i, 1-eps, 1+eps) * A_i)]
 
 Critic loss (共享 critic 或独立 critic):
@@ -429,19 +429,19 @@ ratio_i = pi_i(a_i|o_i) / pi_i_old(a_i|o_i)
 
 **优缺点**:
 - 优点:简单、通用、稳定,不需要值分解的结构性约束,在多种环境上表现强,成为事实上的标准基线
-- 缺点:样本效率低于 off-policy 方法(on-policy 固有限制),在某些需要精细信用分配的任务上不如 QMIX
+- 缺点:样本效率低于 off-policy 方法(on-policy 固有限制),在某些需要精细信用分配的任务上不如 [[02-模块/Multi-Agent/QMIX|QMIX]]
 
 **演化位置**:挑战了社区的"复杂度偏见" -- 简单的方法加上好的工程实践可以匹敌复杂方法。成为后续 MARL 研究的标准基线。
 
-### C.4 IPPO (Independent PPO)
+### C.4 IPPO (Independent [[02-模块/Policy-Based/PPO|PPO]])
 
-**来源与动机**:de Witt et al., ICML 2021, Oxford。如果 MAPPO 的发现是"PPO 在多智能体中意外地强",那 IPPO 的发现更极端:**完全独立的 PPO,不用任何全局信息,也能有竞争力**。
+**来源与动机**:de Witt et al., ICML 2021, Oxford。如果 [[02-模块/Multi-Agent/MAPPO|MAPPO]] 的发现是"[[02-模块/Policy-Based/PPO|PPO]] 在多智能体中意外地强",那 IPPO 的发现更极端:**完全独立的 [[02-模块/Policy-Based/PPO|PPO]],不用任何全局信息,也能有竞争力**。
 
-**核心创新**:每个智能体独立运行 PPO,不共享任何信息。没有中心化 critic,没有全局状态。
+**核心创新**:每个智能体独立运行 [[02-模块/Policy-Based/PPO|PPO]],不共享任何信息。没有中心化 critic,没有全局状态。
 
 **关键发现**:
 
-- 在 MPE 和 SMAC 的多个任务上,IPPO 的表现与 MAPPO 接近,有时甚至更好
+- 在 MPE 和 SMAC 的多个任务上,IPPO 的表现与 [[02-模块/Multi-Agent/MAPPO|MAPPO]] 接近,有时甚至更好
 - 这个结果挑战了 CTDE 的必要性假设 -- 在某些场景下,完全分散式学习已经足够
 - 论文强调了**环境设计**和**奖励塑形**对 MARL 性能的影响可能大于算法本身
 
@@ -451,9 +451,9 @@ ratio_i = pi_i(a_i|o_i) / pi_i_old(a_i|o_i)
 
 **演化位置**:对 CTDE 范式的"挑战者"。提醒研究者:不要默认复杂性是必要的,先用最简单的基线试试。
 
-### C.5 HAPPO (Heterogeneous Agent PPO)
+### C.5 HAPPO (Heterogeneous Agent [[02-模块/Policy-Based/PPO|PPO]])
 
-**来源与动机**:Kuba et al., ICLR 2022。MAPPO 假设所有智能体是同构的(相同的观测空间、动作空间、网络架构),但现实场景中智能体往往是异构的(不同类型的单位、不同的能力)。
+**来源与动机**:Kuba et al., ICLR 2022。[[02-模块/Multi-Agent/MAPPO|MAPPO]] 假设所有智能体是同构的(相同的观测空间、动作空间、网络架构),但现实场景中智能体往往是异构的(不同类型的单位、不同的能力)。
 
 **核心创新**:为异构智能体设计了**序列更新策略**,确保策略更新时不会相互干扰。
 
@@ -462,7 +462,7 @@ ratio_i = pi_i(a_i|o_i) / pi_i_old(a_i|o_i)
 - 异构智能体无法共享网络参数(因为观测/动作空间不同)
 - 简单的独立更新可能导致策略更新的相互干扰
 - HAPPO 引入了**序列策略更新**:按顺序更新各智能体的策略,每次更新时考虑之前已更新的策略
-- 使用**重要性采样比率**来校正不同智能体之间的策略差异
+- 使用**[[01-原子/重要性采样|重要性采样]]比率**来校正不同智能体之间的策略差异
 
 **关键公式**:
 
@@ -473,12 +473,12 @@ L_i = E[min(ratio_i * A_i, clip(ratio_i) * A_i)]
 其中 ratio 考虑了序列更新的顺序效应。
 
 **优缺点**:
-- 优点:适用于异构智能体,理论保证收敛,在异构环境(如 SMAC 中混合单位)中优于 MAPPO
-- 缺点:序列更新增加了训练时间,实现复杂度高于 MAPPO
+- 优点:适用于异构智能体,理论保证收敛,在异构环境(如 SMAC 中混合单位)中优于 [[02-模块/Multi-Agent/MAPPO|MAPPO]]
+- 缺点:序列更新增加了训练时间,实现复杂度高于 [[02-模块/Multi-Agent/MAPPO|MAPPO]]
 
-**演化位置**:MAPPO 到异构场景的自然扩展。完善了 PPO-based MARL 的方法家族。
+**演化位置**:[[02-模块/Multi-Agent/MAPPO|MAPPO]] 到异构场景的自然扩展。完善了 [[02-模块/Policy-Based/PPO|PPO]]-based MARL 的方法家族。
 
-### 策略梯度演化小结
+### [[01-原子/策略梯度|策略梯度]]演化小结
 
 ```
 COMA (2018) -- 反事实基线,信用分配先驱
@@ -667,7 +667,7 @@ League training 和 population-based training 都是为解决这些问题而设�
 **核心架构**:
 
 - 5 个独立的 LSTM 策略网络(每个英雄一个)
-- 使用 PPO 训练
+- 使用 [[02-模块/Policy-Based/PPO|PPO]] 训练
 - **极其夸张的规模**:
   - 128,000 CPU 核心
   - 256 GPU
@@ -687,9 +687,9 @@ League training 和 population-based training 都是为解决这些问题而设�
 **教训与局限**:
 - 展示了**规模暴力(scale)** 在 MARL 中的威力
 - 但也暴露了局限:对游戏版本更新脆弱,策略多样性有限
-- 5 个智能体实际是**同质**的(都是 PPO + LSTM),没有利用到异构性
+- 5 个智能体实际是**同质**的(都是 [[02-模块/Policy-Based/PPO|PPO]] + LSTM),没有利用到异构性
 
-**演化位置**:证明了 PPO + 大规模计算可以解决极高复杂度的多智能体问题。
+**演化位置**:证明了 [[02-模块/Policy-Based/PPO|PPO]] + 大规模计算可以解决极高复杂度的多智能体问题。
 
 ### E.4 AlphaStar (StarCraft II)
 
@@ -715,7 +715,7 @@ League training 和 population-based training 都是为解决这些问题而设�
 
 | | OpenAI Five (Dota 2) | AlphaStar (StarCraft II) |
 |---|---|---|
-| 训练方法 | PPO from scratch | SL pretrain + RL + League |
+| 训练方法 | [[02-模块/Policy-Based/PPO|PPO]] from scratch | SL pretrain + RL + League |
 | 复杂度 | 5 个同质 agent | 多种族异构 agent |
 | 对手多样性 | 纯 self-play | League training + population |
 | 人类数据 | 不用 | 大量使用 replay |
@@ -772,7 +772,7 @@ League training 和 population-based training 都是为解决这些问题而设�
 - 星际争霸微操场景,控制一支小部队歼灭敌军
 - 3-27 个智能体,纯合作
 - 多种难度场景(3s5z, 2c_vs_64zg, corridor 等)
-- 是值分解方法(QMIX 等)的标准测试场
+- 是值分解方法([[02-模块/Multi-Agent/QMIX|QMIX]] 等)的标准测试场
 
 **MPE (Multi-Agent Particle Environments)**
 - Lowe et al., 2017
@@ -838,7 +838,7 @@ League training 和 population-based training 都是为解决这些问题而设�
    - LLM 展现出"类人"的合作倾向和公平偏好
    - 但也暴露了对欺骗和策略博弈的有限能力
 
-### F.2 后 QMIX 时代的值分解
+### F.2 后 [[02-模块/Multi-Agent/QMIX|QMIX]] 时代的值分解
 
 2024-2026 年的值分解研究方向已经从"如何更好地分解 Q 值"转向更根本的问题:
 
@@ -851,7 +851,7 @@ League training 和 population-based training 都是为解决这些问题而设�
    - 强调在带宽受限环境下的智能通信选择
 
 3. **参数共享与个性化**:
-   - **PPS-QMIX (Zhang et al., 2024)**:受联邦学习启发,周期性参数共享加速 QMIX 训练,在 SMAC 上提升 10-30%
+   - **PPS-[[02-模块/Multi-Agent/QMIX|QMIX]] (Zhang et al., 2024)**:受联邦学习启发,周期性参数共享加速 [[02-模块/Multi-Agent/QMIX|QMIX]] 训练,在 SMAC 上提升 10-30%
 
 ### F.3 安全与对齐
 
@@ -859,7 +859,7 @@ League training 和 population-based training 都是为解决这些问题而设�
 - Chatterji & Acar, ECAI 2025
 - 将概率逻辑盾(Probabilistic Logic Shields)引入 MARL
 - 在去中心化多智能体环境中强制执行安全约束
-- 提出 PLTD(Probabilistic Logic TD)更新和带安全保证的策略梯度方法
+- 提出 PLTD(Probabilistic Logic TD)更新和带安全保证的[[01-原子/策略梯度|策略梯度]]方法
 
 ### F.4 团队形成与动态种群
 
@@ -886,27 +886,27 @@ League training 和 population-based training 都是为解决这些问题而设�
 
 | 方法 | 年份 | 作者 | 发表 | 类型 | 核心贡献 |
 |---|---|---|---|---|---|
-| IQL | 1993 | Tan | -- | 基线 | 独立学习的朴素基线 |
-| VDN | 2017 | Sunehag et al. | -- | 值分解 | 线性求和分解 |
-| QMIX | 2018 | Rashid et al. | ICML | 值分解 | 单调混合网络 |
-| MADDPG | 2017 | Lowe et al. | NeurIPS | 策略梯度 | CTDE + DDPG |
-| COMA | 2018 | Foerster et al. | AAAI | 策略梯度 | 反事实基线 |
+| [[02-模块/Value-Based/IQL|IQL]] | 1993 | Tan | -- | 基线 | 独立学习的朴素基线 |
+| [[02-模块/Multi-Agent/QMIX|VDN]] | 2017 | Sunehag et al. | -- | 值分解 | 线性求和分解 |
+| [[02-模块/Multi-Agent/QMIX|QMIX]] | 2018 | Rashid et al. | ICML | 值分解 | 单调混合网络 |
+| [[02-模块/Multi-Agent/MADDPG|MADDPG]] | 2017 | Lowe et al. | NeurIPS | [[01-原子/策略梯度|策略梯度]] | CTDE + [[02-模块/Actor-Critic/DDPG|DDPG]] |
+| COMA | 2018 | Foerster et al. | AAAI | [[01-原子/策略梯度|策略梯度]] | 反事实基线 |
 | CommNet | 2016 | Sukhbaatar et al. | NeurIPS | 通信 | 端到端通信学习 |
 | IC3Net | 2018 | Singh et al. | -- | 通信 | 门控通信 |
 | TarMAC | 2019 | Das et al. | ICML | 通信 | 注意力目标通信 |
 | QPLEX | 2020 | Wang et al. | ICLR | 值分解 | Dueling 表达力完备 |
 | WQMIX | 2020 | Rashid et al. | NeurIPS | 值分解 | 加权投影修正 |
 | QATT | 2021 | Yang et al. | -- | 值分解 | 注意力混合 |
-| IPPO | 2021 | de Witt et al. | ICML | 策略梯度 | 独立 PPO |
-| MAPPO | 2022 | Yu et al. | NeurIPS | 策略梯度 | PPO 的意外强力 |
-| HAPPO | 2022 | Kuba et al. | ICLR | 策略梯度 | 异构 PPO |
+| IPPO | 2021 | de Witt et al. | ICML | [[01-原子/策略梯度|策略梯度]] | 独立 [[02-模块/Policy-Based/PPO|PPO]] |
+| [[02-模块/Multi-Agent/MAPPO|MAPPO]] | 2022 | Yu et al. | NeurIPS | [[01-原子/策略梯度|策略梯度]] | [[02-模块/Policy-Based/PPO|PPO]] 的意外强力 |
+| HAPPO | 2022 | Kuba et al. | ICLR | [[01-原子/策略梯度|策略梯度]] | 异构 [[02-模块/Policy-Based/PPO|PPO]] |
 | CICERO | 2022 | Bakhtin et al. | Science | 系统 | 语言+规划+RL |
 | MAT | 2022 | Wen et al. | ICLR | 架构 | Multi-Agent Transformer |
 | AlphaStar | 2019 | Vinyals et al. | Nature | 系统 | League training |
-| OpenAI Five | 2019 | OpenAI | -- | 系统 | 大规模 PPO |
+| OpenAI Five | 2019 | OpenAI | -- | 系统 | 大规模 [[02-模块/Policy-Based/PPO|PPO]] |
 | PBT | 2019 | Jaderberg et al. | -- | 训练 | 种群训练 |
 | AOAD-MAT | 2025 | Takayama, Fujita | PRIMA | 架构 | 动作顺序 MAT |
-| PPS-QMIX | 2024 | Zhang et al. | -- | 值分解 | 周期参数共享 |
+| PPS-[[02-模块/Multi-Agent/QMIX|QMIX]] | 2024 | Zhang et al. | -- | 值分解 | 周期参数共享 |
 | SMARL | 2025 | Chatterji, Acar | ECAI | 安全 | 概率逻辑盾 |
 | IA-KRC | 2026 | Cheng et al. | -- | 通信 | K-step 可达通信 |
 

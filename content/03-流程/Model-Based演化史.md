@@ -1,6 +1,6 @@
 # 基于模型的强化学习 (Model-Based RL) 完整演化史
 
-> **核心主线**:MBRL 的历史就是人类与「模型误差累积」这一根本挑战斗争的历史。三条主线并行演化,各自用不同策略对抗误差:Dyna-PETS-MBPO 系(短 rollout 截断误差)、World Models-Dreamer 系(潜空间压缩误差)、MCTS-AlphaGo-MuZero 系(搜索+价值等价绕过误差)。2024-2026 年,视频生成模型作为世界模型成为最新趋势。
+> **核心主线**:MBRL 的历史就是人类与「模型误差累积」这一根本挑战斗争的历史。三条主线并行演化,各自用不同策略对抗误差:Dyna-[[02-模块/Model-Based/PETS|PETS]]-[[02-模块/Model-Based/MBPO|MBPO]] 系(短 rollout 截断误差)、World Models-Dreamer 系(潜空间压缩误差)、MCTS-AlphaGo-MuZero 系(搜索+价值等价绕过误差)。2024-2026 年,视频生成模型作为世界模型成为最新趋势。
 
 ---
 
@@ -9,11 +9,11 @@
 1. [总论:为什么需要模型?](#1-总论为什么需要模型)
 2. [根本挑战:模型误差累积](#2-根本挑战模型误差累积)
 3. [动态规划 — Bellman (1950s)](#3-动态规划--bellman-1950s)
-4. [Dyna-Q — Sutton (1991)](#4-dyna-q--sutton-1991)
+4. [[[02-模块/Model-Based/Dyna-Q|Dyna-Q]] — Sutton (1991)](#4-dyna-q--sutton-1991)
 5. [MCTS / UCT — Kocsis & Szepesvári (2006)](#5-mcts--uct--kocsis--szepesvári-2006)
 6. [World Models — Ha & Schmidhuber (2018)](#6-world-models--ha--schmidhuber-2018)
-7. [PETS — Chua et al. (2018)](#7-pets--chua-et-al-2018)
-8. [MBPO — Janner et al. (2019)](#8-mbpo--janner-et-al-2019)
+7. [[[02-模块/Model-Based/PETS|PETS]] — Chua et al. (2018)](#7-pets--chua-et-al-2018)
+8. [[[02-模块/Model-Based/MBPO|MBPO]] — Janner et al. (2019)](#8-mbpo--janner-et-al-2019)
 9. [Dreamer v1 — Hafner et al. (2020)](#9-dreamer-v1--hafner-et-al-2020)
 10. [MuZero — Schrittwieser et al. (2020)](#10-muzero--schrittwieser-et-al-2020)
 11. [Dreamer v2 — Hafner et al. (2021)](#11-dreamer-v2--hafner-et-al-2021)
@@ -34,7 +34,7 @@
 
 **一句话**:Model-Free RL 靠试错,Model-Based RL 靠「想象」——先用模型学会世界怎么运转,然后在想象中规划最优行动。
 
-强化学习的核心困境是**样本效率**(sample efficiency)。Model-Free 方法(如 DQN、PPO、SAC)需要数百万甚至数十亿次环境交互才能收敛,这在真实机器人、自动驾驶等场景中不可接受。
+强化学习的核心困境是**样本效率**(sample efficiency)。Model-Free 方法(如 [[02-模块/Value-Based/DQN|DQN]]、[[02-模块/Policy-Based/PPO|PPO]]、[[02-模块/Actor-Critic/SAC|SAC]])需要数百万甚至数十亿次环境交互才能收敛,这在真实机器人、自动驾驶等场景中不可接受。
 
 **MBRL 的核心思想**:
 1. 从已有数据中学一个**环境模型**(dynamics model): $\hat{s}_{t+1} = f(s_t, a_t)$
@@ -59,7 +59,7 @@ $$\text{累积误差} \leq \sum_{t=0}^{H-1} \gamma^t \cdot \epsilon_t \approx \f
 
 | 路线 | 策略 | 代表方法 |
 |------|------|----------|
-| 截断误差传播 | 只用短 rollout,从真实数据出发 | Dyna-Q → PETS → MBPO |
+| 截断误差传播 | 只用短 rollout,从真实数据出发 | [[02-模块/Model-Based/Dyna-Q|Dyna-Q]] → [[02-模块/Model-Based/PETS|PETS]] → [[02-模块/Model-Based/MBPO|MBPO]] |
 | 压缩状态空间 | 在潜空间中想象,误差在低维空间中更可控 | World Models → Dreamer → IRIS |
 | 绕过显式动力学 | 不预测完整下一状态,只预测价值/策略相关量 | MCTS → AlphaGo → MuZero |
 
@@ -73,7 +73,7 @@ Richard Bellman 在 1950 年代提出动态规划(Dynamic Programming),首次系
 
 ### 核心创新
 
-**Bellman 方程**:将最优决策问题分解为递归的子问题:
+**[[01-原子/Bellman方程|Bellman 方程]]**:将最优决策问题分解为递归的子问题:
 
 $$V^*(s) = \max_a \left[ R(s,a) + \gamma \sum_{s'} P(s'|s,a) V^*(s') \right]$$
 
@@ -96,7 +96,7 @@ $$V_{k+1}(s) = \max_a \left[ R(s,a) + \gamma \sum_{s'} P(s'|s,a) V_k(s') \right]
 
 ---
 
-## 4. Dyna-Q — Sutton (1991)
+## 4. [[02-模块/Model-Based/Dyna-Q|Dyna-Q]] — Sutton (1991)
 
 ### 来源与动机
 
@@ -126,7 +126,7 @@ Richard Sutton 在 1991 年的论文 "Dyna, an Integrated Architecture for Learn
 
 - **优点**:比纯 Model-Free 的 Q-learning 样本效率高很多(每步真实交互额外做 $n$ 步规划);架构简洁优雅;首次证明了"学模型 + 用模型"的可行性
 - **缺点**:用 tabular 模型(直接记忆),无法泛化到新状态;没有处理模型误差的机制——如果模型错了,Q 值会被模拟的错误经验带偏;只适用于离散小状态空间
-- **演化位置**:MBRL 的开创性工作。Dyna 的"从真实数据出发做短 rollout"思想直接影响了后来的 PETS(2018)和 MBPO(2019)。Dyna 没解决的模型误差问题,催生了后续几十年的研究
+- **演化位置**:MBRL 的开创性工作。Dyna 的"从真实数据出发做短 rollout"思想直接影响了后来的 [[02-模块/Model-Based/PETS|PETS]](2018)和 [[02-模块/Model-Based/MBPO|MBPO]](2019)。Dyna 没解决的模型误差问题,催生了后续几十年的研究
 
 ---
 
@@ -191,7 +191,7 @@ $$\text{Controller: } a_t = \tanh(W_c [z_t; h_t] + b_c)$$
 
 ---
 
-## 7. PETS — Chua et al. (2018)
+## 7. [[02-模块/Model-Based/PETS|PETS]] — Chua et al. (2018)
 
 ### 来源与动机
 
@@ -221,19 +221,19 @@ $$\sigma^2(s_t, a_t) = \frac{1}{K} \sum_{k=1}^{K} [\sigma^2_{\theta_k}(s_t, a_t)
 
 ### 优缺点
 
-- **优点**:样本效率极高——比 SAC 少 8 倍、比 PPO 少 125 倍的样本达到相当性能;不确定性量化有效防止策略利用模型错误;架构简单,容易实现
+- **优点**:样本效率极高——比 [[02-模块/Actor-Critic/SAC|SAC]] 少 8 倍、比 [[02-模块/Policy-Based/PPO|PPO]] 少 125 倍的样本达到相当性能;不确定性量化有效防止策略利用模型错误;架构简单,容易实现
 - **缺点**:计算成本高(需要训练 $K$ 个网络,每步规划评估多条轨迹);只适用于连续控制的低维状态空间;CEM 规划在高维动作空间中效率下降;没有端到端训练——模型和策略分开优化
-- **演化位置**:Dynasty 路线的关键里程碑。将 Dyna 的"学模型 + 用模型生成经验"升级为概率版本,用集成不确定性对抗模型误差。直接影响了 MBPO(2019)的设计
+- **演化位置**:Dynasty 路线的关键里程碑。将 Dyna 的"学模型 + 用模型生成经验"升级为概率版本,用集成不确定性对抗模型误差。直接影响了 [[02-模块/Model-Based/MBPO|MBPO]](2019)的设计
 
 ---
 
-## 8. MBPO — Janner et al. (2019)
+## 8. [[02-模块/Model-Based/MBPO|MBPO]] — Janner et al. (2019)
 
 ### 来源与动机
 
 Michael Janner, Justin Fu, Marvin Zhang, Sergey Levine 发表在 NeurIPS 2019(arXiv:1906.08253)。论文标题: "When to Trust Your Model: Model-Based Policy Optimization"。
 
-核心问题:PETS 虽然样本效率高但计算成本大,而且长 rollout 中误差累积严重。**到底该多信任模型?rollout 该多长?**
+核心问题:[[02-模块/Model-Based/PETS|PETS]] 虽然样本效率高但计算成本大,而且长 rollout 中误差累积严重。**到底该多信任模型?rollout 该多长?**
 
 ### 核心创新
 
@@ -251,7 +251,7 @@ Michael Janner, Justin Fu, Marvin Zhang, Sergey Levine 发表在 NeurIPS 2019(ar
    混合比例: 真实数据 95% + 模型数据 5%
    ```
 
-3. **集成动力学模型**:沿用 PETS 的 5 个网络集成,但只用来做极短预测。
+3. **集成动力学模型**:沿用 [[02-模块/Model-Based/PETS|PETS]] 的 5 个网络集成,但只用来做极短预测。
 
 ### 关键公式/架构
 
@@ -261,9 +261,9 @@ $$\text{混合比例: } f = \frac{\text{model rollouts}}{\text{total updates}} \
 
 ### 优缺点
 
-- **优点**:样本效率接近 PETS,但最终性能更好(因为短 rollout 避免了模型误差累积);计算成本比 PETS 低(不需要在线 CEM 规划);理论上有策略改进保证;容易和现有 Model-Free 算法(SAC)结合
+- **优点**:样本效率接近 [[02-模块/Model-Based/PETS|PETS]],但最终性能更好(因为短 rollout 避免了模型误差累积);计算成本比 [[02-模块/Model-Based/PETS|PETS]] 低(不需要在线 CEM 规划);理论上有策略改进保证;容易和现有 Model-Free 算法([[02-模块/Actor-Critic/SAC|SAC]])结合
 - **缺点**:需要大量真实数据做 buffer,在极早期(数据很少时)效果一般;rollout 长度需要手动 schedule;本质上还是"用模型做数据增强",没有充分利用模型的规划能力
-- **演化位置**:Dynasty 路线的成熟之作。核心贡献是理论回答了"该多信任模型"这个问题,给出了工程上简洁有效的方案。MBPO 成为后来很多 MBRL 工作的 baseline
+- **演化位置**:Dynasty 路线的成熟之作。核心贡献是理论回答了"该多信任模型"这个问题,给出了工程上简洁有效的方案。[[02-模块/Model-Based/MBPO|MBPO]] 成为后来很多 MBRL 工作的 baseline
 
 ---
 
@@ -357,7 +357,7 @@ Danijar Hafner, Timothy Lillicrap, Mohammad Norouzi, Jimmy Ba 发表在 ICLR 202
 
 2. **Hindsight Replay**:用后验 $q(s_t|h_t, o_t)$ 做 replay 训练,而非先验 $p(s_t|h_t)$。这解决了离散变量无法用 reparameterization trick 的问题。
 
-3. **对称 KL 散度**:训练时使用 symmetric KL 来稳定学习。
+3. **对称 [[01-原子/KL散度|KL 散度]]**:训练时使用 symmetric KL 来稳定学习。
 
 ### 关键架构
 
@@ -390,7 +390,7 @@ Vincent Micheli, Eloi Alonso, François Fleuret 发表在 ICLR 2023(arXiv:2209.0
 2. **自回归 Transformer 动力学模型**:将观测 token 和动作 token 交织成一个序列,用 GPT 式 Transformer 自回归预测下一个 token:
    $$P(z_{t+1}^1, z_{t+1}^2, z_{t+1}^3, z_{t+1}^4 | z_{1:t}, a_{1:t})$$
 
-3. **MuZero 式策略优化**:不用潜空间想象,而是用 Transformer 生成 rollout,然后用 PPO 风格的策略梯度优化。
+3. **MuZero 式策略优化**:不用潜空间想象,而是用 Transformer 生成 rollout,然后用 [[02-模块/Policy-Based/PPO|PPO]] 风格的[[01-原子/策略梯度|策略梯度]]优化。
 
 ### 关键公式/架构
 
@@ -483,7 +483,7 @@ $$\mathcal{L}_{model} = \sum_{t} \left\| z_t - \text{sg}(z_t^{target}) \right\|^
 
 - **优点**:跨域泛化能力强;单一超参数;模型随规模增加能力提升(类 scaling law);推理速度快(不需要解码观测)
 - **缺点**:隐式模型不可解释;在需要精确视觉推理的任务中可能不足;大规模训练需要大量数据
-- **演化位置**:结合了 PETS/MBPO 的"实用主义"(短 rollout + 不确定性)和 MuZero 的"价值等价"(不重建观测),是两条路线的融合之作
+- **演化位置**:结合了 [[02-模块/Model-Based/PETS|PETS]]/[[02-模块/Model-Based/MBPO|MBPO]] 的"实用主义"(短 rollout + 不确定性)和 MuZero 的"价值等价"(不重建观测),是两条路线的融合之作
 
 ---
 
@@ -655,13 +655,13 @@ Emil Malmsten, Wendelin Bohmer(arXiv:2509.11233, 2025)。论文标题: "TransZer
 
 ## 19. 三大主线对比总结
 
-### 主线一:Dyna → PETS → MBPO(学动力学 + 短 rollout)
+### 主线一:Dyna → [[02-模块/Model-Based/PETS|PETS]] → [[02-模块/Model-Based/MBPO|MBPO]](学动力学 + 短 rollout)
 
 | 方法 | 年份 | 模型类型 | Rollout 长度 | 不确定性处理 | 规划方式 |
 |------|------|----------|-------------|-------------|---------|
-| Dyna-Q | 1991 | Tabular | 1 步 | 无 | Q-learning |
-| PETS | 2018 | 集成 NN | 多步(H=25-40) | 集成方差 | CEM |
-| MBPO | 2019 | 集成 NN | 1-5 步 | 集成方差 + 短截断 | SAC 策略 |
+| [[02-模块/Model-Based/Dyna-Q|Dyna-Q]] | 1991 | Tabular | 1 步 | 无 | Q-learning |
+| [[02-模块/Model-Based/PETS|PETS]] | 2018 | 集成 NN | 多步(H=25-40) | 集成方差 | CEM |
+| [[02-模块/Model-Based/MBPO|MBPO]] | 2019 | 集成 NN | 1-5 步 | 集成方差 + 短截断 | [[02-模块/Actor-Critic/SAC|SAC]] 策略 |
 
 **核心逻辑**:模型不可信太远 → 从真实数据出发做短 rollout → 模型误差被截断。
 
@@ -672,7 +672,7 @@ Emil Malmsten, Wendelin Bohmer(arXiv:2509.11233, 2025)。论文标题: "TransZer
 | World Models | 2018 | VAE 连续 | MDN-RNN | CMA-ES(进化) |
 | Dreamer v1 | 2020 | RSSM 连续 | GRU | Actor-Critic |
 | Dreamer v2 | 2021 | RSSM 离散 | GRU | Actor-Critic |
-| IRIS | 2023 | VQ-VAE 离散 | Transformer | PPO 风格 |
+| IRIS | 2023 | VQ-VAE 离散 | Transformer | [[02-模块/Policy-Based/PPO|PPO]] 风格 |
 | Dreamer v3 | 2023 | RSSM 离散 | GRU | Actor-Critic(免调参) |
 
 **核心逻辑**:在低维潜空间中想象 → 误差在高维像素空间中被压缩 → 想象成本低且可微分。
@@ -694,8 +694,8 @@ Emil Malmsten, Wendelin Bohmer(arXiv:2509.11233, 2025)。论文标题: "TransZer
 
 | 策略 | 原理 | 代表方法 | 适用场景 |
 |------|------|----------|---------|
-| **短 rollout** | 从真实数据分支,只预测 1-5 步,误差来不及累积 | Dyna-Q, MBPO | 需要大量真实数据 |
-| **集成不确定性** | 多个模型的分歧量化不确定性,分歧大时保守 | PETS, MBPO | 中等规模问题 |
+| **短 rollout** | 从真实数据分支,只预测 1-5 步,误差来不及累积 | [[02-模块/Model-Based/Dyna-Q|Dyna-Q]], [[02-模块/Model-Based/MBPO|MBPO]] | 需要大量真实数据 |
+| **集成不确定性** | 多个模型的分歧量化不确定性,分歧大时保守 | [[02-模块/Model-Based/PETS|PETS]], [[02-模块/Model-Based/MBPO|MBPO]] | 中等规模问题 |
 | **潜空间压缩** | 在低维潜空间中想象,高维误差被压缩 | World Models, Dreamer | 高维观测(图像) |
 | **价值等价** | 不预测完整状态,只预测对决策有用的量 | MuZero, TD-MPC2 | 有搜索/规划需求 |
 | **离散 token 化** | 离散表示避免连续漂移,更稳定 | Dreamer v2, IRIS | 有离散结构的环境 |
@@ -713,7 +713,7 @@ Emil Malmsten, Wendelin Bohmer(arXiv:2509.11233, 2025)。论文标题: "TransZer
 2. Sutton, R. S. (1991). "Dyna, an Integrated Architecture for Learning, Planning, and Reacting." *ACM SIGART Bulletin*, 2(4), 160-163.
 3. Kocsis, L., & Szepesvári, C. (2006). "Bandit Based Monte-Carlo Planning." *ECML*.
 
-### PETS-MBPO 系
+### [[02-模块/Model-Based/PETS|PETS]]-[[02-模块/Model-Based/MBPO|MBPO]] 系
 4. Chua, K., Calandra, R., McAllister, R., & Levine, S. (2018). "Deep Reinforcement Learning in a Handful of Trials using Probabilistic Dynamics Models." *NeurIPS*. arXiv:1805.12114.
 5. Janner, M., Fu, J., Zhang, M., & Levine, S. (2019). "When to Trust Your Model: Model-Based Policy Optimization." *NeurIPS*. arXiv:1906.08253.
 

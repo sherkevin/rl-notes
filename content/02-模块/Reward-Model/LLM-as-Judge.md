@@ -90,13 +90,13 @@ Step 5: 用 RM 给 PPO 提供奖励信号
 ## 2025-2026 趋势
 
 - **LLM-as-Judge 成为数据生产主力**：用 GPT-4/Claude 批量生成偏好数据，再训小 RM
-- **Self-Rewarding**：模型自己给自己打分（见 [[Self-Rewarding]]）
+- **[[02-模块/Reward-Model/Self-Rewarding|Self-Rewarding]]**：模型自己给自己打分（见 [[Self-Rewarding]]）
 
 ---
 
 ## 演化位置
 
-**在 Reward Model 演化链中的位置**：
+**在 [[01-原子/Reward-Model训练方法|Reward Model]] 演化链中的位置**：
 
 ```
 Pairwise RM (2022)

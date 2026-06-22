@@ -38,12 +38,12 @@ $$\frac{\partial Q_{\text{tot}}}{\partial Q_i} \geq 0, \quad \forall i$$
 
 ## 演化位置
 
-IQL (1993) → VDN (2017) → **QMIX** → Weighted QMIX / QPLEX / QATT
+[[02-模块/Value-Based/IQL|IQL]] (1993) → VDN (2017) → **QMIX** → Weighted QMIX / QPLEX / QATT
 QMIX 是值分解方法的里程碑，成为后续大量工作的基线和比较对象。
 
 ## 相关算法
 
 - [[03-流程/MARL全景综述|VDN]] — 线性求和分解的前身
-- [[MADDPG]] — 策略梯度路线的 CTDE 方法
+- [[MADDPG]] — [[01-原子/策略梯度|策略梯度]]路线的 CTDE 方法
 - [[MAPPO]] — on-policy 路线的强基线
 - 完整演化: 见 [MARL全景综述](../../03-流程/MARL全景综述.md#b3-qmix-monotonic-value-function-factorisation)

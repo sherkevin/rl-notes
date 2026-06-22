@@ -50,7 +50,7 @@ graph LR
 1950 年代，Richard Bellman 在研究多阶段决策过程时，发现了一个根本性的问题：**如何在一系列相互关联的决策中找到全局最优策略？** 传统的穷举法在状态数增长时完全不可行（组合爆炸）。Bellman 提出了"最优性原理"——一个最优策略的子策略也必须是最优的——从而将一个巨大的全局问题分解为可递推求解的局部子问题。
 
 ### 核心创新
-动态规划（DP）通过 **Bellman 方程** 将价值函数的计算变成了一个递归的自举（bootstrapping）过程。它包含两种核心操作：**值迭代**（Value Iteration，直接迭代 Bellman 最优方程）和 **策略迭代**（Policy Iteration，交替进行策略评估和策略改进）。DP 的假设非常强：需要完整的环境模型（状态转移概率 $P(s'|s,a)$ 和奖励函数 $R(s,a)$ 完全已知）。
+动态规划（DP）通过 **[[01-原子/Bellman方程|Bellman 方程]]** 将价值函数的计算变成了一个递归的自举（bootstrapping）过程。它包含两种核心操作：**值迭代**（Value Iteration，直接迭代 Bellman 最优方程）和 **策略迭代**（Policy Iteration，交替进行策略评估和策略改进）。DP 的假设非常强：需要完整的环境模型（状态转移概率 $P(s'|s,a)$ 和奖励函数 $R(s,a)$ 完全已知）。
 
 ### 关键公式
 Bellman 最优方程——所有 value-based RL 的"宪法"：
@@ -110,7 +110,7 @@ TD(0) 更新规则：
 $$
 V(S_t) \leftarrow V(S_t) + \alpha \big[ R_{t+1} + \gamma V(S_{t+1}) - V(S_t) \big]
 $$
-方括号内的量 $\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$ 就是 **TD 误差**——整个 value-based RL 中最核心的信号。
+方括号内的量 $\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$ 就是 **[[01-原子/TD误差|TD 误差]]**——整个 value-based RL 中最核心的信号。
 
 ### 优缺点
 - ✅ 不需要环境模型（model-free，继承自 MC）
@@ -121,18 +121,18 @@ $$
 - ❌ TD($\lambda$) 的 $\lambda$ 选择需要调参
 
 ### 演化位置
-Monte Carlo / DP → **TD Learning** → SARSA / Q-Learning
-TD 学习统一了 DP 的自举思想和 MC 的无模型特性。但它只是策略评估（prediction）方法。要用于控制（control），需要加上动作选择机制——这就引出了 SARSA（on-policy）和 Q-Learning（off-policy）两条路线。
+Monte Carlo / DP → **TD Learning** → [[02-模块/Value-Based/SARSA|SARSA]] / [[02-模块/Value-Based/Q-Learning|Q-Learning]]
+TD 学习统一了 DP 的自举思想和 MC 的无模型特性。但它只是策略评估（prediction）方法。要用于控制（control），需要加上动作选择机制——这就引出了 [[02-模块/Value-Based/SARSA|SARSA]]（on-policy）和 [[02-模块/Value-Based/Q-Learning|Q-Learning]]（off-policy）两条路线。
 
 ---
 
-## SARSA (State-Action-Reward-State-Action)
+## [[02-模块/Value-Based/SARSA|SARSA]] (State-Action-Reward-State-Action)
 
 ### 来源与动机
-1994 年，Rummery 和 Niranjan 提出了 SARSA 算法（名称由 Sutton 后来命名）。TD 学习只评估一个策略的好坏（prediction），但在控制问题中，我们需要 **根据评估结果来改进策略**。最自然的做法就是：**用 TD 来评估当前正在执行的策略，然后根据 Q 值选择动作。** 这就是 SARSA——一种 on-policy TD 控制方法。
+1994 年，Rummery 和 Niranjan 提出了 [[02-模块/Value-Based/SARSA|SARSA]] 算法（名称由 Sutton 后来命名）。TD 学习只评估一个策略的好坏（prediction），但在控制问题中，我们需要 **根据评估结果来改进策略**。最自然的做法就是：**用 TD 来评估当前正在执行的策略，然后根据 Q 值选择动作。** 这就是 [[02-模块/Value-Based/SARSA|SARSA]]——一种 on-policy TD 控制方法。
 
 ### 核心创新
-SARSA 的核心是：**学习当前策略（behavior policy = target policy）的动作价值函数 $Q(s,a)$，然后用它来指导动作选择。** 更新时使用的是下一个状态-动作对 $(S_{t+1}, A_{t+1})$ 的 Q 值——而这个 $A_{t+1}$ 是当前策略实际会选择（或已经选择）的动作。这使得 SARSA 天然考虑了探索带来的风险。
+[[02-模块/Value-Based/SARSA|SARSA]] 的核心是：**学习当前策略（behavior policy = target policy）的动作价值函数 $Q(s,a)$，然后用它来指导动作选择。** 更新时使用的是下一个状态-动作对 $(S_{t+1}, A_{t+1})$ 的 Q 值——而这个 $A_{t+1}$ 是当前策略实际会选择（或已经选择）的动作。这使得 [[02-模块/Value-Based/SARSA|SARSA]] 天然考虑了探索带来的风险。
 
 ### 关键公式
 $$
@@ -142,30 +142,30 @@ $$
 
 ### 优缺点
 - ✅ on-policy：学到的是当前执行策略的价值，更安全（考虑探索风险）
-- ✅ 在有随机性的环境中比 Q-Learning 更保守、更安全
+- ✅ 在有随机性的环境中比 [[02-模块/Value-Based/Q-Learning|Q-Learning]] 更保守、更安全
 - ❌ on-policy 意味着数据利用率低——只有当前策略产生的数据才能用
 - ❌ 探索噪声（如 $\epsilon$-greedy）会影响学到的策略质量
 - ❌ 收敛速度通常比 off-policy 方法慢
 
 ### 演化位置
-TD Learning → **SARSA** → (on-policy 路线：SARSA($\lambda$) 等)
-SARSA 代表了 on-policy TD 控制这条路线。但它的 on-policy 特性导致数据效率不高。Q-Learning 走了另一条路：off-policy——可以从任何策略收集的数据中学习最优策略。
+TD Learning → **[[02-模块/Value-Based/SARSA|SARSA]]** → (on-policy 路线：[[02-模块/Value-Based/SARSA|SARSA]]($\lambda$) 等)
+[[02-模块/Value-Based/SARSA|SARSA]] 代表了 on-policy TD 控制这条路线。但它的 on-policy 特性导致数据效率不高。[[02-模块/Value-Based/Q-Learning|Q-Learning]] 走了另一条路：off-policy——可以从任何策略收集的数据中学习最优策略。
 
 ---
 
-## Q-Learning
+## [[02-模块/Value-Based/Q-Learning|Q-Learning]]
 
 ### 来源与动机
-1989 年，Chris Watkins 在其博士论文中提出了 Q-Learning（1992 年与 Dayan 合作发表收敛性证明）。SARSA 的 on-policy 特性意味着：**你只能通过当前策略自己产生的数据来学习。** 但 Watkins 想到：**能不能不管数据是怎么来的（任何策略产生的），都用来学习最优策略？** 这就是 off-policy 学习的核心思想。
+1989 年，Chris Watkins 在其博士论文中提出了 [[02-模块/Value-Based/Q-Learning|Q-Learning]]（1992 年与 Dayan 合作发表收敛性证明）。[[02-模块/Value-Based/SARSA|SARSA]] 的 on-policy 特性意味着：**你只能通过当前策略自己产生的数据来学习。** 但 Watkins 想到：**能不能不管数据是怎么来的（任何策略产生的），都用来学习最优策略？** 这就是 off-policy 学习的核心思想。
 
 ### 核心创新
-Q-Learning 的核心创新是 **off-policy + max 操作**：更新目标中取下一个状态所有动作中 Q 值最大的那个，而不管下一个动作实际上是什么。这意味着 Q-Learning 直接学习最优策略的 Q 函数，即使行为策略（behavior policy，比如 $\epsilon$-greedy）在不断探索。行为策略和目标策略是分离的。
+[[02-模块/Value-Based/Q-Learning|Q-Learning]] 的核心创新是 **off-policy + max 操作**：更新目标中取下一个状态所有动作中 Q 值最大的那个，而不管下一个动作实际上是什么。这意味着 [[02-模块/Value-Based/Q-Learning|Q-Learning]] 直接学习最优策略的 Q 函数，即使行为策略（behavior policy，比如 $\epsilon$-greedy）在不断探索。行为策略和目标策略是分离的。
 
 ### 关键公式
 $$
 Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \big[ R_{t+1} + \gamma \max_{a'} Q(S_{t+1}, a') - Q(S_t, A_t) \big]
 $$
-与 SARSA 的关键区别在于 $\max_{a'}$：它不关心 $A_{t+1}$ 是什么，而是取所有可能动作中的最大值。
+与 [[02-模块/Value-Based/SARSA|SARSA]] 的关键区别在于 $\max_{a'}$：它不关心 $A_{t+1}$ 是什么，而是取所有可能动作中的最大值。
 
 ### 优缺点
 - ✅ off-policy：可以从任意策略收集的数据中学习最优策略
@@ -176,8 +176,8 @@ $$
 - ❌ 表格方法无法处理大规模状态空间
 
 ### 演化位置
-TD Learning → **Q-Learning** → Function Approximation → DQN
-Q-Learning 的 off-policy 思想是革命性的，但 tabular Q-Learning 面对大规模问题时束手无策。下一个关键问题：**如何用函数近似（神经网络）来扩展 Q-Learning？**
+TD Learning → **[[02-模块/Value-Based/Q-Learning|Q-Learning]]** → Function Approximation → [[02-模块/Value-Based/DQN|DQN]]
+[[02-模块/Value-Based/Q-Learning|Q-Learning]] 的 off-policy 思想是革命性的，但 tabular [[02-模块/Value-Based/Q-Learning|Q-Learning]] 面对大规模问题时束手无策。下一个关键问题：**如何用函数近似（神经网络）来扩展 [[02-模块/Value-Based/Q-Learning|Q-Learning]]？**
 
 ---
 
@@ -201,37 +201,37 @@ $$
 ### 优缺点
 - ✅ 能处理大规模甚至连续状态空间
 - ✅ 相似状态之间可以泛化（transfer）
-- ❌ 与 Q-Learning 的 off-policy 特性结合时，训练极不稳定（发散问题）
+- ❌ 与 [[02-模块/Value-Based/Q-Learning|Q-Learning]] 的 off-policy 特性结合时，训练极不稳定（发散问题）
 - ❌ 线性近似需要人工设计特征（feature engineering）
 - ❌ 非线性近似（神经网络）引入了非平稳性、相关数据、目标漂移等问题
 
 ### 演化位置
-Q-Learning → **Function Approximation** → DQN
-线性函数近似在 1990-2000 年代有许多成功案例（如 TD-Gammon），但非线性近似一直不稳定。直到 2013 年 DQN 用两个关键技术（经验回放 + 目标网络）才真正解决了这个问题。
+[[02-模块/Value-Based/Q-Learning|Q-Learning]] → **Function Approximation** → [[02-模块/Value-Based/DQN|DQN]]
+线性函数近似在 1990-2000 年代有许多成功案例（如 TD-Gammon），但非线性近似一直不稳定。直到 2013 年 [[02-模块/Value-Based/DQN|DQN]] 用两个关键技术（[[01-原子/经验回放|经验回放]] + [[01-原子/目标网络|目标网络]]）才真正解决了这个问题。
 
 ---
 
-## DQN (Deep Q-Network)
+## [[02-模块/Value-Based/DQN|DQN]] (Deep Q-Network)
 
 ### 来源与动机
-2013 年（NIPS Workshop），2015 年（Nature 正式版），DeepMind 的 Volodymyr Mnih 等人发表了 DQN。背景：将 Q-Learning 与神经网络结合的尝试已有多年，但 **训练极度不稳定、经常发散**。核心困难有三：(1) 数据高度时序相关（相邻帧几乎一样）；(2) 学习目标和当前网络使用相同参数（"追逐自己的尾巴"）；(3) 奖励尺度差异巨大。
+2013 年（NIPS Workshop），2015 年（Nature 正式版），DeepMind 的 Volodymyr Mnih 等人发表了 [[02-模块/Value-Based/DQN|DQN]]。背景：将 [[02-模块/Value-Based/Q-Learning|Q-Learning]] 与神经网络结合的尝试已有多年，但 **训练极度不稳定、经常发散**。核心困难有三：(1) 数据高度时序相关（相邻帧几乎一样）；(2) 学习目标和当前网络使用相同参数（"追逐自己的尾巴"）；(3) 奖励尺度差异巨大。
 
 ### 核心创新
-DQN 引入两个关键技术：
-1. **经验回放（Experience Replay）**：将交互数据存储到回放缓冲区，训练时随机采样 mini-batch。打破数据之间的时序相关性。
-2. **目标网络（Target Network）**：使用一个独立且定期更新的网络 $Q_{\theta^-}$ 来计算 TD 目标，稳定学习目标。
+[[02-模块/Value-Based/DQN|DQN]] 引入两个关键技术：
+1. **[[01-原子/经验回放|经验回放]]（Experience Replay）**：将交互数据存储到回放缓冲区，训练时随机采样 mini-batch。打破数据之间的时序相关性。
+2. **[[01-原子/目标网络|目标网络]]（Target Network）**：使用一个独立且定期更新的网络 $Q_{\theta^-}$ 来计算 TD 目标，稳定学习目标。
 
-这两个技术加上 Q-Learning 的 off-policy 框架，第一次让深度神经网络在 Atari 游戏上达到了人类水平的表现。
+这两个技术加上 [[02-模块/Value-Based/Q-Learning|Q-Learning]] 的 off-policy 框架，第一次让深度神经网络在 Atari 游戏上达到了人类水平的表现。
 
 ### 关键公式
 $$
 L(\theta) = \mathbb{E}_{(s,a,r,s') \sim U(\mathcal{D})} \big[ \big( r + \gamma \max_{a'} Q(s', a'; \theta^-) - Q(s, a; \theta) \big)^2 \big]
 $$
-其中 $\theta^-$ 是目标网络参数，$U(\mathcal{D})$ 是均匀采样。
+其中 $\theta^-$ 是[[01-原子/目标网络|目标网络]]参数，$U(\mathcal{D})$ 是均匀采样。
 
 ### 优缺点
 - ✅ 第一次在大规模视觉任务上实现端到端学习
-- ✅ 经验回放 + 目标网络解决了稳定性问题
+- ✅ [[01-原子/经验回放|经验回放]] + [[01-原子/目标网络|目标网络]]解决了稳定性问题
 - ✅ 单一架构 + 单一超参数在 49 个 Atari 游戏上表现良好
 - ❌ 仍然存在 Q 值高估问题（max 操作导致）
 - ❌ 无法处理多模态动作空间（只输出离散动作的 Q 值）
@@ -239,47 +239,47 @@ $$
 - ❌ 不同游戏表现差异大（某些游戏远低于人类）
 
 ### 演化位置
-Function Approximation → **DQN** → Double DQN / Dueling DQN / PER / C51 → Rainbow
-DQN 开启了深度强化学习时代。但它存在的高估、方差、效率等问题催生了一系列改进——最终在 Rainbow 中被统一。
+Function Approximation → **[[02-模块/Value-Based/DQN|DQN]]** → [[02-模块/Value-Based/DDQN|Double DQN]] / Dueling [[02-模块/Value-Based/DQN|DQN]] / PER / C51 → Rainbow
+[[02-模块/Value-Based/DQN|DQN]] 开启了深度强化学习时代。但它存在的高估、方差、效率等问题催生了一系列改进——最终在 Rainbow 中被统一。
 
 ---
 
-## Double DQN (DDQN)
+## [[02-模块/Value-Based/DDQN|Double DQN]] ([[02-模块/Value-Based/DDQN|DDQN]])
 
 ### 来源与动机
-2016 年（AAAI），Hado van Hasselt、Arthur Guez 和 David Silver 发表。他们发现：**DQN 在 Atari 某些游戏中存在严重的 Q 值高估问题。** 高估的根源是 Q-Learning 中的 $\max$ 操作——如果 Q 网络对某些动作的值有正向估计误差，$\max$ 会系统性地选中这些被高估的动作，导致"乐观偏差"不断累积。
+2016 年（AAAI），Hado van Hasselt、Arthur Guez 和 David Silver 发表。他们发现：**[[02-模块/Value-Based/DQN|DQN]] 在 Atari 某些游戏中存在严重的 Q 值高估问题。** 高估的根源是 [[02-模块/Value-Based/Q-Learning|Q-Learning]] 中的 $\max$ 操作——如果 Q 网络对某些动作的值有正向估计误差，$\max$ 会系统性地选中这些被高估的动作，导致"乐观偏差"不断累积。
 
 ### 核心创新
-Double DQN 的核心思想来自 Double Q-Learning（van Hasselt, 2010）：**将"选择动作"和"评估动作"解耦。** 用当前网络 $Q_\theta$ 选择最优动作（argmax），用目标网络 $Q_{\theta^-}$ 评估该动作的价值。两个独立网络不太可能同时高估同一个动作，从而大幅减少高估偏差。
+[[02-模块/Value-Based/DDQN|Double DQN]] 的核心思想来自 Double [[02-模块/Value-Based/Q-Learning|Q-Learning]]（van Hasselt, 2010）：**将"选择动作"和"评估动作"解耦。** 用当前网络 $Q_\theta$ 选择最优动作（argmax），用[[01-原子/目标网络|目标网络]] $Q_{\theta^-}$ 评估该动作的价值。两个独立网络不太可能同时高估同一个动作，从而大幅减少高估偏差。
 
 ### 关键公式
 $$
 y = r + \gamma Q_{\theta^-}\big(s', \arg\max_{a'} Q_\theta(s', a')\big)
 $$
-对比 DQN 的目标 $y = r + \gamma \max_{a'} Q_{\theta^-}(s', a')$，关键区别是 $\arg\max$ 和 $Q$ 来自不同网络。
+对比 [[02-模块/Value-Based/DQN|DQN]] 的目标 $y = r + \gamma \max_{a'} Q_{\theta^-}(s', a')$，关键区别是 $\arg\max$ 和 $Q$ 来自不同网络。
 
 ### 优缺点
 - ✅ 大幅减少 Q 值高估，在多个 Atari 游戏上性能显著提升
 - ✅ 实现极其简单——只需改动一行代码
-- ✅ 通用技术，可以和任何 DQN 变体结合
+- ✅ 通用技术，可以和任何 [[02-模块/Value-Based/DQN|DQN]] 变体结合
 - ❌ 只是缓解高估，不能完全消除（如果两个网络都高估，仍有残余偏差）
 - ❌ 在某些高估不严重的问题上改进不大
 
 ### 演化位置
-DQN → **Double DQN** → Rainbow
-Double DQN 是 DQN 家族第一个被证明有效且广泛使用的改进。它和后续的 Dueling DQN、PER 一起成为 Rainbow 的核心组件。
+[[02-模块/Value-Based/DQN|DQN]] → **[[02-模块/Value-Based/DDQN|Double DQN]]** → Rainbow
+[[02-模块/Value-Based/DDQN|Double DQN]] 是 [[02-模块/Value-Based/DQN|DQN]] 家族第一个被证明有效且广泛使用的改进。它和后续的 Dueling [[02-模块/Value-Based/DQN|DQN]]、PER 一起成为 Rainbow 的核心组件。
 
 ---
 
-## Dueling DQN
+## Dueling [[02-模块/Value-Based/DQN|DQN]]
 
 ### 来源与动机
-2016 年（ICML），Ziyu Wang、Tom Schaul 等人提出。他们观察到：**在很多状态下，不同动作的价值差异很小，但状态本身的价值（"这个状态好不好"）非常重要。** 例如在驾驶场景中，"前方是直路"这个状态的价值很高，而"左转/右转/直行"各动作的相对优势差异不大。传统 DQN 将 $V(s)$ 和 $A(s,a)$ 混在一起学，无法充分利用这种结构。
+2016 年（ICML），Ziyu Wang、Tom Schaul 等人提出。他们观察到：**在很多状态下，不同动作的价值差异很小，但状态本身的价值（"这个状态好不好"）非常重要。** 例如在驾驶场景中，"前方是直路"这个状态的价值很高，而"左转/右转/直行"各动作的相对优势差异不大。传统 [[02-模块/Value-Based/DQN|DQN]] 将 $V(s)$ 和 $A(s,a)$ 混在一起学，无法充分利用这种结构。
 
 ### 核心创新
 Dueling 网络架构将 Q 值分解为两个独立的估计器：
 - **状态价值 $V(s)$**："这个状态有多好？"（与动作无关）
-- **优势函数 $A(s,a)$**："在这个状态下，选这个动作比其他动作好多少？"
+- **[[01-原子/优势函数|优势函数]] $A(s,a)$**："在这个状态下，选这个动作比其他动作好多少？"
 
 $Q(s,a) = V(s) + A(s,a)$。通过共享底层特征提取网络，两个分支可以独立学习。在"动作选择不太重要"的状态下，$V(s)$ 可以更准确地被估计。
 
@@ -292,12 +292,12 @@ $$
 ### 优缺点
 - ✅ 在动作选择影响不大的状态中，策略评估更准确
 - ✅ 不改变 RL 算法本身，纯粹是网络结构的改进
-- ✅ 可以和 Double DQN、PER 等无缝结合
+- ✅ 可以和 [[02-模块/Value-Based/DDQN|Double DQN]]、PER 等无缝结合
 - ❌ 在动作选择非常关键的场景中优势不明显
 - ❌ 增加了网络参数量
 
 ### 演化位置
-DQN → **Dueling DQN** → Rainbow
+[[02-模块/Value-Based/DQN|DQN]] → **Dueling [[02-模块/Value-Based/DQN|DQN]]** → Rainbow
 Dueling 提供了更好的价值函数表示能力，成为 Rainbow 的关键组件之一。
 
 ---
@@ -305,10 +305,10 @@ Dueling 提供了更好的价值函数表示能力，成为 Rainbow 的关键组
 ## Prioritized Experience Replay (PER)
 
 ### 来源与动机
-2016 年（ICLR），Tom Schaul、John Quan 等人提出。标准 DQN 的经验回放是 **均匀采样**——每条经验被选中的概率相同。但显然，不同经验的"学习价值"天差地别：**一条让你"恍然大悟"的经验（TD 误差大）比一条"毫无新意"的经验（TD 误差小）更值得反复学习。**
+2016 年（ICLR），Tom Schaul、John Quan 等人提出。标准 [[02-模块/Value-Based/DQN|DQN]] 的[[01-原子/经验回放|经验回放]]是 **均匀采样**——每条经验被选中的概率相同。但显然，不同经验的"学习价值"天差地别：**一条让你"恍然大悟"的经验（TD 误差大）比一条"毫无新意"的经验（TD 误差小）更值得反复学习。**
 
 ### 核心创新
-PER 根据 **TD 误差的绝对值** 来给每条经验分配采样优先级。TD 误差越大，说明当前网络对这条经验的预测越差，越需要被重新学习。为了修正非均匀采样引入的偏差，PER 使用 **重要性采样权重（importance sampling weights）** 来缩放梯度更新。
+PER 根据 **TD 误差的绝对值** 来给每条经验分配采样优先级。TD 误差越大，说明当前网络对这条经验的预测越差，越需要被重新学习。为了修正非均匀采样引入的偏差，PER 使用 **[[01-原子/重要性采样|重要性采样]]权重（importance sampling weights）** 来缩放梯度更新。
 
 ### 关键公式
 采样概率：
@@ -316,25 +316,25 @@ $$
 P(i) = \frac{p_i^\alpha}{\sum_k p_k^\alpha}
 $$
 其中 $p_i = |\delta_i| + \epsilon$（基于 TD 误差的优先级），$\alpha$ 控制优先级化的程度。
-重要性采样权重：
+[[01-原子/重要性采样|重要性采样]]权重：
 $$
 w_i = \bigg( \frac{1}{N \cdot P(i)} \bigg)^\beta
 $$
 
 ### 优缺点
-- ✅ 大幅提升学习效率，在 41/49 个 Atari 游戏上超越均匀采样 DQN
-- ✅ 通用技术，可以和任何基于经验回放的方法结合
+- ✅ 大幅提升学习效率，在 41/49 个 Atari 游戏上超越均匀采样 [[02-模块/Value-Based/DQN|DQN]]
+- ✅ 通用技术，可以和任何基于[[01-原子/经验回放|经验回放]]的方法结合
 - ❌ 需要维护优先级数据结构（如 SumTree），增加实现复杂度
 - ❌ 超参数 $\alpha$ 和 $\beta$ 需要调节
 - ❌ 对噪声敏感——偶然的异常 TD 误差可能导致过度采样
 
 ### 演化位置
-DQN → **PER** → Rainbow
-PER 改进了经验回放的效率，成为 Rainbow 中贡献最大的单个组件（消融实验表明）。
+[[02-模块/Value-Based/DQN|DQN]] → **PER** → Rainbow
+PER 改进了[[01-原子/经验回放|经验回放]]的效率，成为 Rainbow 中贡献最大的单个组件（消融实验表明）。
 
 ---
 
-## C51 (Categorical DQN / Distributional RL)
+## C51 (Categorical [[02-模块/Value-Based/DQN|DQN]] / Distributional RL)
 
 ### 来源与动机
 2017 年（ICML），Marc Bellemare、Will Dabney 和 Remi Munos 发表了 *"A Distributional Perspective on Reinforcement Learning"*。传统 RL 只学习 **期望回报** $V(s) = \mathbb{E}[G_t | S_t = s]$，即一个标量。但实际回报是一个 **随机变量**——同一个状态可能得到很高的回报，也可能得到很低的回报。只学均值会丢失这个分布信息。
@@ -343,7 +343,7 @@ PER 改进了经验回放的效率，成为 Rainbow 中贡献最大的单个组�
 C51 的核心思想：**不再只学回报的期望，而是学习回报的完整概率分布。** 具体来说，它将回报分布近似为一个支撑在 51 个等距原子（atoms）上的离散分布（因此叫 C51），然后用投影操作（categorical projection）来实现分布版本的 Bellman 更新。这不仅提供了更丰富的信息（可以衡量风险），而且在 Atari 基准上取得了 state-of-the-art。
 
 ### 关键公式
-分布 Bellman 方程：
+分布 [[01-原子/Bellman方程|Bellman 方程]]：
 $$
 Z(s, a) \stackrel{D}{=} R(s, a) + \gamma Z(S', A')
 $$
@@ -351,25 +351,25 @@ $$
 
 ### 优缺点
 - ✅ 保留了回报的分布信息（可以衡量风险和不确定性）
-- ✅ 在 Atari 上性能显著优于 DQN 和 Double DQN
+- ✅ 在 Atari 上性能显著优于 [[02-模块/Value-Based/DQN|DQN]] 和 [[02-模块/Value-Based/DDQN|Double DQN]]
 - ✅ 理论上证明了分布 Bellman 算子在策略评估中的收敛性
 - ❌ 51 个原子的支撑点是固定的，不能自适应分布形状
 - ❌ 投影操作引入了近似误差
-- ❌ 实现比 DQN 复杂
+- ❌ 实现比 [[02-模块/Value-Based/DQN|DQN]] 复杂
 
 ### 演化位置
-DQN → **C51** → QR-DQN → IQN → Rainbow
-C51 开启了分布式 RL（Distributional RL）这一新方向，后续的 QR-DQN 和 IQN 改进了其分布表示方法。
+[[02-模块/Value-Based/DQN|DQN]] → **C51** → QR-[[02-模块/Value-Based/DQN|DQN]] → IQN → Rainbow
+C51 开启了分布式 RL（Distributional RL）这一新方向，后续的 QR-[[02-模块/Value-Based/DQN|DQN]] 和 IQN 改进了其分布表示方法。
 
 ---
 
-## QR-DQN (Quantile Regression DQN)
+## QR-[[02-模块/Value-Based/DQN|DQN]] (Quantile Regression [[02-模块/Value-Based/DQN|DQN]])
 
 ### 来源与动机
 2017 年（AAAI 2018），Will Dabney 等人提出。C51 的问题在于它固定了 51 个支撑点的位置，只学习每个位置的概率质量。但如果真实回报分布的形状和这些固定点不匹配，近似质量就会差。**能不能让支撑点的位置自适应？**
 
 ### 核心创新
-QR-DQN 反转了思路：不固定位置学概率，而是 **固定概率学分位数（quantile）的位置**。具体来说，它将回报分布用 $N$ 个等概率的分位数来表示，每个分位数的位置（值）是可学习的。通过分位数回归损失（quantile regression loss，即 pinball loss）来训练，避免了 C51 的投影操作。
+QR-[[02-模块/Value-Based/DQN|DQN]] 反转了思路：不固定位置学概率，而是 **固定概率学分位数（quantile）的位置**。具体来说，它将回报分布用 $N$ 个等概率的分位数来表示，每个分位数的位置（值）是可学习的。通过分位数回归损失（quantile regression loss，即 pinball loss）来训练，避免了 C51 的投影操作。
 
 ### 关键公式
 分位数回归损失：
@@ -625,4 +625,4 @@ IQL / CQL → **Diffusion-RL** → (活跃研究前沿，2024-2026)
 
 ---
 
-> **写在最后**：value-based RL 的演化史，本质上是一部 **"如何更准确地估计价值"** 的历史。从 Bellman 方程给出理论定义，到 MC 解决"不要模型"，到 TD 解决"每步更新"，到 Q-Learning 解决"off-policy"，到 DQN 解决"大规模"，到 Rainbow 解决"各种工程缺陷"，到 CQL/IQL 解决"离线数据"，到 Decision Transformer 彻底跳出 Bellman 框架——每一步都是因为上一步在某个具体问题上走到了极限。理解这条演化链，就是理解 value-based RL 为什么是今天这个样子。
+> **写在最后**：value-based RL 的演化史，本质上是一部 **"如何更准确地估计价值"** 的历史。从 Bellman 方程给出理论定义，到 MC 解决"不要模型"，到 TD 解决"每步更新"，到 [[02-模块/Value-Based/Q-Learning|Q-Learning]] 解决"off-policy"，到 [[02-模块/Value-Based/DQN|DQN]] 解决"大规模"，到 Rainbow 解决"各种工程缺陷"，到 [[02-模块/Value-Based/CQL|CQL]]/[[02-模块/Value-Based/IQL|IQL]] 解决"离线数据"，到 Decision Transformer 彻底跳出 Bellman 框架——每一步都是因为上一步在某个具体问题上走到了极限。理解这条演化链，就是理解 value-based RL 为什么是今天这个样子。

@@ -15,8 +15,8 @@ tags:
 - [[PPO]]
 
 ### 分类维度
-- [[02-模块/Actor-Critic/]]
-- [[On-Policy]]
+- [[02-模块/Actor-Critic/SAC|Actor-Critic算法]]
+- [[00-索引/按策略类型|On-Policy]]
 - 
 
 
@@ -33,7 +33,7 @@ Multiple agents train in parallel on different copies of the environment.
 - Better exploration and stability
 
 ## Related
-- [[02-模块/Actor-Critic/]]
-- [[On-Policy]]
+- [[02-模块/Actor-Critic/SAC|Actor-Critic算法]]
+- [[00-索引/按策略类型|On-Policy]]
 - [[A2C]]
 - [[PPO]]

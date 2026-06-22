@@ -15,7 +15,7 @@ created: 2026-06-22
 
 ## 核心思想
 
-**问题**：策略梯度更新步长过大，可能导致策略性能急剧下降。
+**问题**：[[01-原子/策略梯度|策略梯度]]更新步长过大，可能导致策略性能急剧下降。
 
 **解决方案**：限制新旧策略之间的距离，确保每次更新都在"信任区域"内。
 
@@ -59,9 +59,9 @@ $$J(\pi_\theta) - J(\pi_{\theta_\text{old}}) \geq \frac{1}{1-\gamma} \mathbb{E}_
 
 | 方法 | 约束方式 | 优点 | 缺点 |
 |------|---------|------|------|
-| **TRPO** | KL散度硬约束 | 理论保证强 | 计算复杂 |
-| **PPO-Clip** | Clip软约束 | 实现简单 | 理论保证弱 |
-| **PPO-Penalty** | KL散度惩罚 | 平衡 | 需要调参 |
+| **[[02-模块/Policy-Based/TRPO|TRPO]]** | KL散度硬约束 | 理论保证强 | 计算复杂 |
+| **[[02-模块/Policy-Based/PPO|PPO]]-Clip** | Clip软约束 | 实现简单 | 理论保证弱 |
+| **[[02-模块/Policy-Based/PPO|PPO]]-Penalty** | KL散度惩罚 | 平衡 | 需要调参 |
 
 详见 [[01-原子/Clip机制]]
 
@@ -74,7 +74,7 @@ $$J(\pi_\theta) - J(\pi_{\theta_\text{old}}) \geq \frac{1}{1-\gamma} \mathbb{E}_
 $$\max_\theta g^T (\theta - \theta_\text{old}) \quad \text{s.t.} \quad \frac{1}{2} (\theta - \theta_\text{old})^T H (\theta - \theta_\text{old}) \leq \delta$$
 
 其中：
-- $g = \nabla_\theta J(\theta)$ 是策略梯度
+- $g = \nabla_\theta J(\theta)$ 是[[01-原子/策略梯度|策略梯度]]
 - $H = \nabla_\theta^2 D_{KL}$ 是Fisher信息矩阵
 
 ### 解析解
@@ -85,7 +85,7 @@ $$\theta - \theta_\text{old} = \sqrt{\frac{2\delta}{g^T H^{-1} g}} H^{-1} g$$
 
 ### 共轭梯度法
 
-TRPO 使用共轭梯度法近似求解 $H^{-1} g$，避免显式计算 $H^{-1}$。
+[[02-模块/Policy-Based/TRPO|TRPO]] 使用共轭梯度法近似求解 $H^{-1} g$，避免显式计算 $H^{-1}$。
 
 **步骤**：
 1. 用共轭梯度法求解 $H x = g$，得到 $x \approx H^{-1} g$
@@ -138,7 +138,7 @@ GRPO (2024)：去Critic，保留Clip
 
 ## 与KL散度的关系
 
-TRPO 使用KL散度作为距离度量：
+[[02-模块/Policy-Based/TRPO|TRPO]] 使用KL散度作为距离度量：
 
 $$D_{KL}(\pi_{\theta_\text{old}} \| \pi_\theta) = \mathbb{E}_{a \sim \pi_{\theta_\text{old}}}\left[\log \frac{\pi_{\theta_\text{old}}(a|s)}{\pi_\theta(a|s)}\right]$$
 
@@ -154,4 +154,4 @@ $$D_{KL}(\pi_{\theta_\text{old}} \| \pi_\theta) = \mathbb{E}_{a \sim \pi_{\theta
 
 - 论文：Schulman et al. "Trust Region Policy Optimization" (2015)
 - 论文：Schulman et al. "Proximal Policy Optimization Algorithms" (2017)
-- 代码：[OpenAI Spinning Up TRPO](https://spinningup.openai.com/en/latest/algorithms/trpo.html)
+- 代码：[OpenAI Spinning Up [[02-模块/Policy-Based/TRPO|TRPO]]](https://spinningup.openai.com/en/latest/algorithms/trpo.html)

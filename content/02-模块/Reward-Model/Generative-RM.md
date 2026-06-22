@@ -7,7 +7,7 @@ tags:
 created: 2026-06-22
 ---
 
-# Generative Reward Model
+# Generative [[01-原子/Reward-Model训练方法|Reward Model]]
 
 > 先生成评价理由，再输出分数。可解释性强，但推理速度慢。
 
@@ -61,7 +61,7 @@ Output: "这个回答的优点是准确、有条理。缺点是缺少具体例�
 
 - **Skywork-Reward** (2024)：generative RM + RLHF
 - **Self-Taught Evaluators** (Meta 2024)：让模型自我训练评判能力
-- **Generative Reward Models** (2024, arxiv 2410.12832)：证明 generative RM 在某些场景下优于 Bradley-Terry RM
+- **Generative Reward Models** (2024, arxiv 2410.12832)：证明 generative RM 在某些场景下优于 [[01-原子/Bradley-Terry模型|Bradley-Terry]] RM
 
 ---
 
@@ -74,7 +74,7 @@ Output: "这个回答的优点是准确、有条理。缺点是缺少具体例�
 
 ## 演化位置
 
-**在 Reward Model 演化链中的位置**：
+**在 [[01-原子/Reward-Model训练方法|Reward Model]] 演化链中的位置**：
 
 ```
 Pairwise RM (2022)

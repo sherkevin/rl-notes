@@ -7,7 +7,7 @@ tags:
 created: 2026-06-22
 ---
 
-# Q-Learning
+# [[02-模块/Value-Based/Q-Learning|Q-Learning]]
 
 > 最基础的Off-policy TD控制算法。学习最优动作价值函数。
 
@@ -122,12 +122,12 @@ Rainbow (2017)：集成所有改进
 
 | 方法 | 类型 | 更新规则 | 风险态度 |
 |------|------|---------|---------|
-| **Q-Learning** | Off-policy | $r + \gamma \max_a Q(s', a)$ | 乐观（假设最优） |
-| **SARSA** | On-policy | $r + \gamma Q(s', a')$ | 保守（考虑探索） |
+| **[[02-模块/Value-Based/Q-Learning|Q-Learning]]** | Off-policy | $r + \gamma \max_a Q(s', a)$ | 乐观（假设最优） |
+| **[[02-模块/Value-Based/SARSA|SARSA]]** | On-policy | $r + \gamma Q(s', a')$ | 保守（考虑探索） |
 
 **示例**：悬崖行走问题
-- Q-Learning：学习沿悬崖边走（最优但危险）
-- SARSA：学习远离悬崖（安全但次优）
+- [[02-模块/Value-Based/Q-Learning|Q-Learning]]：学习沿悬崖边走（最优但危险）
+- [[02-模块/Value-Based/SARSA|SARSA]]：学习远离悬崖（安全但次优）
 
 详见 [[02-模块/Value-Based/SARSA]]
 
@@ -137,4 +137,4 @@ Rainbow (2017)：集成所有改进
 
 - 书籍：Sutton & Barto "Reinforcement Learning: An Introduction" Chapter 6
 - 论文：Watkins "Learning from Delayed Rewards" (1989)
-- 代码：[OpenAI Gym Q-Learning Example](https://gymnasium.farama.org/)
+- 代码：[OpenAI Gym [[02-模块/Value-Based/Q-Learning|Q-Learning]] Example](https://gymnasium.farama.org/)

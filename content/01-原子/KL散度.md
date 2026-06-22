@@ -107,21 +107,21 @@ $P = \pi_{old}$，$Q = \pi_\theta$
 - Forward KL 会让新策略被"拖宽"，不敢集中
 - Reverse KL 让新策略可以"收窄"聚焦到最好的动作
 
-**TRPO/PPO 的约束**：
+**[[02-模块/Policy-Based/TRPO|TRPO]]/[[02-模块/Policy-Based/PPO|PPO]] 的约束**：
 
 $$\max_\theta \; \mathbb{E}\left[\frac{\pi_\theta(a|s)}{\pi_{old}(a|s)} \hat{A}(s,a)\right] \quad \text{s.t.} \quad D_{KL}(\pi_\theta \| \pi_{old}) \leq \delta$$
 
-**重要性采样**：Reverse KL 需要从 Q 采样，但只有 P 的数据，用 $r(x) = Q(x)/P(x)$ 修正：
+**[[01-原子/重要性采样|重要性采样]]**：Reverse KL 需要从 Q 采样，但只有 P 的数据，用 $r(x) = Q(x)/P(x)$ 修正：
 
 $$\mathbb{E}_{x \sim Q}[\log Q(x) - \log P(x)] = \mathbb{E}_{x \sim P}\left[ \frac{Q(x)}{P(x)} \cdot (\log Q(x) - \log P(x)) \right]$$
 
-### 知识蒸馏
+### [[02-模块/Imitation-Learning/知识蒸馏|知识蒸馏]]
 
 **Forward KL 蒸馏**：student 覆盖 teacher 全部模式（模糊但全面）
 
 **Reverse KL 蒸馏**：student 只学 teacher 的一部分模式（锐利但片面）
 
-详见 [[02-模块/Reward-Model/知识蒸馏]]
+详见 [[02-模块/Imitation-Learning/知识蒸馏]]
 
 ---
 
@@ -130,7 +130,7 @@ $$\mathbb{E}_{x \sim Q}[\log Q(x) - \log P(x)] = \mathbb{E}_{x \sim P}\left[ \fr
 - [[02-模块/Policy-Based/PPO]]：Reverse KL 约束的简化版（用 clip 替代）
 - [[02-模块/Policy-Based/TRPO]]：显式约束 Reverse KL
 - [[02-模块/Reward-Model/DPO]]：隐式 reward 基于 KL 推导
-- [[02-模块/Reward-Model/知识蒸馏]]：Forward/Reverse KL 的不同效果
+- [[02-模块/Imitation-Learning/知识蒸馏]]：Forward/Reverse KL 的不同效果
 
 ---
 

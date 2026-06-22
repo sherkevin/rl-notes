@@ -131,7 +131,7 @@ Q-Learning (1989)：Off-policy TD控制
 
 $$V^\pi(s) = \mathbb{E}_\pi[r + \gamma V^\pi(s') | s]$$
 
-**TD误差**（采样形式）：
+**[[01-原子/TD误差|TD误差]]**（采样形式）：
 
 $$\delta_t = r_t + \gamma V(s_{t+1}) - V(s_t)$$
 

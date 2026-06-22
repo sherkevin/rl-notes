@@ -125,7 +125,7 @@ GAE (2016)：广义优势估计
 
 ## 与Bellman方程的关系
 
-**Bellman方程**（期望形式）：
+**[[01-原子/Bellman方程|Bellman方程]]**（期望形式）：
 
 $$V^\pi(s) = \mathbb{E}_\pi[r + \gamma V^\pi(s') | s]$$
 

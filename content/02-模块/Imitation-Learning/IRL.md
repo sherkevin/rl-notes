@@ -25,7 +25,7 @@ $$\mathbb{E}_{\tau \sim \pi^*}\left[\sum_t \gamma^t \phi(s_t)\right] \geq \mathb
 
 其中 $\phi(s)$ 是特征函数，奖励假设为特征的线性组合 $r(s) = w^\top \phi(s)$。
 
-**最大熵 IRL**（Ziebart et al., 2008）：引入最大熵原理解决奖励模糊性：
+**[[01-原子/最大熵原理|最大熵]] IRL**（Ziebart et al., 2008）：引入[[01-原子/最大熵原理|最大熵原理]]解决奖励模糊性：
 $$P(\tau | \theta) \propto \exp\left(\sum_t \theta^\top \phi(s_t, a_t)\right)$$
 
 ## 优缺点

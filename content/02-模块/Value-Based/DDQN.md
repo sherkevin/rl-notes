@@ -15,14 +15,14 @@ tags:
 - [[Q-Learning]]
 
 ### 分类维度
-- [[02-模块/Value-Based/]]
-- [[Off-Policy]]
+- [[02-模块/Value-Based/DQN|Value-Based算法]]
+- [[00-索引/按策略类型|Off-Policy]]
 - 
 
 
-# Double DQN (DDQN)
+# Double [[02-模块/Value-Based/DQN|DQN]] (DDQN)
 
-Double DQN is an improvement over standard DQN that addresses overestimation bias.
+Double [[02-模块/Value-Based/DQN|DQN]] is an improvement over standard [[02-模块/Value-Based/DQN|DQN]] that addresses overestimation bias.
 
 ## Overview
 Uses separate networks for action selection and evaluation to reduce maximization bias.
@@ -32,5 +32,5 @@ Decouples action selection from value evaluation using target and main networks.
 
 ## Related
 - [[DQN]]
-- [[02-模块/Value-Based/]]
-- [[Off-Policy]]
+- [[02-模块/Value-Based/DQN|Value-Based算法]]
+- [[00-索引/按策略类型|Off-Policy]]

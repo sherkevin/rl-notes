@@ -63,14 +63,14 @@ $$\min\left(r_t(\theta), 1-\epsilon\right) \cdot \hat{A}_t$$
 
 ## 与TRPO的信任区域对比
 
-### TRPO：硬约束
+### [[02-模块/Policy-Based/TRPO|TRPO]]：硬约束
 
 $$\max_\theta J(\theta) \quad \text{s.t.} \quad D_{KL}(\pi_{\theta_\text{old}} \| \pi_\theta) \leq \delta$$
 
 - 优点：理论保证单调改进
 - 缺点：需要求解约束优化问题，计算复杂
 
-### PPO：软约束（Clip）
+### [[02-模块/Policy-Based/PPO|PPO]]：软约束（Clip）
 
 $$\max_\theta L^{CLIP}(\theta)$$
 

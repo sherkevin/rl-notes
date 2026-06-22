@@ -40,7 +40,7 @@ Self-score: "4/5, because..."
 ### 迭代过程
 
 1. 模型生成多个 response
-2. 模型自己评估哪个更好（LLM-as-Judge on itself）
+2. 模型自己评估哪个更好（[[02-模块/Reward-Model/LLM-as-Judge|LLM-as-Judge]] on itself）
 3. 用这些偏好数据微调模型
 4. 回到步骤 1，用更强的模型生成更好的偏好数据
 
@@ -76,7 +76,7 @@ Round 2: π_1 生成 response 对 → π_1 自评 → 偏好数据 → 微调 �
 
 ## 演化位置
 
-**在 Reward Model 演化链中的位置**：
+**在 [[01-原子/Reward-Model训练方法|Reward Model]] 演化链中的位置**：
 
 ```
 LLM-as-Judge (2024)

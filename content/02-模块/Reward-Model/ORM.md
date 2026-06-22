@@ -7,7 +7,7 @@ tags:
 created: 2026-06-22
 ---
 
-# Outcome Reward Model (ORM)
+# Outcome [[01-原子/Reward-Model训练方法|Reward Model]] (ORM)
 
 > 只看最终结果打分。标注简单，但有 credit assignment 问题。
 
@@ -55,8 +55,8 @@ $$L(\phi) = -\mathbb{E} \left[ y \log r_\phi(x, y) + (1-y) \log(1 - r_\phi(x, y)
 
 ### 应用到 RL
 
-1. 用 ORM 给 PPO 提供最终奖励信号
-2. PPO 优化策略，最大化最终奖励
+1. 用 ORM 给 [[02-模块/Policy-Based/PPO|PPO]] 提供最终奖励信号
+2. [[02-模块/Policy-Based/PPO|PPO]] 优化策略，最大化最终奖励
 
 ---
 
@@ -82,7 +82,7 @@ $$L(\phi) = -\mathbb{E} \left[ y \log r_\phi(x, y) + (1-y) \log(1 - r_\phi(x, y)
 
 ## 演化位置
 
-**在 Reward Model 演化链中的位置**：
+**在 [[01-原子/Reward-Model训练方法|Reward Model]] 演化链中的位置**：
 
 ```
 Pairwise RM (2022)
