@@ -106,6 +106,34 @@ $$= \underbrace{-H(P)}_{\text{P 的熵，常数}} - \underbrace{\mathbb{E}_{x \s
 - P 概率为 0 的地方 → 不会出现在采样中 → Q 在那里做什么完全无所谓
 - P(x) > 0 但 Q(x) → 0 → $\log Q(x) \to -\infty$ → loss 爆炸 → **Q 在 P 有概率的地方绝对不能给零**
 
+### 为什么期望只在 P 的非零处有贡献
+
+回到期望的定义。期望就是**加权平均，权重就是概率**：
+
+$$\mathbb{E}_{x \sim P}[f(x)] = \sum_x P(x) \cdot f(x)$$
+
+每一项都是 $P(x)$ 乘以 $f(x)$。**$P(x) = 0$ 时**：
+
+$$P(x) \cdot f(x) = 0 \cdot f(x) = 0$$
+
+不管 $f(x)$ 是什么（哪怕 $f(x) = 99999$），乘以零就是零。这个 $x$ 对期望没有任何贡献。
+
+### 具体例子
+
+假设 P 和 Q 定义在三个点上：
+
+| $x$ | $P(x)$ | $Q(x)$ | $P(x) \cdot \log \frac{P(x)}{Q(x)}$ |
+|---|---|---|---|
+| $a$ | 0.7 | 0.5 | $0.7 \times \log(0.7/0.5) = +0.236$ |
+| $b$ | 0.3 | 0.5 | $0.3 \times \log(0.3/0.5) = -0.153$ |
+| $c$ | **0** | 0.9 | $0 \times \log(0/0.9) = \mathbf{0}$ |
+
+点 $c$：$P(c) = 0$，所以 Q 在那里给 0.9 也好给 0.001 也好，**贡献都是零**。P 根本不在乎 $c$。
+
+$$D_{KL}(P\|Q) = 0.236 + (-0.153) + 0 = 0.083$$
+
+**这就是"只有 P 认为重要的地方才参与计算"的数学本质——$P(x)$ 是权重，$P(x)=0$ 的地方权重为零，直接消失。**
+
 这就是 Forward KL 的核心行为。
 
 ---
@@ -247,7 +275,79 @@ $$L(\theta) = \mathbb{E}\left[ \min\left( r_t(\theta) \hat{A}_t, \; \text{clip}(
 
 ---
 
-## 7. 总结
+## 7. 知识蒸馏中的 Forward KL vs Reverse KL
+
+蒸馏的目标是让 student 模型学习 teacher 模型的输出分布。选择哪种 KL 决定了 student 学到的"风格"。
+
+### Forward KL 蒸馏（标准做法）
+
+$$D_{KL}(P_{teacher} \| P_{student}) = \mathbb{E}_{x \sim P_{teacher}}\left[\log \frac{P_{teacher}(x)}{P_{student}(x)}\right]$$
+
+期望基于 **teacher** 采样：
+
+- Teacher 有概率但 student 给 0 → $\log P_{student}(x) \to -\infty$ → **loss 爆炸**
+- Student 在 teacher 有概率的**所有** token 上都必须给正概率
+- **效果：student 复制 teacher 的完整分布——"模糊但全面"**
+
+```
+Teacher（多峰）:              Student（Forward KL）:
+
+    ╱╲     ╱╲                     ╱╲     ╱╲
+   ╱  ╲   ╱  ╲                  ╱╱  ╲╲ ╱╱  ╲╲
+──╱────╲─╱────╲──            ─╱──────────────╲──
+                                  覆盖全部模式
+```
+
+**典型场景**：通用知识蒸馏，希望 student 尽量完整复制 teacher 的行为。
+
+### Reverse KL 蒸馏
+
+$$D_{KL}(P_{student} \| P_{teacher}) = \mathbb{E}_{x \sim P_{student}}\left[\log \frac{P_{student}(x)}{P_{teacher}(x)}\right]$$
+
+期望基于 **student** 采样：
+
+- Student 概率为 0 的 token → 不会被采到 → **永远不考虑**
+- Student 只在**自己已经认为可能的** token 上去对齐 teacher
+- 如果 student 在某处给了正概率但 teacher 是 0 → $\log(P_{student}/P_{teacher}) = \log(\text{正}/0) = +\infty$ → **loss 爆炸**
+- **硬性前提：student 的非零区域必须完全落在 teacher 的非零区域内**
+
+$$\text{support}(P_{student}) \subseteq \text{support}(P_{teacher})$$
+
+- **效果：student 只精确学习 teacher 的某一部分模式——"锐利但片面"**
+
+```
+Teacher（多峰）:              Student（Reverse KL）:
+
+    ╱╲     ╱╲                     ╱╲
+   ╱  ╲   ╱  ╲                   ╱  ╲
+──╱────╲─╱────╲──            ─╱────╲──────
+                                只精确学一个峰
+```
+
+**典型场景**：teacher 输出分布很宽（很多合理答案），但你希望 student 果断选最好的那几个。比如数学推理：teacher 给了 5 种解法都有概率，但 student 只需要精确学会最好的 1 种。
+
+### 对比
+
+| | Forward KL 蒸馏 | Reverse KL 蒸馏 |
+|---|---|---|
+| 采样分布 | teacher | student |
+| Student 给 0 但 teacher 有概率 | 💥 **loss 爆炸，强制纠正** | ✅ 不管（采不到）|
+| Teacher 给 0 但 student 有概率 | ✅ 不管 | 💥 loss 爆炸 |
+| 蒸馏效果 | Student 覆盖 teacher 全部 | Student 只学 teacher 的一部分 |
+| 输出风格 | 模糊但全面 | 锐利但片面 |
+| 适用场景 | 通用 KD | 精确对齐特定能力 |
+
+### 实际操作 Reverse KL 蒸馏
+
+因为 Reverse KL 要求 support 包含关系，实际通常：
+
+1. **Student 从 teacher 初始化**（fine-tune teacher）→ 天然有 overlap
+2. **Teacher 经过 temperature 平滑** → 让 teacher 的 support 更宽，更容易包含 student
+3. **混合 KL（JSD）**：Forward + Reverse 一起用，既要覆盖又要精确
+
+---
+
+## 8. 总结
 
 ```
                   KL 散度的两种用法
@@ -267,7 +367,7 @@ $$L(\theta) = \mathbb{E}\left[ \min\left( r_t(\theta) \hat{A}_t, \; \text{clip}(
    宁可模糊不漏                宁可漏掉要精确
 ```
 
-## 8. 延伸
+## 9. 延伸
 
 - **Jensen-Shannon 散度 (JSD)**：$\frac{1}{2}D_{KL}(P\|M) + \frac{1}{2}D_{KL}(Q\|M)$，其中 $M = \frac{1}{2}(P+Q)$。Forward 和 Reverse KL 的对称折中，GAN 用这个作为判别器的训练目标。
 - [[02-具体算法/Policy-Based/PPO]]：PPO 的 clip 机制本质上是 Reverse KL 约束的简化版。
