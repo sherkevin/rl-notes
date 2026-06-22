@@ -550,10 +550,10 @@ $$\mathcal{L}_{\text{SimPO}} = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma\le
 
 **优缺点**:
 - 优点:
-  - **无参考模型**:更<think>更省
+  - **无参考模型**:更\<think\>更省
   - 效果好:在 AlpacaEval 2 上超过 DPO 6.4 点,Arena-Hard 上超过 7.5 点
   - 不增加回答长度 (DPO 的长度偏置被缓解)
-  - Gemma-2-9B + SimPO 在 Chatbot Arena 排名 <10B 模型第一
+  - Gemma-2-9B + SimPO 在 Chatbot Arena 排名 \<10B 模型第一
 - 缺点:
   - 隐式奖励 (平均对数概率) 的理论基础不够深
   - 长度归一化可能在某些场景下有害

@@ -300,6 +300,49 @@ $$r(x, y) = \beta \log \frac{\pi_\theta(y|x)}{\pi_{ref}(y|x)}$$
 
 详见 [[04-演化综述/Offline-RL与RLHF演化史]]。
 
+### DPO 的训练数据从哪来
+
+DPO 的训练数据是**偏好对** $(x, y_w, y_l)$——跟传统 RLHF 训 reward model 的数据格式完全一样。区别在于：传统 RLHF 用这些数据训独立的 RM，DPO 直接用这些数据训策略模型。
+
+**三种来源**：
+
+| 来源 | 方式 | 优缺点 |
+|---|---|---|
+| **人类标注** | 标注员看两个 response，二选一 | 质量高，但贵且慢 |
+| **LLM-as-Judge** | GPT-4/Claude 代替人做判断 | 便宜快，但有偏差（倾向长回答、第一个回答）|
+| **开源数据集** | Anthropic HH-RLHF、UltraFeedback 等 | 免费，但可能跟你的场景不匹配 |
+
+**完整 DPO 训练流程**：
+
+```
+Step 1: SFT
+  用高质量数据微调基座模型 → π_ref（reference model）
+
+Step 2: 生成 response 对
+  对每个 prompt，用 π_ref 生成多个 response（通常 2-4 个）
+
+Step 3: 标注偏好
+  人类或 LLM-as-Judge 比较 response 对，选出 y_w 和 y_l
+  → 得到偏好数据集 {(x, y_w, y_l)}，通常 5k-50k 条
+
+Step 4: DPO 训练
+  用偏好数据直接微调 π_ref → π_θ
+  Loss: 让 π_θ 更倾向生成 y_w，更不倾向生成 y_l
+```
+
+**跟传统 RLHF 的流程对比**：
+
+| 步骤 | 传统 RLHF | DPO |
+|---|---|---|
+| 1. SFT | ✅ 一样 | ✅ 一样 |
+| 2. 生成 response 对 | ✅ 一样 | ✅ 一样 |
+| 3. 标注偏好 | ✅ 一样 | ✅ 一样 |
+| 4. 训练 reward model | ✅ **单独训一个 RM** | ❌ 跳过 |
+| 5. RL 优化 (PPO) | ✅ 用 RM 当奖励跑 PPO | ❌ 跳过 |
+| 6. 直接微调策略 | ❌ | ✅ **用偏好数据直接训** |
+
+DPO 把传统 RLHF 的 Step 4+5 合并成一步，用偏好数据直接训策略模型。
+
 ---
 
 ## 全景总结
