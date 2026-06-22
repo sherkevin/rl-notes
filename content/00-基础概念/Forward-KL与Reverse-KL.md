@@ -21,12 +21,33 @@ KL 散度度量的是：**用分布 Q 来"代替"分布 P 时，要多付多少�
 
 $$D_{KL}(P \| Q) = \mathbb{E}_{x \sim P} \left[ \log \frac{P(x)}{Q(x)} \right]$$
 
-拆开期望：
+### 逐步展开（三步）
+
+**第一步：对数除法变减法**
+
+利用对数基本性质 $\log \frac{a}{b} = \log a - \log b$：
+
+$$D_{KL}(P \| Q) = \mathbb{E}_{x \sim P}[\log P(x) - \log Q(x)]$$
+
+**第二步：期望的线性性，拆成两项**
+
+$$\mathbb{E}[A - B] = \mathbb{E}[A] - \mathbb{E}[B]$$
+
+所以：
+
+$$= \mathbb{E}_{x \sim P}[\log P(x)] - \mathbb{E}_{x \sim P}[\log Q(x)]$$
+
+**第三步：认出第一项就是 $-H(P)$**
+
+熵的定义是 $H(P) = -\mathbb{E}_{x \sim P}[\log P(x)]$，所以第一项 $\mathbb{E}_{x \sim P}[\log P(x)]$ 就是 $-H(P)$：
 
 $$= \underbrace{-H(P)}_{\text{P 的熵，常数}} - \underbrace{\mathbb{E}_{x \sim P}[\log Q(x)]}_{\text{交叉熵，真正驱动优化的项}}$$
 
-- 第一项 $-H(P)$ 是 P 自身的熵，跟 Q 无关，优化时是常数
-- 第二项是交叉熵：**在 P 有概率的地方，Q 给出的 log 概率是多少**
+### 为什么 $-H(P)$ 是常数
+
+它只跟 P 有关，跟你要优化的 Q 完全无关。P 是固定的真实分布/数据分布，你改不了它，所以优化 $D_{KL}$ 时这一项不影响梯度方向，可以丢掉。
+
+最终：**最小化 KL = 最小化第二项（交叉熵）**。这就是为什么交叉熵 loss 在数学上等价于最小化 Forward KL。
 
 ---
 
