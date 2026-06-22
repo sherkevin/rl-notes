@@ -1,3 +1,65 @@
 @use "./variables.scss" as *;
 
-// put your custom CSS here!
+// Mermaid diagram fixes
+// Force node text to be readable in both light and dark mode
+.mermaid {
+  background: transparent !important;
+}
+
+// Node label text
+.mermaid .nodeLabel,
+.mermaid .edgeLabel,
+.mermaid .label {
+  color: var(--darkgray) !important;
+  fill: var(--darkgray) !important;
+}
+
+// Node fill should use theme colors
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon,
+.mermaid .node path {
+  fill: var(--light) !important;
+  stroke: var(--tertiary) !important;
+}
+
+// Edge lines
+.mermaid .edgePath path {
+  stroke: var(--darkgray) !important;
+}
+
+// Arrow heads
+.mermaid .marker {
+  fill: var(--darkgray) !important;
+  stroke: var(--darkgray) !important;
+}
+
+// Edge label background
+.mermaid .edgeLabel {
+  background-color: var(--highlight) !important;
+}
+
+// Cluster/subgraph background
+.mermaid .cluster rect {
+  fill: var(--lightgray) !important;
+  stroke: var(--tertiary) !important;
+}
+
+// Dark mode overrides
+:root[saved-theme="dark"] .mermaid {
+  .node rect,
+  .node circle,
+  .node ellipse,
+  .node polygon,
+  .node path {
+    fill: var(--light) !important;
+    stroke: var(--tertiary) !important;
+  }
+  .nodeLabel,
+  .edgeLabel,
+  .label {
+    color: var(--darkgray) !important;
+    fill: var(--darkgray) !important;
+  }
+}
