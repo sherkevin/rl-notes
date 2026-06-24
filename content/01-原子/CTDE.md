@@ -117,7 +117,7 @@ CTDE (2017, MADDPG) ← **你在这里**
 QMIX / MAPPO (2018-2022)：CTDE 的改进
 ```
 
-详见 [[02-模块/Multi-Agent/MARL概览]]
+详见 [[05-应用领域/Multi-Agent/MARL概览]]
 
 ---
 

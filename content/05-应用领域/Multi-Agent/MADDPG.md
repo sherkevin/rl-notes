@@ -40,8 +40,8 @@ $$\nabla_{\theta_i} J = -\nabla_{\theta_i} Q_i(s, a_1, \ldots, \pi_i(o_i), \ldot
 
 ## 演化位置
 
-COMA (2018) ← **MADDPG** → [[02-模块/Multi-Agent/MAPPO|MAPPO]] (2022)
-MADDPG 是 CTDE + [[01-原子/策略梯度|策略梯度]]的标志性工作。[[02-模块/Multi-Agent/MAPPO|MAPPO]] 本质上是用 [[02-模块/Policy-Based/PPO|PPO]] 替换了 MADDPG 的 [[02-模块/Actor-Critic/DDPG|DDPG]] 框架，成为后续 MARL 研究的标准基线。
+COMA (2018) ← **MADDPG** → [[05-应用领域/Multi-Agent/MAPPO|MAPPO]] (2022)
+MADDPG 是 CTDE + [[01-原子/策略梯度|策略梯度]]的标志性工作。[[05-应用领域/Multi-Agent/MAPPO|MAPPO]] 本质上是用 [[02-模块/Policy-Based/PPO|PPO]] 替换了 MADDPG 的 [[02-模块/Actor-Critic/DDPG|DDPG]] 框架，成为后续 MARL 研究的标准基线。
 
 ## 相关算法
 

@@ -133,7 +133,7 @@ Expert Iteration (2018)：生成 + 筛选 + 训练
 SPIN (2024) ← **你在这里**：DPO + Self-Play
 ```
 
-详见 [[02-模块/Mid-Training/Mid-Training概览]]
+详见 [[05-应用领域/Mid-Training/Mid-Training概览]]
 
 ---
 

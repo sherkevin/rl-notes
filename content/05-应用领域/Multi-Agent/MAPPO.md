@@ -11,7 +11,7 @@ tags:
 
 ## 来源与动机
 
-社区普遍认为 on-policy 方法的样本效率不如 off-policy（如 [[02-模块/Multi-Agent/QMIX|QMIX]]），且 MARL 领域倾向于设计越来越复杂的算法（值分解、反事实基线等）。Yu et al. 的论文标题直接说明了一切："The Surprising Effectiveness of [[02-模块/Policy-Based/PPO|PPO]] in Cooperative, Multi-Agent Games"——简单的 [[02-模块/Policy-Based/PPO|PPO]] 加上工程最佳实践就能达到甚至超过复杂方法。
+社区普遍认为 on-policy 方法的样本效率不如 off-policy（如 [[05-应用领域/Multi-Agent/QMIX|QMIX]]），且 MARL 领域倾向于设计越来越复杂的算法（值分解、反事实基线等）。Yu et al. 的论文标题直接说明了一切："The Surprising Effectiveness of [[02-模块/Policy-Based/PPO|PPO]] in Cooperative, Multi-Agent Games"——简单的 [[02-模块/Policy-Based/PPO|PPO]] 加上工程最佳实践就能达到甚至超过复杂方法。
 
 **论文**: Yu et al., "The Surprising Effectiveness of [[02-模块/Policy-Based/PPO|PPO]] in Cooperative, Multi-Agent Games", NeurIPS 2022 (Datasets and Benchmarks Track), UC Berkeley + 清华
 
@@ -37,11 +37,11 @@ $$L_{\text{critic}} = E[(V_i(s) - R_i)^2]$$
 - ✅ 在 SMAC、MPE、Google Research Football、Hanabi 四个 benchmark 上表现强劲
 - ✅ 成为事实上的标准基线
 - ❌ 样本效率低于 off-policy 方法（on-policy 固有限制）
-- ❌ 在某些需要精细信用分配的任务上不如 [[02-模块/Multi-Agent/QMIX|QMIX]]
+- ❌ 在某些需要精细信用分配的任务上不如 [[05-应用领域/Multi-Agent/QMIX|QMIX]]
 
 ## 演化位置
 
-[[02-模块/Multi-Agent/MADDPG|MADDPG]] → **MAPPO** → IPPO / HAPPO / MAT
+[[05-应用领域/Multi-Agent/MADDPG|MADDPG]] → **MAPPO** → IPPO / HAPPO / MAT
 MAPPO 挑战了社区的"复杂度偏见"——简单的方法加上好的工程实践可以匹敌复杂方法。成为后续 MARL 研究的标准基线。
 
 ## 相关算法

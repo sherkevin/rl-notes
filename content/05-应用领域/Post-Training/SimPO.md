@@ -134,7 +134,7 @@ SimPO (2024) ← **你在这里**
 KTO (2024)
 ```
 
-详见 [[02-模块/Post-Training/Post-Training方法全景]]
+详见 [[05-应用领域/Post-Training/Post-Training方法全景]]
 
 ---
 

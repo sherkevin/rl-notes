@@ -163,7 +163,7 @@ $V$ 网络虽然不完美，但它**大部分时候估的方向是对的**。$\l
 
 - [[02-模块/Policy-Based/PPO]]：使用GAE作为优势估计
 - [[02-模块/Policy-Based/TRPO]]：使用GAE
-- [[02-模块/Multi-Agent/MAPPO]]：使用GAE
+- [[05-应用领域/Multi-Agent/MAPPO]]：使用GAE
 
 ---
 

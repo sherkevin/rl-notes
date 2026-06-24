@@ -23,7 +23,7 @@ created: 2026-06-23
 
 ### 1. RL-Based（强化学习派）
 
-**代表**：[[02-模块/Post-Training/RLHF|RLHF]]、[[02-模块/Policy-Based/GRPO|GRPO]]、[[02-模块/Policy-Based/DAPO|DAPO]]
+**代表**：[[05-应用领域/Post-Training/RLHF|RLHF]]、[[02-模块/Policy-Based/GRPO|GRPO]]、[[02-模块/Policy-Based/DAPO|DAPO]]
 
 **流程**：
 1. 训练 reward model（或直接用 verifiable reward）
@@ -79,7 +79,7 @@ created: 2026-06-23
 
 | 方法 | 年份 | 需要 RM | 需要 RL | 需要 Value Model | 稳定性 | 适用场景 |
 |------|------|---------|---------|------------------|--------|----------|
-| [[02-模块/Post-Training/RLHF\|RLHF]] | 2022 | ✅ | ✅ (PPO) | ✅ | ❌ | 预算充足、追求最强效果 |
+| [[05-应用领域/Post-Training/RLHF\|RLHF]] | 2022 | ✅ | ✅ (PPO) | ✅ | ❌ | 预算充足、追求最强效果 |
 | [[02-模块/Reward-Model/DPO\|DPO]] | 2023 | ❌ | ❌ | ❌ | ✅ | 快速迭代、数据质量高 |
 | [[02-模块/Policy-Based/GRPO\|GRPO]] | 2024 | ✅/❌ | ✅ | ❌ | ⚠️ | 内存受限、生成式任务 |
 | [[02-模块/Policy-Based/DAPO\|DAPO]] | 2024 | ✅/❌ | ✅ | ✅ | ✅ | 需要解耦优化 |
@@ -227,7 +227,7 @@ created: 2026-06-23
 
 ### 你有偏好数据 (y_w, y_l) 吗？
 
-- **有** → [[02-模块/Reward-Model/DPO|DPO]]（简单稳定）或 [[02-模块/Post-Training/RLHF|RLHF]]（追求最强）
+- **有** → [[02-模块/Reward-Model/DPO|DPO]]（简单稳定）或 [[05-应用领域/Post-Training/RLHF|RLHF]]（追求最强）
 - **没有** → 考虑可验证奖励（数学/代码）或生成偏好数据
 
 ### 你有预算训练多个模型吗？

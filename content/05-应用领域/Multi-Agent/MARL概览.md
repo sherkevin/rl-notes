@@ -65,8 +65,8 @@ $$|\mathcal{S}| = |\mathcal{S}_1| \times |\mathcal{S}_2| \times \cdots \times |\
 **目标**：所有 agent 最大化同一个全局奖励 $R$。
 
 **代表算法**：
-- [[02-模块/Multi-Agent/QMIX|QMIX]]：分解 Q 函数
-- [[02-模块/Multi-Agent/MAPPO|MAPPO]]：集中训练 + 分散执行
+- [[05-应用领域/Multi-Agent/QMIX|QMIX]]：分解 Q 函数
+- [[05-应用领域/Multi-Agent/MAPPO|MAPPO]]：集中训练 + 分散执行
 - VDN：值函数分解
 
 **应用**：
@@ -97,7 +97,7 @@ $$|\mathcal{S}| = |\mathcal{S}_1| \times |\mathcal{S}_2| \times \cdots \times |\
 **目标**：部分合作、部分竞争（一般和博弈）。
 
 **代表算法**：
-- [[02-模块/Multi-Agent/MADDPG|MADDPG]]：集中训练 + 分散执行
+- [[05-应用领域/Multi-Agent/MADDPG|MADDPG]]：集中训练 + 分散执行
 - Nash Q-Learning
 - Mean Field RL
 
@@ -126,9 +126,9 @@ $$|\mathcal{S}| = |\mathcal{S}_1| \times |\mathcal{S}_2| \times \cdots \times |\
 - 解耦训练和执行的信息需求
 
 **代表算法**：
-- [[02-模块/Multi-Agent/MADDPG|MADDPG]]：每个 agent 有自己的 critic（用全局信息）
-- [[02-模块/Multi-Agent/QMIX|QMIX]]：集中 mixing network + 分散 Q 网络
-- [[02-模块/Multi-Agent/MAPPO|MAPPO]]：集中 value + 分散 policy
+- [[05-应用领域/Multi-Agent/MADDPG|MADDPG]]：每个 agent 有自己的 critic（用全局信息）
+- [[05-应用领域/Multi-Agent/QMIX|QMIX]]：集中 mixing network + 分散 Q 网络
+- [[05-应用领域/Multi-Agent/MAPPO|MAPPO]]：集中 value + 分散 policy
 
 ---
 
