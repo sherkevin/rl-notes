@@ -57,7 +57,7 @@ PPO的主要目标是解决传统[[01-原子/策略梯度|策略梯度]]算法�
 
 使用GAE（详见 [[01-原子/GAE]]）计算优势估计：
 
-$$A^\text{[[01-原子/GAE|GAE]]}_t = \sum_{l=0}^\infty (\gamma\lambda)^l \delta_{t+l}$$
+$$A^{\text{GAE}}_t = \sum_{l=0}^\infty (\gamma\lambda)^l \delta_{t+l}$$
 
 其中 $\delta_t = r_t + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)$
 

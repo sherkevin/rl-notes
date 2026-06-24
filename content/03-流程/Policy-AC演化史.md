@@ -304,7 +304,7 @@ $$J(\pi_\theta) \geq J(\pi_{\theta_\text{old}}) - \frac{4\epsilon\gamma}{(1-\gam
 
 **[[02-模块/Policy-Based/PPO|PPO]]-Clip 目标函数**：
 
-$$\mathcal{J}_\text{[[02-模块/Policy-Based/PPO|PPO]]}(\theta) = \mathbb{E}_t \left[ \min \left( r_t(\theta) \hat{A}_t, \; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) \hat{A}_t \right) \right]$$
+$$\mathcal{J}_\text{PPO}(\theta) = \mathbb{E}_t \left[ \min \left( r_t(\theta) \hat{A}_t, \; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) \hat{A}_t \right) \right]$$
 
 其中概率比 $r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_\text{old}}(a_t|s_t)}$。
 
@@ -551,7 +551,7 @@ $$r(x,y) = \beta \log \frac{\pi_\theta(y|x)}{\pi_\text{ref}(y|x)} + \beta \log Z
 
 **[[02-模块/Reward-Model/DPO|DPO]] 损失函数**（代入 [[01-原子/Bradley-Terry模型|Bradley-Terry]] 偏好模型，$Z(x)$ 项消去）：
 
-$$\mathcal{L}_\text{[[02-模块/Reward-Model/DPO|DPO]]}(\theta) = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma \left( \beta \log \frac{\pi_\theta(y_w|x)}{\pi_\text{ref}(y_w|x)} - \beta \log \frac{\pi_\theta(y_l|x)}{\pi_\text{ref}(y_l|x)} \right) \right]$$
+$$\mathcal{L}_\text{DPO}(\theta) = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma \left( \beta \log \frac{\pi_\theta(y_w|x)}{\pi_\text{ref}(y_w|x)} - \beta \log \frac{\pi_\theta(y_l|x)}{\pi_\text{ref}(y_l|x)} \right) \right]$$
 
 其中 $y_w$ 是人类偏好的回复（winner），$y_l$ 是非偏好的回复（loser）。
 
@@ -597,7 +597,7 @@ $$\hat{A}_{i,t} = \frac{R_i - \text{mean}(\{R_i\}_{i=1}^G)}{\text{std}(\{R_i\}_{
 
 **[[02-模块/Policy-Based/GRPO|GRPO]] 目标函数**：
 
-$$\mathcal{J}_\text{[[02-模块/Policy-Based/GRPO|GRPO]]}(\theta) = \mathbb{E} \left[ \frac{1}{G} \sum_{i=1}^G \frac{1}{|o_i|} \sum_{t=1}^{|o_i|} \left( \min\left(r_{i,t}(\theta) \hat{A}_{i,t}, \text{clip}(r_{i,t}(\theta), 1-\epsilon, 1+\epsilon) \hat{A}_{i,t}\right) - \beta D_\text{KL}(\pi_\theta \| \pi_\text{ref}) \right) \right]$$
+$$\mathcal{J}_\text{GRPO}(\theta) = \mathbb{E} \left[ \frac{1}{G} \sum_{i=1}^G \frac{1}{|o_i|} \sum_{t=1}^{|o_i|} \left( \min\left(r_{i,t}(\theta) \hat{A}_{i,t}, \text{clip}(r_{i,t}(\theta), 1-\epsilon, 1+\epsilon) \hat{A}_{i,t}\right) - \beta D_\text{KL}(\pi_\theta \| \pi_\text{ref}) \right) \right]$$
 
 其中 $r_{i,t}(\theta) = \frac{\pi_\theta(o_{i,t}|q, o_{i,<t})}{\pi_{\theta_\text{old}}(o_{i,t}|q, o_{i,<t})}$。
 

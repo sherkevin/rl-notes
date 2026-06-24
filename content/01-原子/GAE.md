@@ -17,7 +17,7 @@ created: 2026-06-22
 
 **定义**：GAE 是多个TD残差的指数加权和：
 
-$$A^\text{GAE(\gamma, \lambda)}_t = \sum_{l=0}^\infty (\gamma \lambda)^l \delta_{t+l}$$
+$$A^{\text{GAE}(\gamma, \lambda)}_t = \sum_{l=0}^\infty (\gamma \lambda)^l \delta_{t+l}$$
 
 其中：
 - $\delta_t = r_t + \gamma V(s_{t+1}) - V(s_t)$ 是单步TD残差
@@ -44,14 +44,14 @@ $$A^\text{GAE}_t = -V(s_t) + \sum_{l=0}^\infty (\gamma\lambda)^l r_{t+l} + \text
 
 ### $\lambda = 0$：单步TD残差
 
-$$A^\text{GAE(\gamma, 0)}_t = \delta_t = r_t + \gamma V(s_{t+1}) - V(s_t)$$
+$$A^{\text{GAE}(\gamma, 0)}_t = \delta_t = r_t + \gamma V(s_{t+1}) - V(s_t)$$
 
 - **偏差**：高（只考虑一步）
 - **方差**：低（只依赖一个奖励）
 
 ### $\lambda = 1$：蒙特卡洛估计
 
-$$A^\text{GAE(\gamma, 1)}_t = \sum_{l=0}^\infty \gamma^l r_{t+l} - V(s_t) = G_t - V(s_t)$$
+$$A^{\text{GAE}(\gamma, 1)}_t = \sum_{l=0}^\infty \gamma^l r_{t+l} - V(s_t) = G_t - V(s_t)$$
 
 - **偏差**：低（考虑完整轨迹）
 - **方差**：高（依赖整个轨迹的奖励）
