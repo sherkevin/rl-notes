@@ -65,6 +65,9 @@
 - Policy-Based: [[02-模块/Policy-Based/PPO]]、[[02-模块/Policy-Based/TRPO]]
 - Actor-Critic: [[02-模块/Actor-Critic/SAC]]、[[02-模块/Actor-Critic/DDPG]]
 - Reward-Model: [[02-模块/Reward-Model/DPO]]、[[02-模块/Reward-Model/PRM]]
+- **Post-Training**: [[02-模块/Post-Training/RLHF]]、[[02-模块/Post-Training/SimPO]]、[[02-模块/Post-Training/Post-Training方法全景]]
+- **Multi-Agent**: [[02-模块/Multi-Agent/MARL概览]]、[[02-模块/Multi-Agent/MADDPG]]、[[02-模块/Multi-Agent/QMIX]]
+- **Mid-Training**: [[02-模块/Mid-Training/Mid-Training概览]]、[[02-模块/Mid-Training/SPIN]]
 
 **想看演化历史？** → [[03-流程/]]
 - [[03-流程/Value-Based演化史]] — 从 Bellman 到 Diffusion-RL
