@@ -69,6 +69,13 @@
 - **Multi-Agent**: [[02-模块/Multi-Agent/MARL概览]]、[[02-模块/Multi-Agent/MADDPG]]、[[02-模块/Multi-Agent/QMIX]]
 - **Mid-Training**: [[02-模块/Mid-Training/Mid-Training概览]]、[[02-模块/Mid-Training/SPIN]]
 
+**想看应用方向？** → [[02-模块/Post-Training/Post-Training方法全景]]、[[02-模块/Multi-Agent/MARL概览]]、[[02-模块/Mid-Training/Mid-Training概览]]
+
+**想看娱乐应用？** → [[04-娱乐应用/]]
+- 角色陪伴: [[04-娱乐应用/角色陪伴/Character-AI技术栈]]
+- 图像生成: [[04-娱乐应用/图像生成/RLHF-for-Image-Generation]]
+- 游戏AI: [[04-娱乐应用/游戏与内容/游戏AI与RL]]
+
 **想看演化历史？** → [[03-流程/]]
 - [[03-流程/Value-Based演化史]] — 从 Bellman 到 Diffusion-RL
 - [[03-流程/Policy-AC演化史]] — 从 [[02-模块/Policy-Based/REINFORCE|REINFORCE]] 到 [[02-模块/Policy-Based/DAPO|DAPO]]
