@@ -11,7 +11,7 @@ tags:
 created: 2026-06-22
 ---
 
-# PPO (Proximal Policy Optimization)
+# PPO（Proximal Policy Optimization） (Proximal Policy Optimization)
 
 > 近端策略优化：通过Clip机制限制策略更新幅度，实现稳定高效的策略学习。目前应用最广泛的RL算法之一。
 

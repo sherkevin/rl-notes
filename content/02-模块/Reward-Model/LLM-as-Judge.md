@@ -7,7 +7,7 @@ tags:
 created: 2026-06-22
 ---
 
-# LLM-as-Judge
+# LLM-as-Judge（大语言模型作为评判器）
 
 > 不训 RM，直接用强 LLM 打分或做偏好判断。零训练成本，但推理成本高。
 

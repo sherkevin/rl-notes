@@ -10,7 +10,7 @@ tags:
 created: 2026-06-22
 ---
 
-# DQN (Deep Q-Network)
+# DQN（Deep Q-Network） (Deep Q-Network)
 
 > 深度Q网络：将Q-Learning与深度学习结合的开创性算法。2015年DeepMind提出，首次在Atari游戏上达到人类水平。
 

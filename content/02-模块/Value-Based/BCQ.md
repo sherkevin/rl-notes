@@ -5,7 +5,7 @@ tags:
   - #offline-rl
 ---
 
-# BCQ
+# BCQ（Batch-Constrained Q-learning）
 
 > Batch-Constrained deep [[02-模块/Value-Based/Q-Learning|Q-Learning]] (Fujimoto 2018). 限制动作空间在数据集支持范围内，解决离线 RL 的分布偏移问题。
 

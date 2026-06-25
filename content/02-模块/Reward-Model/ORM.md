@@ -7,7 +7,7 @@ tags:
 created: 2026-06-22
 ---
 
-# Outcome [[01-原子/Reward-Model训练方法|Reward Model]] (ORM)
+# ORM（Outcome Reward Model）
 
 > 只看最终结果打分。标注简单，但有 credit assignment 问题。
 

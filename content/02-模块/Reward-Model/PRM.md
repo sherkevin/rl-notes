@@ -7,7 +7,7 @@ tags:
 created: 2026-06-22
 ---
 
-# Process [[01-原子/Reward-Model训练方法|Reward Model]] (PRM)
+# PRM（Process Reward Model）
 
 > 给推理过程的每一步打分。密集奖励信号，在数学推理上显著优于 ORM。
 

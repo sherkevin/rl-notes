@@ -4,7 +4,7 @@ tags:
   - #imitation-learning
 ---
 
-# IRL
+# IRL（Inverse Reinforcement Learning）
 
 > Inverse Reinforcement Learning. 从专家演示中推断奖励函数，而非手工设计奖励。
 

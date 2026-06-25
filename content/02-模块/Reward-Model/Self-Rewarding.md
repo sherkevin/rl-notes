@@ -7,7 +7,7 @@ tags:
 created: 2026-06-22
 ---
 
-# Self-Rewarding Model
+# Self-Rewarding（自我奖励） Model
 
 > 模型自己给自己打分。减少对人工标注的依赖，但容易"自嗨"。
 

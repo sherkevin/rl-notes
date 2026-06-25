@@ -5,7 +5,7 @@ tags:
   - #offline-rl
 ---
 
-# AWAC
+# AWAC（Advantage-Weighted Actor-Critic）
 
 > Advantage-Weighted Actor-Critic. 离线 RL 中用 advantage 加权策略更新，结合 BC 和 RL 的优点。
 

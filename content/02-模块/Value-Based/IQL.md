@@ -5,7 +5,7 @@ tags:
   - #offline-rl
 ---
 
-# IQL
+# IQL（Implicit Q-Learning）
 
 > Implicit [[02-模块/Value-Based/Q-Learning|Q-Learning]] (Kostrikov 2022). 通过 expectile 回归避免查询 OOD 动作的 Q 值，离线 RL SOTA 之一。
 
