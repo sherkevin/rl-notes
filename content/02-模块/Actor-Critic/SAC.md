@@ -1,4 +1,6 @@
 ---
+
+# SAC（Soft Actor-Critic）
 tags:
   - #model-free
   - #actor-critic
@@ -10,6 +12,8 @@ tags:
   - Online
   - Model-free
 ---
+
+# SAC（Soft Actor-Critic）
 
 ## [Link] 知识图谱链接
 
@@ -35,6 +39,8 @@ tags:
 
 ---
 
+# SAC（Soft Actor-Critic）
+
 ## 2. 核心理论：[[01-原子/最大熵原理|最大熵]]强化学习 (The Essence)
 
 SAC 与传统 RL（如 [[DDPG]], [[PPO]]）最大的区别在于它的**目标函数**。
@@ -57,6 +63,8 @@ SAC 与传统 RL（如 [[DDPG]], [[PPO]]）最大的区别在于它的**目标�
 2. **鲁棒性：** 策略不会过早收敛到某一个具体的点，这使得它面对环境扰动时更具鲁棒性。
 
 ---
+
+# SAC（Soft Actor-Critic）
 
 ## 3. 模型架构 (Model Architecture)
 现代 SAC（通常指 SAC-v2，去掉了 Value Network）主要包含以下神经网络：
@@ -215,6 +223,8 @@ $$L(\alpha) = \mathbb{E}_{a \sim \pi} [ -\alpha (\ln \pi(a|s) + \bar{H}) ]$$
 
 ---
 
+# SAC（Soft Actor-Critic）
+
 ### 5. 实现方式与步骤 (Implementation Loop)
 
 SAC 是 **Off-policy** 算法，通常配合 **Replay Buffer ([[01-原子/经验回放|经验回放]]池)** 使用。
@@ -256,6 +266,8 @@ SAC 是 **Off-policy** 算法，通常配合 **Replay Buffer ([[01-原子/经验
     
 
 ---
+
+# SAC（Soft Actor-Critic）
 
 ### 6. 具体代码示例 (PyTorch 风格)
 
@@ -327,6 +339,8 @@ class SAC_Agent:
 ```
 
 ---
+
+# SAC（Soft Actor-Critic）
 
 ### 7. 分类辨析：On-policy, Off-policy, Online, Offline
 

@@ -6,6 +6,8 @@
 
 ---
 
+# GRPO（Group Relative Policy Optimization）
+
 ### 1. 核心背景：为什么要发明 GRPO？
 
 在传统的 **[[02-模块/Policy-Based/PPO|PPO]] (Proximal Policy Optimization)** 算法中，我们通常需要四个模型（或者至少两个主模型）：
@@ -24,6 +26,8 @@
 **GRPO 的解决方案：** **直接去掉 Critic 模型。** 它利用“群体采样（Group Sampling）”生成的多个样本，通过计算它们之间的**相对优劣**来代替 Critic 对价值的预估。
 
 ---
+
+# GRPO（Group Relative Policy Optimization）
 
 ### 2. GRPO 的数学原理与公式推导
 
@@ -86,6 +90,8 @@ GRPO 不关心绝对分数是 10 分还是 100 分。它只关心：在这个问
 
 ---
 
+# GRPO（Group Relative Policy Optimization）
+
 ### 3. 算法流程细节
 
 下面是 GRPO 训练一个 Step 的详细流程：
@@ -116,6 +122,8 @@ GRPO 不关心绝对分数是 10 分还是 100 分。它只关心：在这个问
         
 
 ---
+
+# GRPO（Group Relative Policy Optimization）
 
 ### 4. 具体例子：教模型做数学题
 
@@ -175,6 +183,8 @@ GRPO 不关心绝对分数是 10 分还是 100 分。它只关心：在这个问
 
 ---
 
+# GRPO（Group Relative Policy Optimization）
+
 ### 5. GRPO 相比 [[02-模块/Policy-Based/PPO|PPO]] 的优缺点总结
 
 |**特性**|**[[02-模块/Policy-Based/PPO|PPO]] (Proximal Policy Optimization)**|**GRPO (Group Relative Policy Optimization)**|
@@ -190,6 +200,8 @@ GRPO 不关心绝对分数是 10 分还是 100 分。它只关心：在这个问
 GRPO 是一种**去 Critic 化**的策略优化算法。它巧妙地利用了”群体智慧”——即模型自己生成的多个样本的平均表现作为基准线，从而使得模型能够在不需要额外价值网络的情况下进行自我迭代和进化。这正是 DeepSeek 系列模型能够高效进行推理能力强化的关键技术之一。
 
 ---
+
+# GRPO（Group Relative Policy Optimization）
 
 ### 扩展阅读
 

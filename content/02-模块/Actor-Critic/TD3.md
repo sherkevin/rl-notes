@@ -20,7 +20,7 @@ tags:
 - 
 
 
-# Twin Delayed [[02-模块/Actor-Critic/DDPG|DDPG]] (TD3)
+# TD3（Twin Delayed DDPG）
 
 TD3 is an improvement over [[02-模块/Actor-Critic/DDPG|DDPG]] that addresses overestimation and function approximation errors.
 

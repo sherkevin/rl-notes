@@ -9,7 +9,7 @@ aliases:
 created: 2026-06-22
 ---
 
-# KL 散度
+# KL 散度（Kullback-Leibler Divergence）
 
 > 衡量用分布 Q 近似分布 P 时的信息损失。RL 中用于约束策略更新，监督学习中等价于交叉熵。
 

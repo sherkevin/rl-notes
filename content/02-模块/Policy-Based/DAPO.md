@@ -1,4 +1,6 @@
 ---
+
+# DAPO（Decoupled Alignment Preference Optimization）
 tags:
   - #model-free
   - #actor-critic
@@ -7,6 +9,8 @@ tags:
   - #continuous
   - #function-approximation
 ---
+
+# DAPO（Decoupled Alignment Preference Optimization）
 
 ### 1. 算法背景与核心动机
 在LLM的推理能力（Reasoning）训练中，主流方法通常使用 **[[PPO]]** 或 **[[GRPO]]** (Group Relative Policy Optimization)。然而，研究团队发现在处理长思维链（Long Chain-of-Thought, CoT）时，这些基线方法存在显著缺陷：
@@ -65,6 +69,8 @@ DAPO 对传统的策略优化（Policy Optimization）做了四项关键改进�
 
 ---
 
+# DAPO（Decoupled Alignment Preference Optimization）
+
 ### 3. 系统架构与实现 (Based on Verl)
 
 DAPO不仅仅是一个算法，还是一个基于 **Verl** (Volcengine RL) 框架构建的完整开源系统。
@@ -77,6 +83,8 @@ DAPO不仅仅是一个算法，还是一个基于 **Verl** (Volcengine RL) 框�
     
 
 ---
+
+# DAPO（Decoupled Alignment Preference Optimization）
 
 ### 4. 性能对比
 
@@ -96,6 +104,8 @@ DAPO不仅仅是一个算法，还是一个基于 **Verl** (Volcengine RL) 框�
     
 
 ---
+
+# DAPO（Decoupled Alignment Preference Optimization）
 
 ### 5. 其他同名算法辨析 (以防混淆)
 

@@ -20,7 +20,7 @@ tags:
 - 
 
 
-# Double [[02-模块/Value-Based/DQN|DQN]] (DDQN)
+# DDQN（Double Deep Q-Network）
 
 Double [[02-模块/Value-Based/DQN|DQN]] is an improvement over standard [[02-模块/Value-Based/DQN|DQN]] that addresses overestimation bias.
 

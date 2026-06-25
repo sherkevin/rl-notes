@@ -21,7 +21,7 @@ tags:
 - 
 
 
-# Conservative [[02-模块/Value-Based/Q-Learning|Q-Learning]] (CQL)
+# CQL（Conservative Q-Learning）
 
 CQL is an offline RL algorithm that addresses out-of-distribution issues in Q-learning.
 
