@@ -30,9 +30,9 @@ created: 2026-06-26
 
 ### 发现 1：统一策略梯度框架 ⭐⭐⭐
 
-**所有主流 LLM 后训练方法（SFT、RLHF、RLVR、DPO）都是同一个策略梯度框架的特例**，区别仅在于三个组件：梯度系数、数据来源、稳定化机制。
+**所有主流 LLM 后训练方法（SFT、[[05-应用领域/Post-Training/RLHF|RLHF]]、RLVR、[[02-模块/Reward-Model/DPO|DPO]]）都是同一个[[01-原子/策略梯度|策略梯度]]框架的特例**，区别仅在于三个组件：梯度系数、数据来源、稳定化机制。
 
-**DPO 的数学本质**：通过 Bradley-Terry 偏好模型重参数化奖励函数，将 RLHF 简化为二分类交叉熵损失：
+**DPO 的数学本质**：通过 [[01-原子/Bradley-Terry模型|Bradley-Terry]] 偏好模型重参数化奖励函数，将 RLHF 简化为二分类交叉熵损失：
 
 $$r(x,y) = \beta \log \frac{\pi(y|x)}{\pi_{\text{ref}}(y|x)} + C$$
 
@@ -44,7 +44,7 @@ $$r(x,y) = \beta \log \frac{\pi(y|x)}{\pi_{\text{ref}}(y|x)} + C$$
 
 ### 发现 2：GRPO 去掉 Critic 模型 ⭐⭐⭐
 
-**GRPO 通过组内相对归一化估计优势函数，彻底去掉价值模型（Critic）**，大幅降低训练资源需求。
+**[[02-模块/Policy-Based/GRPO|GRPO]] 通过组内相对归一化估计[[01-原子/优势函数|优势函数]]，彻底去掉价值模型（Critic）**，大幅降低训练资源需求。
 
 **优势公式**：
 
@@ -72,7 +72,7 @@ $$\hat{A}_i = \frac{r_i - \text{mean}(r_1 \ldots r_G)}{\text{std}(r_1 \ldots r_G
 阶段 4: 全场景 RL（通用能力对齐）
 ```
 
-**纯 RL 变体 R1-Zero**（无 SFT，仅 GRPO + 规则奖励）：
+**纯 RL 变体 R1-Zero**（无 SFT，仅 [[02-模块/Policy-Based/GRPO|GRPO]] + 规则奖励）：
 - AIME 2024 pass@1 = **71.0%**，cons@64 = **86.7%**
 - 匹配 OpenAI o1-0912
 - **证明大规模纯 RL 可以产生强推理能力**
@@ -125,7 +125,7 @@ $$\hat{A}_i = \frac{r_i - \text{mean}(r_1 \ldots r_G)}{\text{std}(r_1 \ldots r_G
 | OOD 边缘任务（op=11-14） | **+42%** |
 | OOD 困难任务（op=15-20） | 失败 |
 
-**过程奖励 vs 结果奖励**：过程级奖励信号减少 reward hacking，提升推理保真度。
+**[[02-模块/Reward-Model/PRM|过程奖励]] vs 结果奖励**：过程级奖励信号减少 reward hacking，提升推理保真度。
 
 **来源**：arXiv 2512.07783（Zhang, Neubig, Yue, 2025.12）、arXiv 2305.20050（OpenAI PRM）
 
@@ -135,7 +135,7 @@ $$\hat{A}_i = \frac{r_i - \text{mean}(r_1 \ldots r_G)}{\text{std}(r_1 \ldots r_G
 
 ### 发现 6：RL 在预训练早期就有效 ⭐⭐
 
-**RL（RLVR with GRPO）从预训练早期检查点（仅 4B token）就有效**，在 1B 模型上将 GSM8K pass@1 从 ~2% 提升到 ~18%。
+**RL（RLVR with [[02-模块/Policy-Based/GRPO|GRPO]]）从预训练早期检查点（仅 4B token）就有效**，在 1B 模型上将 GSM8K pass@1 从 ~2% 提升到 ~18%。
 
 **数据组成 > 模型规模**：对于更难的问题（MATH 风格），针对性的预训练数据组成比扩大模型规模更有效——添加 10B 数学专用 token 带来的 RL 增益大于同等 token 预算下从 1B 扩展到 4B 参数。
 
@@ -236,7 +236,7 @@ $$\hat{A}_i = \frac{r_i - \text{mean}(r_1 \ldots r_G)}{\text{std}(r_1 \ldots r_G
 
 2. **Mid-training vs Post-training RL 的最优调度是什么？** Meta RAM 的 3 步 mid-training 是否普遍优越，还是最优流水线取决于领域、模型规模和基础模型质量？
 
-3. **PRM 如何扩展到前沿 RL 训练？** 能否与 GRPO 风格的组内相对优势估计结合，同时获得样本效率和奖励保真度？
+3. **[[02-模块/Reward-Model/PRM|PRM]] 如何扩展到前沿 RL 训练？** 能否与 [[02-模块/Policy-Based/GRPO|GRPO]] 风格的组内相对优势估计结合，同时获得样本效率和奖励保真度？
 
 4. **纯 RL 的"涌现"推理行为的理论极限是什么？** 自我反思和策略调整是真正的能力提升，还是 think-tag 结构激励的复杂模式匹配？
 
@@ -268,8 +268,8 @@ $$\hat{A}_i = \frac{r_i - \text{mean}(r_1 \ldots r_G)}{\text{std}(r_1 \ldots r_G
    - 补充"多解法优于多题目"（发现 9）
 
 2. **03-Post-Training阶段.md**：
-   - 补充统一策略梯度框架（发现 1）
-   - 更新 GRPO 细节：单次梯度更新（发现 2）
+   - 补充统一[[01-原子/策略梯度|策略梯度]]框架（发现 1）
+   - 更新 [[02-模块/Policy-Based/GRPO|GRPO]] 细节：单次梯度更新（发现 2）
    - 补充 DeepSeek-R1 的 4 阶段流水线细节（发现 3）
    - 补充"SFT 实际上可能损害推理"的反直觉发现（发现 3）
    - 补充"RL 能力边缘"条件（发现 5）

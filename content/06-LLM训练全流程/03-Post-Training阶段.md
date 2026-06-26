@@ -216,7 +216,7 @@ class RewardModel(nn.Module):
         return reward.squeeze(-1)
 ```
 
-**训练目标**：Bradley-Terry 模型
+**训练目标**：[[01-原子/Bradley-Terry模型|Bradley-Terry]] 模型
 
 $$\mathcal{L}_{\text{RM}} = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma(r(x, y_w) - r(x, y_l)) \right]$$
 
@@ -249,7 +249,7 @@ for epoch in range(num_epochs):
 
 **效果**：奖励模型与人类标注的一致性通常达到 70-75%。
 
-#### 3. PPO 优化
+#### 3. [[02-模块/Policy-Based/PPO|PPO]] 优化
 
 **目标函数**：
 
@@ -722,19 +722,19 @@ Aligned Model：
 
 > 以下内容来自 2024-2026 前沿论文的深度调研，详见 [[06-LLM训练全流程/深度调研报告-LLM训练中的RL技术]]。
 
-### 发现 1：统一策略梯度框架
+### 发现 1：[[01-原子/策略梯度|统一策略梯度]]框架
 
 **所有主流 LLM 后训练方法（SFT、RLHF、RLVR、DPO）都是同一个策略梯度框架的特例**，区别仅在于三个组件：梯度系数、数据来源、稳定化机制。
 
-**DPO 的数学本质**：通过 Bradley-Terry 偏好模型重参数化奖励函数，将 RLHF 简化为二分类交叉熵损失：
+**DPO 的数学本质**：通过 [[01-原子/Bradley-Terry模型|Bradley-Terry]] 偏好模型重参数化奖励函数，将 RLHF 简化为二分类交叉熵损失：
 
 $$r(x,y) = \beta \log \frac{\pi(y|x)}{\pi_{\text{ref}}(y|x)} + C$$
 
 **来源**：arXiv 2407.16216（综述，v4 2026.05）、arXiv 2305.18290（DPO 原始论文）
 
-### 发现 2：GRPO 去掉 Critic 模型
+### 发现 2：[[02-模块/Policy-Based/GRPO|GRPO]] 去掉 Critic 模型
 
-**GRPO 通过组内相对归一化估计优势函数，彻底去掉价值模型（Critic）**，大幅降低训练资源需求。
+**GRPO 通过组内相对归一化估计[[01-原子/优势函数|优势函数]]，彻底去掉价值模型（Critic）**，大幅降低训练资源需求。
 
 **优势公式**：
 
@@ -799,7 +799,7 @@ $$\hat{A}_i = \frac{r_i - \text{mean}(r_1 \ldots r_G)}{\text{std}(r_1 \ldots r_G
 | OOD 边缘任务（op=11-14） | **+42%** |
 | OOD 困难任务（op=15-20） | 失败 |
 
-**过程奖励 vs 结果奖励**：过程级奖励信号减少 reward hacking，提升推理保真度。
+**[[02-模块/Reward-Model/PRM|过程奖励]] vs 结果奖励**：过程级奖励信号减少 reward hacking，提升推理保真度。
 
 **来源**：arXiv 2512.07783（Zhang, Neubig, Yue, 2025.12）、arXiv 2305.20050（OpenAI PRM）
 

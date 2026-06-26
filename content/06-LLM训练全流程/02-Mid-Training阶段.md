@@ -165,7 +165,7 @@ for iteration in range(num_iterations):
 
 **问题**：传统 RLHF 只奖励最终答案，不奖励推理过程。但推理能力需要"过程正确"，不仅仅是"答案正确"。
 
-**核心思想**：用过程奖励模型（PRM）奖励推理的每一步，而不仅仅是最终答案。
+**核心思想**：用[[02-模块/Reward-Model/PRM|过程奖励模型]]（[[02-模块/Reward-Model/PRM|PRM]]）奖励推理的每一步，而不仅仅是最终答案。
 
 #### 传统 RLHF vs 推理 RL
 
@@ -336,7 +336,7 @@ def reasoning_rl_train(model, prm, questions, num_epochs=10):
 
 **DeepSeek-R1**
 
-**核心创新**：用 GRPO + PRM 训练数学推理，显著超越监督学习。
+**核心创新**：用 [[02-模块/Policy-Based/GRPO|GRPO]] + [[02-模块/Reward-Model/PRM|PRM]] 训练数学推理，显著超越监督学习。
 
 **训练流程**：
 
@@ -359,7 +359,7 @@ def reasoning_rl_train(model, prm, questions, num_epochs=10):
 **关键设计**：
 
 1. **过程奖励**：不仅奖励最终答案，还奖励推理步骤
-2. **GRPO**：用组内相对奖励，无需价值模型，节省显存
+2. **[[02-模块/Policy-Based/GRPO|GRPO]]**：用组内相对奖励，无需价值模型，节省显存
 3. **自我对弈**：模型自己生成推理数据，无需人工标注
 
 **效果**：
@@ -488,7 +488,7 @@ else:
 
 #### 课程学习 + RL
 
-**结合课程学习和 RL**：
+**结合[[01-原子/课程学习|课程学习]]和 RL**：
 
 ```python
 # 定义难度级别

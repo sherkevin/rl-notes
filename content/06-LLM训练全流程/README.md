@@ -159,7 +159,7 @@ $$\mathcal{L} = -\sum_{i} \log P(x_i | x_{<i})$$
 
 **问题**：推理过程需要多步骤，仅奖励最终答案不够。
 
-**RL 方法**：用过程奖励模型（PRM）奖励推理的每一步。
+**RL 方法**：用[[02-模块/Reward-Model/PRM|过程奖励模型]]（[[02-模块/Reward-Model/PRM|PRM]]）奖励推理的每一步。
 
 ```
 传统 RLHF：
@@ -228,13 +228,13 @@ Step 2: RLHF / DPO (对齐)
 
 **优势**：效果最好，GPT-4、Claude 都用这个方法。
 
-**劣势**：流程复杂，需要训练奖励模型，RL 训练不稳定。
+**劣势**：流程复杂，需要训练[[01-原子/Reward-Model训练方法|奖励模型]]，RL 训练不稳定。
 
 📖 **详细文档**：[[05-应用领域/Post-Training/RLHF]]
 
 #### 3.2 DPO (Direct Preference Optimization)
 
-**创新**：跳过奖励模型，直接用偏好数据优化策略。
+**创新**：跳过[[01-原子/Reward-Model训练方法|奖励模型]]，直接用偏好数据优化策略。
 
 **数学直觉**：
 
@@ -382,6 +382,7 @@ Post-Training:
 | Mid-Training | [[06-LLM训练全流程/02-Mid-Training阶段]] | 自我对弈、推理 RL、过程奖励 |
 | Post-Training | [[06-LLM训练全流程/03-Post-Training阶段]] | RLHF、DPO、GRPO、Constitutional AI |
 | **深度调研报告** | [[06-LLM训练全流程/深度调研报告-LLM训练中的RL技术]] | **2024-2026 前沿论文调研，10 条高置信度发现** |
+| **顺序阅读指南** | [[06-LLM训练全流程/阅读指南]] | **前置知识链 + 时间线，按主题规划阅读顺序** |
 
 ---
 
