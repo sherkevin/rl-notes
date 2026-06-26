@@ -28,6 +28,17 @@
 └── 娱乐应用/          ← 虚拟角色、图像生成、游戏 AI
 ```
 
+### 维度三：LLM 训练全流程（重点推荐）
+
+```
+06-LLM训练全流程/ (LLM Training Pipeline)
+├── 01-Pre-Training阶段     ← 课程学习、数据选择 RL
+├── 02-Mid-Training阶段     ← 自我对弈、推理 RL、过程奖励
+└── 03-Post-Training阶段    ← RLHF、DPO、GRPO、Constitutional AI
+```
+
+**这是知识库的核心焦点**：从 Pre-Training 到 Post-Training，系统介绍 LLM 训练中 RL 技术的完整应用。
+
 ### 导航入口
 
 ```
@@ -46,6 +57,15 @@
 ```
 强化学习统一复习地图 → Bellman 方程 → DQN → PPO → DPO
 ```
+
+### 我关注 LLM 训练（推荐）
+
+**LLM 全流程路线**：
+```
+06-LLM训练全流程/README → Pre-Training → Mid-Training → Post-Training
+```
+
+这是最实用的路线，涵盖了 LLM 训练中所有 RL 技术的应用。
 
 **详细路线**：
 1. 先读 [[强化学习统一复习地图]]，建立全景认知
