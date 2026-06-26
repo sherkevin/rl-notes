@@ -381,6 +381,7 @@ Post-Training:
 | Pre-Training | [[06-LLM训练全流程/01-Pre-Training阶段]] | 课程学习、数据选择 RL |
 | Mid-Training | [[06-LLM训练全流程/02-Mid-Training阶段]] | 自我对弈、推理 RL、过程奖励 |
 | Post-Training | [[06-LLM训练全流程/03-Post-Training阶段]] | RLHF、DPO、GRPO、Constitutional AI |
+| **深度调研报告** | [[06-LLM训练全流程/深度调研报告-LLM训练中的RL技术]] | **2024-2026 前沿论文调研，10 条高置信度发现** |
 
 ---
 
